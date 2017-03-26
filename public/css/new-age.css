@@ -151,11 +151,11 @@ header {
   width: 100%;
   min-height: auto;
   overflow-y: hidden;
-  background: url("../img/bg-pattern.png"), #7b4397;
+  background: url("../img/bg-pattern.png"), #3c8dbc;
   /* fallback for old browsers */
-  background: url("../img/bg-pattern.png"), -webkit-linear-gradient(to left, #7b4397, #dc2430);
+  background: url("../img/bg-pattern.png"), -webkit-linear-gradient(to left, #3c8dbc, #555299);
   /* Chrome 10-25, Safari 5.1-6 */
-  background: url("../img/bg-pattern.png"), linear-gradient(to left, #7b4397, #dc2430);
+  background: url("../img/bg-pattern.png"), linear-gradient(to left, #3c8dbc, #555299);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color: white;
 }
@@ -182,7 +182,7 @@ header .header-content .header-content-inner .list-badges img {
   margin-bottom: 25px;
 }
 header .device-container {
-  max-width: 300px;
+  width: 300px;
   margin: 0 auto 100px;
 }
 header .device-container .screen img {
@@ -224,65 +224,66 @@ section {
 section h2 {
   font-size: 50px;
 }
-section.download {
+section.introduction {
   padding: 150px 0;
   position: relative;
+  color: rgba(255, 255, 255, 0.9);
 }
-section.download h2 {
+section.introduction h2 {
   margin-top: 0;
   font-size: 50px;
 }
-section.download .badges .badge-link {
+section.production .badges .badge-link {
   display: block;
   margin-bottom: 25px;
 }
-section.download .badges .badge-link:last-child {
+section.production .badges .badge-link:last-child {
   margin-bottom: 0;
 }
-section.download .badges .badge-link img {
+section.production .badges .badge-link img {
   height: 60px;
 }
 @media (min-width: 768px) {
-  section.download .badges .badge-link {
+  section.production .badges .badge-link {
     display: inline-block;
     margin-bottom: 0;
   }
 }
 @media (min-width: 768px) {
-  section.download h2 {
+  section.introduction h2 {
     font-size: 70px;
   }
 }
-section.features .section-heading {
+section.production .section-heading {
   margin-bottom: 100px;
 }
-section.features .section-heading h2 {
+section.production .section-heading h2 {
   margin-top: 0;
 }
-section.features .section-heading p {
+section.production .section-heading p {
   margin-bottom: 0;
 }
-section.features .device-container,
-section.features .feature-item {
+section.production .device-container,
+section.production .feature-item {
   max-width: 300px;
   margin: 0 auto;
 }
-section.features .device-container {
+section.production .device-container {
   margin-bottom: 100px;
 }
 @media (min-width: 992px) {
-  section.features .device-container {
+  section.production .device-container {
     margin-bottom: 0;
   }
 }
-section.features .feature-item {
+section.production .feature-item {
   text-align: center;
   margin-bottom: 100px;
 }
-section.features .feature-item h3 {
+section.production .feature-item h3 {
   font-size: 30px;
 }
-section.features .feature-item i {
+section.production .feature-item i {
   font-size: 80px;
   background: -webkit-linear-gradient(to left, #7b4397, #dc2430);
   background: linear-gradient(to left, #7b4397, #dc2430);
@@ -290,8 +291,8 @@ section.features .feature-item i {
   -webkit-text-fill-color: transparent;
 }
 @media (min-width: 992px) {
-  section.features .device-container,
-  section.features .feature-item {
+  section.production .device-container,
+  section.production .feature-item {
     max-width: none;
   }
 }
@@ -393,12 +394,12 @@ footer ul li a.active {
   text-decoration: none;
 }
 .bg-primary {
-  background: #fdcc52;
-  background: -webkit-linear-gradient(#fdcc52, #fdc539);
-  background: linear-gradient(#fdcc52, #fdc539);
+  background: #ff851b;
+  background: -webkit-linear-gradient(#ff851b, #ff7701);
+  background: linear-gradient(#ff851b, #ff7701);
 }
 .text-primary {
-  color: #fdcc52;
+  color: #ff7701;
 }
 .no-gutter > [class*='col-'] {
   padding-right: 0;
