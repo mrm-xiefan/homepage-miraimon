@@ -310,16 +310,16 @@ section.cta .cta-content {
   position: relative;
   z-index: 1;
 }
-section.cta .cta-content h2 {
+section.cta .cta-content h3 {
   margin-top: 0;
   margin-bottom: 25px;
   color: white;
   max-width: 450px;
-  font-size: 50px;
+  font-size: 30px;
 }
 @media (min-width: 768px) {
-  section.cta .cta-content h2 {
-    font-size: 80px;
+  section.cta .cta-content h3 {
+    font-size: 50px;
   }
 }
 section.cta .overlay {
@@ -334,6 +334,7 @@ section.contact {
   text-align: center;
 }
 section.contact h2 {
+  font-size: 25px;
   margin-top: 0;
   margin-bottom: 25px;
 }
