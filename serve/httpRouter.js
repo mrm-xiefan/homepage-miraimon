@@ -21,29 +21,14 @@ var mimeTypes = {
 };
 
 router.get('/', function(req, res, next) {
-    var user = userService.getUserInfo(req);
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-// router.get('/photoboard', function(req, res, next) {
-//     var url_parts = url.parse(req.url, true);
-//     var type = url_parts.query.type;
-//     var key = url_parts.query.key;
-//     var user = userService.getUserInfo(req);
-//     userService.saveCommand(user, type, key, function() {
-//         res.sendFile(path.join(__dirname, '../', 'public', 'photoBoard.html'));
-//     });
-// });
+router.get('/bingo', function(req, res, next) {
+    res.sendFile(path.join(__dirname, '../', 'public', 'bingo.html'));
+});
 
-router.get('/bootstrap/*', function(req, res, next) {
-    req.url = req.url.replace('/', '/');
-    returnResourceFile(req, res);
-});
-router.get('/fonts/*', function(req, res, next) {
-    req.url = req.url.replace('/', '/');
-    returnResourceFile(req, res);
-});
-router.get('/plugins/*', function(req, res, next) {
+router.get('/vendor/*', function(req, res, next) {
     req.url = req.url.replace('/', '/');
     returnResourceFile(req, res);
 });
@@ -60,30 +45,22 @@ router.get('/js/*', function(req, res, next) {
     returnResourceFile(req, res);
 });
 
-// router.get('/photoboard/bootstrap/*', function(req, res, next) {
-//     req.url = req.url.replace('/photoboard/', '/');
-//     returnResourceFile(req, res);
-// });
-// router.get('/photoboard/fonts/*', function(req, res, next) {
-//     req.url = req.url.replace('/photoboard/', '/');
-//     returnResourceFile(req, res);
-// });
-// router.get('/photoboard/plugins/*', function(req, res, next) {
-//     req.url = req.url.replace('/photoboard/', '/');
-//     returnResourceFile(req, res);
-// });
-// router.get('/photoboard/img/*', function(req, res, next) {
-//     req.url = req.url.replace('/photoboard/', '/');
-//     returnResourceFile(req, res);
-// });
-// router.get('/photoboard/css/*', function(req, res, next) {
-//     req.url = req.url.replace('/photoboard/', '/');
-//     returnResourceFile(req, res);
-// });
-// router.get('/photoboard/js/*', function(req, res, next) {
-//     req.url = req.url.replace('/photoboard/', '/');
-//     returnResourceFile(req, res);
-// });
+router.get('/bingo/vendor/*', function(req, res, next) {
+    req.url = req.url.replace('/bingo/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/bingo/img/*', function(req, res, next) {
+    req.url = req.url.replace('/bingo/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/bingo/css/*', function(req, res, next) {
+    req.url = req.url.replace('/bingo/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/bingo/js/*', function(req, res, next) {
+    req.url = req.url.replace('/bingo/', '/');
+    returnResourceFile(req, res);
+});
 
 // router.get('/api/getBoxInitData', function(req, res, next) {
 //     dataService.getBoxInitData(function(result) {

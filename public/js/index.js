@@ -70,3 +70,21 @@ var spinDemo = function() {
         spinAPI.startAnimation();
     }
 };
+
+var setParameter = function(additional, paramsArray) {
+    var resurl = location.href.replace(/\?.*$/, "");
+    if (resurl.substr(resurl.length - 1, 1) === '#') {
+        resurl = resurl.substr(0, resurl.length - 1);
+    }
+    if (additional != "") {
+        resurl += additional + '/';
+    }
+    for (key in paramsArray) {
+        resurl += (resurl.indexOf('?') == -1) ? '?':'&';
+        resurl += key + '=' + paramsArray[key];
+    }
+    return resurl;
+};
+var openBingo = function() {
+    window.location.href = setParameter("bingo", {});
+};
