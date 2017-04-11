@@ -1,26 +1,39 @@
+var CONST = {
+    BINGO: '/bingo/'
+};
+
+var BingoVM = function() {};
+BingoVM.prototype = {
+    init: function() {
+
+    }
+};
+
 var Bingo = function() {};
 Bingo.prototype = {
-    openHomepage: function() {
-        window.location.href = this.setParameter("", {});
+    socket: null,
+    vm: null,
+    init: function() {
+        this.socket = io(location.host, {path: CONST.BINGO + 'socket.io'});
+        this.vm = new BingoVM();
+        this.vm.init();
+        // this.socket.on('refreshBoardList', function(list) {
+        //     var boardlist = JSON.parse(list);
+        //     boxVM.boardlist.refreshBoardList(boardlist);
+        // });
     },
-    setParameter: function(additional, paramsArray) {
+    openHomepage: function() {
         var resurl = location.href.replace(/\?.*$/, "");
         if (resurl.substr(resurl.length - 1, 1) === '#') {
             resurl = resurl.substr(0, resurl.length - 1);
         }
-        if (additional != "") {
-            resurl += additional + '/';
-        }
-        resurl = resurl.replace(/bingo\//, "");
-        for (key in paramsArray) {
-            resurl += (resurl.indexOf('?') == -1) ? '?':'&';
-            resurl += key + '=' + paramsArray[key];
-        }
-        return resurl;
+        resurl = resurl.replace(CONST.BINGO, '/');
+
+        window.location.href = resurl;
     },
 };
-var bingo = new Bingo;
+var bingo = new Bingo();
 
 $(function() {
-
+    bingo.init();
 });

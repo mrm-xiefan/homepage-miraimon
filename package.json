@@ -1,18 +1,19 @@
 {
-  "name": "mrm-home",
+  "name": "homepage-miraimon",
   "title": "未来夢株式会社",
   "version": "0.0.1",
   "homepage": "http://www.miraimon.com/",
   "author": "xiefan",
   "repository": {
     "type": "git",
-    "url": "https://github.com/"
+    "url": "https://github.com/mrm-xiefan/homepage-miraimon"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
     "express-session": "^1.15.1",
-    "serve-favicon": "^2.4.2"
+    "serve-favicon": "^2.4.2",
+    "socket.io": "^1.7.3"
   }
 }

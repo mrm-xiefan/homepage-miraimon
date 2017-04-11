@@ -3,12 +3,20 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var fs = require('fs');
 var util = require('util');
+var http = require('http');
 
-var httpRouter = require('./serve/httpRouter.js');
-// var socketRouter = require('./serve/socketRouter.js');
-// var dataService = require('./serve/dataService.js').dataService;
-// var roomService = require('./serve/roomService.js').roomService;
-// var userService = require('./serve/userService.js').userService;
+var port = null;
+if (process.env.NODE_ENV != 'development') {
+    port = 80;
+} else {
+    port = 8000;
+}
+
+var httpRouter = require('./service/httpRouter.js');
+var socketRouter = require('./service/socketRouter.js').socketRouter;
+// var dataService = require('./service/dataService.js').dataService;
+// var roomService = require('./service/roomService.js').roomService;
+// var userService = require('./service/userService.js').userService;
 var app = express();
 // dataService.init(app);
 // roomService.init(app);
@@ -20,20 +28,40 @@ app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(httpRouter);
 
-// load json to memory
-// fs.readFile('./json/sources.json', 'utf8', function (err, jsonstring) {
-//     if (err) {
-//         console.error('failed to load sources!');
-//         console.error(err);
-//     } else {
-//         var sources = JSON.parse(jsonstring);
-//         app.set('sources', sources);
-//         console.log('sources is ready!');
-//     }
-// });
-
-if (process.env.NODE_ENV != 'development') {
-    app.listen(80);
-} else {
-    app.listen(8000);
+var server = http.createServer(app);
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    console.log('Listening on ' + bind);
 }
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+socketRouter.init(server);
