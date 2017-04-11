@@ -26,7 +26,14 @@ BingoVM.prototype = {
             users: data.users
         };
         this.common = new Vue({
-            data: commonData
+            data: commonData,
+            methods: {
+                refreshUser: function(data) {
+                    this.user.name = data.name;
+                    this.user.socketid = data.socketid;
+                    this.user.roomname = data.roomname;
+                }
+            }
         });
 
         this.userInfoInput = new Vue({
@@ -58,7 +65,10 @@ BingoVM.prototype = {
             },
             methods: {
                 login: function() {
-                    this.user.name = this.inputName;
+                    if (!this.inputName) {
+                        return;
+                    }
+                    bingo.socket.emit('login', JSON.stringify({name: this.inputName}));
                 }
             }
         });
@@ -76,6 +86,10 @@ Bingo.prototype = {
         this.socket.on('connectDone', function(msg) {
             var data = JSON.parse(msg);
             self.vm.init(data);
+        });
+        this.socket.on('loginDone', function(msg) {
+            var data = JSON.parse(msg);
+            self.vm.common.refreshUser(data.user);
         });
     },
     openHomepage: function() {

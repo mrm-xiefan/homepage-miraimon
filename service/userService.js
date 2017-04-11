@@ -34,8 +34,8 @@ User.prototype = {
     toJSON: function() {
         return {
             name: this.name,
-            socketid: this.socket.id,
-            roomname: this.room.name
+            socketid: (this.socket ? this.socket.id : ""),
+            roomname: (this.room ? this.room.name : "")
         };
     },
     spy: function() {

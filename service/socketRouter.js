@@ -21,6 +21,7 @@ SocketRouter.prototype = {
             console.log("connected:" + socket.id);
             roomService.queue(socket);
             roomService.detail();
+            userService.detail();
             socket.emit('connectDone', JSON.stringify({users: userService.getUserList()}));
 
             var room = null;
@@ -30,9 +31,12 @@ SocketRouter.prototype = {
                 console.log("login:" + msg);
                 var data = JSON.parse(msg);
                 user = userService.login(data.name, socket);
+                socket.emit('loginDone', JSON.stringify({user: user.toJSON()}));
+                userService.detail();
                 if (user.room) {
                     room = user.room;
-                    self.io.to(room.name).emit('loginDone', JSON.stringify(user.toJSON()));
+                    socket.join(room.name);
+                    self.io.to(room.name).emit('joinDone', JSON.stringify({user: user.toJSON()}));
                 }
             });
 
@@ -44,11 +48,15 @@ SocketRouter.prototype = {
                     if (room) {
                         self.io.to(room.name).emit('logoutDone', JSON.stringify(user.toJSON()));
                     }
+                    if (!user.isBingo() && !user.isOnline()) {
+                        userService.destoryUser(user);
+                    }
                 }
                 if (room && room.needDestory()) {
                     roomService.destoryRoom(room);
                 }
                 roomService.detail();
+                userService.detail();
             });
         });
     }
