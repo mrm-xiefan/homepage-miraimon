@@ -155,8 +155,36 @@
 
     <div class="content-wrapper">
         <section class="content">
-            <div id="main-board">
-                sdfsdfsd
+            <div class="login-box" id="user-info-input" v-if="user.name == ''">
+                <div class="login-box-body">
+                    <p class="login-box-msg">
+                        お名前を入力してください。
+                    </p>
+
+                    <div class="form-group has-feedback">
+                        <input class="form-control" placeholder="Please input your name..." v-model.trim="inputName" @keyup.enter="login()">
+                        <span class="fa fa-user form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <template v-if="inputCheck == '0001'">
+                                <i class="fa fa-warning text-red"></i>
+                                {{checkMessage}}
+                            </template>
+                            <template v-if="inputCheck == '0002'">
+                                <i class="fa fa-info-circle text-yellow"></i>
+                                {{checkMessage}}
+                            </template>
+                            <template v-if="inputCheck == '0003'">
+                                <i class="fa fa-check-circle text-green"></i>
+                                {{checkMessage}}
+                            </template>
+                        </div>
+                        <div class="col-xs-4">
+                            <button class="btn btn-primary" v-on:click="login()">ログイン</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>

@@ -1,8 +1,8 @@
-// var utils = require('../services/utils.js').utils;
-// var conf = require('config');
-// var dataService = require('../services/dataService.js').dataService;
-// var roomService = require('../services/roomService.js').roomService;
-// var userService = require('../services/userService.js').userService;
+var roomService = require('./roomService.js').roomService;
+var userService = require('./userService.js').userService;
+
+roomService.init();
+userService.init();
 
 function SocketRouter() {
     this.io = null;
@@ -19,9 +19,36 @@ SocketRouter.prototype = {
 
         self.io.sockets.on('connection', function(socket) {
             console.log("connected:" + socket.id);
+            roomService.queue(socket);
+            roomService.detail();
+            socket.emit('connectDone', JSON.stringify({users: userService.getUserList()}));
+
+            var room = null;
+            var user = null;
+
+            socket.on('login', function(msg) {
+                console.log("login:" + msg);
+                var data = JSON.parse(msg);
+                user = userService.login(data.name, socket);
+                if (user.room) {
+                    room = user.room;
+                    self.io.to(room.name).emit('loginDone', JSON.stringify(user.toJSON()));
+                }
+            });
 
             socket.on('disconnect', function() {
                 console.log("disconnect:" + socket.id);
+                roomService.dequeue(socket);
+                if (user) {
+                    user.logout();
+                    if (room) {
+                        self.io.to(room.name).emit('logoutDone', JSON.stringify(user.toJSON()));
+                    }
+                }
+                if (room && room.needDestory()) {
+                    roomService.destoryRoom(room);
+                }
+                roomService.detail();
             });
         });
     }

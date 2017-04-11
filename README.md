@@ -1,12 +1,12 @@
 # homepage
 
-## install
-
 ### Step 1: prepare enviroment.
 
 * install node.js, git, and so on.
 * if you are making a develop enviroment, then set environment variable.
-`NODE_ENV=development`
+```
+NODE_ENV=development
+```
 
 ### Step 2: get source from github.
 ```
