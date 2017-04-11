@@ -185,6 +185,42 @@
                         </div>
                     </div>
                 </div>
+                <div class="login-box-body" v-if="hasSelection">
+                    <p class="login-box-msg">
+                        下記ユーザがゲームから離れました。選んでゲームを続けてもよろしいです。
+                    </p>
+                </div>
+            </div>
+            <div class="login-box" id="room-info-input" v-if="isDisplay">
+                <div class="login-box-body">
+                    <p class="login-box-msg">
+                        新しいゲームを始める。名前例：山田太郎のビンゴ大会その１
+                    </p>
+
+                    <div class="form-group has-feedback">
+                        <input class="form-control" placeholder="Please input game name..." v-model.trim="inputName" @keyup.enter="join()">
+                        <span class="fa fa-fa-gamepad form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <template v-if="inputCheck == '0001'">
+                                <i class="fa fa-warning text-red"></i>
+                                {{checkMessage}}
+                            </template>
+                            <template v-if="inputCheck == '0002'">
+                                <i class="fa fa-info-circle text-yellow"></i>
+                                {{checkMessage}}
+                            </template>
+                            <template v-if="inputCheck == '0003'">
+                                <i class="fa fa-check-circle text-green"></i>
+                                {{checkMessage}}
+                            </template>
+                        </div>
+                        <div class="col-xs-4">
+                            <button class="btn btn-primary" v-on:click="join()">始める</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>

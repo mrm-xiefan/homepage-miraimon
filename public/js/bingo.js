@@ -23,7 +23,8 @@ BingoVM.prototype = {
                 status: "",
                 members: []
             },
-            users: data.users
+            users: data.users,
+            rooms: data.rooms
         };
         this.common = new Vue({
             data: commonData,
@@ -32,6 +33,9 @@ BingoVM.prototype = {
                     this.user.name = data.name;
                     this.user.socketid = data.socketid;
                     this.user.roomname = data.roomname;
+                },
+                refreshRoom: function(data) {
+
                 }
             }
         });
@@ -47,8 +51,85 @@ BingoVM.prototype = {
                     if (this.inputName == "") {
                         return "";
                     }
-                    for (var i = 0; i < bingo.vm.common.users.length; i ++) {
-                        var user = bingo.vm.common.users[i];
+                    for (var idx = 0; idx < bingo.vm.common.users.length; idx ++) {
+                        var user = bingo.vm.common.users[idx];
+                        if (this.inputName == user.name) {
+                            if (user.socketid != "") {
+                                return "0001";
+                            } else {
+                                return "0002"
+                            }
+                        }
+                    }
+                    return "0003";
+                },
+                checkMessage: function() {
+                    return CONST.MESSAGE[this.inputCheck];
+                },
+                hasSelection: function() {
+                    var list = this.getSelection();
+                    return list.length > 0;
+                }
+            },
+            methods: {
+                getSelection: function() {
+                    var list = [];
+                    for (var idx = 0; idx < bingo.vm.common.users.length; idx ++) {
+                        var user = bingo.vm.common.users[idx];
+                        if (user.socketid == "") {
+                            list.push(user);
+                        }
+                    }
+
+list.push({
+    name: "dd",
+    socketid: "",
+    roomname: "test1"
+});
+list.push({
+    name: "ddd",
+    socketid: "",
+    roomname: "test2"
+});
+list.push({
+    name: "dddd",
+    socketid: "",
+    roomname: "test3"
+});
+
+                    return list;
+                },
+                login: function() {
+                    if (!this.inputName) {
+                        return;
+                    }
+                    bingo.socket.emit('login', JSON.stringify({name: this.inputName}));
+                }
+            }
+        });
+
+        this.roomInfoInput = new Vue({
+            parent: this.common,
+            el: '#room-info-input',
+            data: function() {
+                return {room: this.$parent.room, inputName: "", selectName: ""};
+            },
+            computed: {
+                isDisplay: function() {
+                    if (this.room.name == "") {
+                        return false;
+                    }
+                    if (this.room.status != "") {
+                        return false;
+                    }
+                    return true;
+                },
+                inputCheck: function() {
+                    if (this.inputName == "") {
+                        return "";
+                    }
+                    for (var idx = 0; idx < bingo.vm.common.users.length; idx ++) {
+                        var user = bingo.vm.common.users[idx];
                         if (this.inputName == user.name) {
                             if (user.socketid != "") {
                                 return "0001";

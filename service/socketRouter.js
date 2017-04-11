@@ -22,7 +22,7 @@ SocketRouter.prototype = {
             roomService.queue(socket);
             roomService.detail();
             userService.detail();
-            socket.emit('connectDone', JSON.stringify({users: userService.getUserList()}));
+            socket.emit('connectDone', JSON.stringify({users: userService.getUserList(), rooms: roomService.getRoomList()}));
 
             var room = null;
             var user = null;

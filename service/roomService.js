@@ -98,20 +98,7 @@ RoomService.prototype = {
             }
         }
     },
-    isDuplicate: function(name) {
-        for (var idx = 0; idx < this.rooms.length; idx ++) {
-            if (name == this.rooms[idx].name) {
-                return true;
-            }
-        }
-        return false;
-    },
     createRoom: function(user, name) {
-        this.dequeue(user.socket);
-        if (this.isDuplicate(name)) {
-            return null;
-        }
-
         var room = new Room();
         room.init(name, user);
         this.rooms.push(room);
@@ -127,7 +114,7 @@ RoomService.prototype = {
                 return room;
             }
         }
-        return null;
+        return this.createRoom(user, name);
     },
     getRoomList: function() {
         var list = [];
