@@ -39,7 +39,7 @@ User.prototype = {
         };
     },
     spy: function() {
-        console.log("name:" + this.name + " | socket:" + (this.socket ? this.socket.id : "Offline") + " | room:" + (this.room ? this.room.name : "Lobby"));
+        console.log("    name:" + this.name + " | socket:" + (this.socket ? this.socket.id : "Offline") + " | room:" + (this.room ? this.room.name : "Lobby"));
     }
 };
 
@@ -51,12 +51,14 @@ UserService.prototype = {
         this.users = [];
     },
     detail: function() {
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         console.log("users:" + this.users.length);
-        for (var idx = 0; idx < this.users.length; idx ++) {
-            this.users[idx].spy();
+        if (this.users.length > 0) {
+            console.log("  -------------------------------------------------------");
+            for (var idx = 0; idx < this.users.length; idx ++) {
+                this.users[idx].spy();
+            }
+            console.log("  -------------------------------------------------------");
         }
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     },
     getUserList: function() {
         var list = [];

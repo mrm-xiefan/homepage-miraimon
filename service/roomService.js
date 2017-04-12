@@ -1,16 +1,16 @@
 var userService = require('./userService.js').userService;
 
 function Room() {
-    this.status = null;
     this.name = null;
-    this.members = null;
     this.owner = null;
+    this.status = null;
+    this.members = null;
 };
 Room.prototype = {
     init: function(name, user) {
-        this.status = "準備中";
         this.name = name;
         this.owner = user;
+        this.status = '1';
         this.members = [];
         this.join(user);
     },
@@ -22,7 +22,7 @@ Room.prototype = {
         console.log("  room name:" + this.name);
         console.log("  members:" + this.members.length);
         for (var idx = 0; idx < this.members.length; idx ++) {
-            console.log("      " + this.members[idx].spy());
+            this.members[idx].spy();
         }
         console.log("  =======================================================");
     },
@@ -52,7 +52,8 @@ Room.prototype = {
     toJSON: function() {
         var result = {};
         result.name = this.name;
-        result.owner = this.owner.name;
+        result.ownername = this.owner.name;
+        result.status = this.status;
         result.members = [];
         for (var idx = 0; idx < this.members.length; idx ++) {
             result.members.push(this.members[idx].toJSON());
@@ -72,7 +73,6 @@ RoomService.prototype = {
         this.lobby = [];
     },
     detail: function() {
-        console.log("#########################################################");
         console.log("rooms:" + this.rooms.length);
         for (var idx = 0; idx < this.rooms.length; idx ++) {
             this.rooms[idx].spy();
@@ -85,7 +85,6 @@ RoomService.prototype = {
             }
             console.log("  ///////////////////////////////////////////////////////");
         }
-        console.log("#########################################################");
     },
     queue: function(socket) {
         this.lobby.push(socket);

@@ -18,42 +18,71 @@ SocketRouter.prototype = {
         });
 
         self.io.sockets.on('connection', function(socket) {
+            console.log("#########################################################");
             console.log("connected:" + socket.id);
             roomService.queue(socket);
             roomService.detail();
             userService.detail();
             socket.emit('connectDone', JSON.stringify({users: userService.getUserList(), rooms: roomService.getRoomList()}));
 
-            var room = null;
             var user = null;
+            var room = null;
 
             socket.on('login', function(msg) {
+                console.log("#########################################################");
                 console.log("login:" + msg);
                 var data = JSON.parse(msg);
                 user = userService.login(data.name, socket);
                 socket.emit('loginDone', JSON.stringify({user: user.toJSON()}));
-                userService.detail();
+                self.io.emit('refreshUsers', JSON.stringify({users: userService.getUserList()}));
                 if (user.room) {
+                    console.log("auto join:" + user.room.name);
                     room = user.room;
                     socket.join(room.name);
-                    self.io.to(room.name).emit('joinDone', JSON.stringify({user: user.toJSON()}));
+                    socket.emit('joinDone', JSON.stringify({room: room.toJSON()}));
+                    self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
                 }
+                roomService.detail();
+                userService.detail();
+            });
+
+            socket.on('join', function(msg) {
+                console.log("#########################################################");
+                console.log("join:" + msg + " | user:" + user.name);
+                var data = JSON.parse(msg);
+                room = roomService.joinRoom(user, data.name);
+                socket.emit('joinDone', JSON.stringify({room: room.toJSON()}));
+                self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
+                roomService.detail();
+                userService.detail();
             });
 
             socket.on('disconnect', function() {
+                console.log("#########################################################");
                 console.log("disconnect:" + socket.id);
                 roomService.dequeue(socket);
+                var isRefreshUsers = false;
+                var isRefreshRooms = false;
                 if (user) {
-                    user.logout();
-                    if (room) {
-                        self.io.to(room.name).emit('logoutDone', JSON.stringify(user.toJSON()));
+                    isRefreshUsers = true;
+                    if (user.isBingo()) {
+                        isRefreshRooms = true;
                     }
+                    user.logout();
                     if (!user.isBingo() && !user.isOnline()) {
                         userService.destoryUser(user);
                     }
                 }
                 if (room && room.needDestory()) {
+                    isRefreshUsers = true;
+                    isRefreshRooms = true;
                     roomService.destoryRoom(room);
+                }
+                if (isRefreshUsers == true) {
+                    self.io.emit('refreshUsers', JSON.stringify({users: userService.getUserList()}));
+                }
+                if (isRefreshRooms == true) {
+                    self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
                 }
                 roomService.detail();
                 userService.detail();
