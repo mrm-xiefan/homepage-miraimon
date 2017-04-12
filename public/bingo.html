@@ -162,7 +162,7 @@
                     </p>
 
                     <div class="form-group has-feedback">
-                        <input class="form-control" placeholder="Please input your name..." v-model.trim="inputName" @keyup.enter="login()">
+                        <input id="user-input-box" class="form-control" placeholder="Please input your name..." v-model.trim="inputName" @keyup.enter="login()">
                         <span class="fa fa-user form-control-feedback"></span>
                     </div>
                     <div class="row">
@@ -204,7 +204,7 @@
                     </p>
 
                     <div class="form-group has-feedback">
-                        <input class="form-control" placeholder="Please input game name..." v-model.trim="inputName" @keyup.enter="join()">
+                        <input id="room-input-box" class="form-control" placeholder="Please input game name..." v-model.trim="inputName" @keyup.enter="join()">
                         <span class="fa fa-fa-gamepad form-control-feedback"></span>
                     </div>
                     <div class="row">
@@ -226,6 +226,114 @@
                             <td><i class="fa fa-check-circle-o pull-right" v-if="room.name == inputName"></i>{{room.members.length}}人参加中</td>
                         </tr>
                     </table>
+                </div>
+            </div>
+            <div class="row" id="bingo-panel" v-if="isDisplay">
+                <div class="col-sm-6">
+                    <div class="box box-solid box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-th"></i> {{user.name}}のカード</h3>
+                        </div>
+                        <div class="box-body">
+                            <table class="my-card-tb">
+                                <tr class="my-card-tr">
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                </tr>
+                                <tr class="my-card-tr">
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                </tr>
+                                <tr class="my-card-tr">
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                </tr>
+                                <tr class="my-card-tr">
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                </tr>
+                                <tr class="my-card-tr">
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                    <td class="my-card-td">
+                                        13
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="box box-solid box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-gears"></i> みんなのカード</h3>
+                        </div>
+                        <div class="box-body">
+                            dsf
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

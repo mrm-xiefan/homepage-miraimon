@@ -23,8 +23,6 @@ var CONST = {
 
 var BingoVM = function() {};
 BingoVM.prototype = {
-    common: null,
-    userInfoInput: null,
     init: function(data) {
         // data.users.push({
         //     name: "dd",
@@ -105,6 +103,9 @@ BingoVM.prototype = {
             data: function() {
                 return {user: this.$parent.user, inputName: ""};
             },
+            mounted: function() {
+                $('#user-input-box').eq(0).focus();
+            },
             computed: {
                 inputCheck: function() {
                     if (this.inputName == "") {
@@ -161,6 +162,9 @@ BingoVM.prototype = {
             el: '#room-info-input',
             data: function() {
                 return {room: this.$parent.room, inputName: ""};
+            },
+            updated: function() {
+                $('#room-input-box').eq(0).focus();
             },
             computed: {
                 isDisplay: function() {
@@ -225,6 +229,24 @@ BingoVM.prototype = {
                     }
                     bingo.socket.emit('join', JSON.stringify({name: this.inputName}));
                 }
+            }
+        });
+
+        this.bingoPanel = new Vue({
+            parent: this.common,
+            el: '#bingo-panel',
+            data: function() {
+                return {user: this.$parent.user, room: this.$parent.room};
+            },
+            computed: {
+                isDisplay: function() {
+                    if (this.user.name != "" && this.room.name != "") {
+                        return true;
+                    }
+                    return false;
+                }
+            },
+            methods: {
             }
         });
     }
