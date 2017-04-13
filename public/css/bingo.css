@@ -2,42 +2,46 @@
     cursor: pointer;
 }
 .card-bg {
-    background-color: #00a65a;
+    background-color: #3c8dbc;
     padding: 5px;
     width: 100%;
     overflow: hidden;
 }
-/*.card-tb {
-    width: 100%;
-}
-.card-tr {
-    width: 100%;
-}
-.card-td {
-    width: 20%;
-    padding: 5px;
-}*/
 .card-square {
     float: left;
     width: 20%;
-    height: auto;
     padding: 5px;
+    position: relative;
+}
+.card-square-mini {
+    float: left;
+    width: 20%;
+    padding: 2px;
+    position: relative;
+}
+.square-bg {
+    width: 100%;
+    border-radius: 3px;
 }
 .square-left {
-    float: left;
+    position: absolute;
     width: 50%;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
+    left: 0px;
+    left: 10%;
+    top: 0px;
 }
 .square-right {
-    float: right;
+    position: absolute;
     width: 50%;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
+    right: 0px;
+    right: 10%;
+    top: 0px;
 }
 .square-hole {
-    width: 100%;
+    width: 90%;
     position: absolute;
     left: 0px;
     top: 0px;
+    left: 5%;
+    top: 5%;
 }
