@@ -76,13 +76,15 @@ BingoVM.prototype = {
                     this.users.splice(0, this.users.length);
                     for (var idx = 0; idx < data.length; idx ++) {
                         this.users.push(data[idx]);
+                        if (this.user && this.user.name == data[idx].name) {
+                            this.refreshUser(data[idx]);
+                        }
                     }
                 },
                 refreshRoom: function(data) {
                     this.room.name = data.name;
                     this.room.ownername = data.ownername;
                     this.room.status = data.status;
-                    this.room.members = data.members;
                     this.room.members.splice(0, this.room.members.length);
                     for (var idx = 0; idx < data.members.length; idx ++) {
                         this.room.members.push(data.members[idx]);
@@ -92,6 +94,9 @@ BingoVM.prototype = {
                     this.rooms.splice(0, this.rooms.length);
                     for (var idx = 0; idx < data.length; idx ++) {
                         this.rooms.push(data[idx]);
+                        if (this.user && this.user.roomname == data[idx].name) {
+                            this.refreshRoom(data[idx]);
+                        }
                     }
                 }
             }
@@ -247,6 +252,45 @@ BingoVM.prototype = {
                 }
             },
             methods: {
+                getMyCard: function() {
+                    var card = null;
+                    for (var idx = 0; idx < this.room.members.length; idx ++) {
+                        if (this.room.members[idx].name == this.user.name) {
+                            card = this.room.members[idx].card;
+                            this.stringifyCard(card);
+                            break;
+                        }
+                    }
+                    return card;
+                },
+                getOtherMembers: function() {
+                    var members = [];
+                    for (var idx = 0; idx < this.room.members.length; idx ++) {
+                        if (this.room.members[idx].name != this.user.name) {
+                            this.stringifyCard(this.room.members[idx].card);
+                            members.push(this.room.members[idx]);
+                        }
+                    }
+                    return members;
+                },
+                stringifyCard: function(card) {
+                    if (!card) {
+                        card = [];
+                        for (var idx = 0; idx < 25; idx ++) {
+                            card.push("99");
+                        }
+                    } else {
+                        for (var idx = 0; idx < card.length; idx ++) {
+                            card[idx] = ("00" + card[idx]).slice(-2);
+                        }
+                    }
+                },
+                getLeftNumber: function(number) {
+                    return "./img/" + number[0] + ".png";
+                },
+                getRightNumber: function(number) {
+                    return "./img/" + number[1] + ".png";
+                }
             }
         });
     }

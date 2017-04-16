@@ -1,3 +1,4 @@
+var utils = require('./utils').utils;
 var userService = require('./userService.js').userService;
 
 function Room() {
@@ -5,6 +6,8 @@ function Room() {
     this.owner = null;
     this.status = null;
     this.members = null;
+    this.drawPool = null;
+    this.drewPool = null;
 };
 Room.prototype = {
     init: function(name, user) {
@@ -13,6 +16,8 @@ Room.prototype = {
         this.status = '1';
         this.members = [];
         this.join(user);
+        this.drawPool = utils.createArray(75);
+        this.drewPool = [];
     },
     equal: function(room) {
         return this.name === room.name;
@@ -39,6 +44,9 @@ Room.prototype = {
             this.members.push(user);
         }
     },
+    draw: function() {
+        this.drewPool.push(this.drawPool.pop());
+    },
     needDestory: function() {
         var destory = true;
         for (var idx = this.members.length - 1; idx >= 0; idx --) {
@@ -54,6 +62,7 @@ Room.prototype = {
         result.name = this.name;
         result.ownername = this.owner.name;
         result.status = this.status;
+        result.drewPool = this.drewPool;
         result.members = [];
         for (var idx = 0; idx < this.members.length; idx ++) {
             result.members.push(this.members[idx].toJSON());

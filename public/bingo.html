@@ -230,234 +230,44 @@
             </div>
             <div class="row" id="bingo-panel" v-if="isDisplay">
                 <div class="col-sm-6">
-                    <div class="box box-solid box-primary">
-                        <div class="box-header with-border">
+                    <div class="box box-solid bg-purple">
+                        <div class="box-header">
                             <h3 class="box-title"><i class="fa fa-th"></i> {{user.name}}のカード</h3>
                         </div>
                         <div class="box-body card-bg">
-                            <div class="card-square">
+                            <div class="card-square" v-for="number in getMyCard()">
                                 <img src="./img/square.png" class="square-bg"/>
-                                <img src="img/hole.png" class="square-hole"/>
-                                <img src="./img/1w.png" class="square-left"/>
-                                <img src="./img/5w.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/0.png" class="square-left"/>
-                                <img src="./img/7.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/3.png" class="square-left"/>
-                                <img src="./img/9.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/4.png" class="square-left"/>
-                                <img src="./img/6.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/2.png" class="square-left"/>
-                                <img src="./img/8.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/>
-                                <img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="img/hole.png" class="square-hole"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
+                                <template v-if="number == '99'">
+                                    <img src="img/hole.png" class="square-hole"/>
+                                </template>
+                                <template v-else>
+                                    <img v-bind:src="getLeftNumber(number)" class="square-left"/>
+                                    <img v-bind:src="getRightNumber(number)" class="square-right"/>
+                                </template>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="box box-solid box-primary" style="width: 200px;">
-                        <div class="box-header with-border">
-                            <h3 class="box-title"><i class="fa fa-th"></i> {{user.name}}のカード</h3>
+                    <div class="box box-solid bg-purple card-list" v-for="member in getOtherMembers()">
+                        <div class="box-header">
+                            <h3 class="box-title"><i class="fa fa-th"></i> {{member.name}}のカード</h3>
+                            <!--<img src="./img/reach.png" class="reach"/>-->
                         </div>
                         <div class="box-body card-bg">
-                            <div class="card-square-mini">
+                            <div class="card-square" v-for="number in member.card">
                                 <img src="./img/square.png" class="square-bg"/>
-                                <img src="img/hole.png" class="square-hole"/>
-                                <img src="./img/1w.png" class="square-left"/>
-                                <img src="./img/5w.png" class="square-right"/>
+                                <template v-if="number == '99'">
+                                    <img src="img/hole.png" class="square-hole"/>
+                                </template>
+                                <template v-else>
+                                    <img v-bind:src="getLeftNumber(number)" class="square-left"/>
+                                    <img v-bind:src="getRightNumber(number)" class="square-right"/>
+                                </template>
                             </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/0.png" class="square-left"/>
-                                <img src="./img/7.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/3.png" class="square-left"/>
-                                <img src="./img/9.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/4.png" class="square-left"/>
-                                <img src="./img/6.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/2.png" class="square-left"/>
-                                <img src="./img/8.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/>
-                                <img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="img/hole.png" class="square-hole"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
-                            <td class="card-td"><div class="card-square-mini">
-                                <img src="./img/square.png" class="square-bg"/>
-                                <img src="./img/1.png" class="square-left"/><img src="./img/5.png" class="square-right"/>
-                            </div>
+                            <!--<img src="./img/light1.png" class="bingo-effect1 fa-spin"/>
+                            <img src="./img/light2.png" class="bingo-effect2 obj-spin-reverse"/>
+                            <img src="./img/bingo.png" class="bingo-front"/>-->
                         </div>
                     </div>
                 </div>

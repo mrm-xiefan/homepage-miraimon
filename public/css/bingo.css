@@ -1,11 +1,17 @@
 .cursor-pointer {
     cursor: pointer;
 }
+.card-list {
+    float: left;
+    width: 200px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
 .card-bg {
-    background-color: #3c8dbc;
     padding: 5px;
     width: 100%;
     overflow: hidden;
+    position: relative;
 }
 .card-square {
     float: left;
@@ -44,4 +50,58 @@
     top: 0px;
     left: 5%;
     top: 5%;
+}
+.reach {
+    height: 100%;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+.bingo-front {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+.bingo-effect1 {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+.bingo-effect2 {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+.obj-spin-reverse {
+  display: inline-block;
+  -moz-animation: spin-reverse 2s infinite linear;
+  -o-animation: spin-reverse 2s infinite linear;
+  -webkit-animation: spin-reverse 2s infinite linear;
+  animation: spin-reverse 2s infinite linear;
+}
+@-moz-keyframes spin-reverse {
+  0% { -moz-transform: rotate(0deg); }
+  100% { -moz-transform: rotate(-359deg); }
+}
+@-webkit-keyframes spin-reverse {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(-359deg); }
+}
+@-o-keyframes spin-reverse {
+  0% { -o-transform: rotate(0deg); }
+  100% { -o-transform: rotate(-359deg); }
+}
+@-ms-keyframes spin-reverse {
+  0% { -ms-transform: rotate(0deg); }
+  100% { -ms-transform: rotate(-359deg); }
+}
+@keyframes spin-reverse {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-359deg); }
 }

@@ -1,9 +1,11 @@
+var utils = require('./utils').utils;
 var roomService = require('./roomService.js').roomService;
 
 function User() {
     this.name = null;
     this.socket = null;
     this.room = null;
+    this.card = null;
 };
 User.prototype = {
     init: function(name) {
@@ -21,6 +23,12 @@ User.prototype = {
     joinRoom: function(room) {
         this.room = null;
         this.room = room;
+        this.getCard();
+    },
+    getCard: function() {
+        this.card = utils.createArray(75);
+        this.card = this.card.splice(0, 25);
+        this.card[12] = 99;
     },
     equal: function(user) {
         return this.name === user.name;
@@ -35,7 +43,8 @@ User.prototype = {
         return {
             name: this.name,
             socketid: (this.socket ? this.socket.id : ""),
-            roomname: (this.room ? this.room.name : "")
+            roomname: (this.room ? this.room.name : ""),
+            card: this.card
         };
     },
     spy: function() {
