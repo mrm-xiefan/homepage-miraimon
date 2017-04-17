@@ -6,12 +6,14 @@ function User() {
     this.socket = null;
     this.room = null;
     this.card = null;
+    this.bingo = null;
 };
 User.prototype = {
     init: function(name) {
         this.name = name;
         this.socket = null;
         this.room = null;
+        this.bingo = false;
     },
     login: function(socket) {
         this.socket = null;

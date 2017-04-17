@@ -51,10 +51,18 @@ SocketRouter.prototype = {
                 console.log("join:" + msg + " | user:" + user.name);
                 var data = JSON.parse(msg);
                 room = roomService.joinRoom(user, data.name);
+                socket.join(room.name);
                 socket.emit('joinDone', JSON.stringify({room: room.toJSON()}));
                 self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
                 roomService.detail();
                 userService.detail();
+            });
+
+            socket.on('draw', function(msg) {
+                console.log("#########################################################");
+                console.log("draw:" + room.name);
+                room.draw();
+                self.io.in(room.name).emit('drawDone', JSON.stringify({room: room.toJSON()}));
             });
 
             socket.on('disconnect', function() {

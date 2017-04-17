@@ -59,13 +59,24 @@ BingoVM.prototype = {
                 name: "",
                 ownername: "",
                 status: "",
-                members: []
+                members: [],
+                drewPool: [],
+                bingoList: []
             },
             users: data.users,
             rooms: data.rooms
         };
         this.common = new Vue({
             data: commonData,
+            computed: {
+                isOwner: function() {
+                    var check = false;
+                    if (this.room.ownername != "" && this.room.ownername == this.user.name) {
+                        check = true;
+                    }
+                    return check;
+                }
+            },
             methods: {
                 refreshUser: function(data) {
                     this.user.name = data.name;
@@ -98,6 +109,20 @@ BingoVM.prototype = {
                             this.refreshRoom(data[idx]);
                         }
                     }
+                },
+                refreshDrewPool: function(room) {
+                    this.room.drewPool.splice(0, this.room.drewPool.length);
+                    for (var idx = 0; idx < room.drewPool.length; idx ++) {
+                        var drew = ("00" + room.drewPool[idx]).slice(-2);
+                        this.room.drewPool.push(drew);
+                    }
+                    console.log(JSON.stringify(this.room.drewPool));
+
+                    this.room.bingoList.splice(0, this.room.bingoList.length);
+                    for (var idx = 0; idx < room.bingoList.length; idx ++) {
+                        this.room.bingoList.push(room.bingoList[idx]);
+                    }
+                    console.log(JSON.stringify(this.room.bingoList));
                 }
             }
         });
@@ -237,6 +262,32 @@ BingoVM.prototype = {
             }
         });
 
+        this.controller = new Vue({
+            parent: this.common,
+            el: '#controller',
+            mounted: function() {
+                // $.AdminLTE.controlSidebar.activate();
+
+                $('li[data-toggle="tooltip"]').tooltip({
+                    animated: 'fade',
+                    placement: 'bottom'
+                });
+            },
+            updated: function() {
+                // $.AdminLTE.controlSidebar.activate();
+
+                $('li[data-toggle="tooltip"]').tooltip({
+                    animated: 'fade',
+                    placement: 'bottom'
+                });
+            },
+            methods: {
+                draw: function() {
+                    bingo.socket.emit('draw', null);
+                }
+            }
+        });
+
         this.bingoPanel = new Vue({
             parent: this.common,
             el: '#bingo-panel',
@@ -252,16 +303,16 @@ BingoVM.prototype = {
                 }
             },
             methods: {
-                getMyCard: function() {
-                    var card = null;
+                getMyMember: function() {
+                    var member = null;
                     for (var idx = 0; idx < this.room.members.length; idx ++) {
                         if (this.room.members[idx].name == this.user.name) {
-                            card = this.room.members[idx].card;
-                            this.stringifyCard(card);
+                            this.stringifyCard(this.room.members[idx].card);
+                            member = this.room.members[idx];
                             break;
                         }
                     }
-                    return card;
+                    return member;
                 },
                 getOtherMembers: function() {
                     var members = [];
@@ -285,11 +336,188 @@ BingoVM.prototype = {
                         }
                     }
                 },
-                getLeftNumber: function(number) {
-                    return "./img/" + number[0] + ".png";
+                isHit: function(number) {
+                    if (number == "99") {
+                        return true;
+                    }
+                    for (var idx = 0; idx < this.room.drewPool.length; idx ++) {
+                        if (this.room.drewPool[idx] == number) {
+                            return true;
+                        }
+                    }
+                    return false;
                 },
-                getRightNumber: function(number) {
-                    return "./img/" + number[1] + ".png";
+                getLeftNumber: function(number, hit) {
+                    if (hit) {
+                        return "./img/" + number[0] + "w.png";
+                    } else {
+                        return "./img/" + number[0] + ".png";
+                    }
+                },
+                getRightNumber: function(number, hit) {
+                    if (hit) {
+                        return "./img/" + number[1] + "w.png";
+                    } else {
+                        return "./img/" + number[1] + ".png";
+                    }
+                },
+                reach: function(member) {
+                    var reached = 0;
+                    var map = this.getMap(member);
+                    for (key in map) {
+                        if (map[key] == 4) {
+                            reached ++;
+                        }
+                        if (map[key] == 5) {
+                            reached = 0;
+                            break;
+                        }
+                    }
+                    return reached;
+                },
+                bingo: function(member) {
+                    var bingoed = 0;
+                    var map = this.getMap(member);
+                    for (key in map) {
+                        if (map[key] == 5) {
+                            bingoed ++;
+                        }
+                    }
+                    return bingoed;
+                },
+                getMap: function(member) {
+                    var row1 = 0;
+                    var row2 = 0;
+                    var row3 = 1;
+                    var row4 = 0;
+                    var row5 = 0;
+                    var column1 = 0;
+                    var column2 = 0;
+                    var column3 = 1;
+                    var column4 = 0;
+                    var column5 = 0;
+                    var left = 1;
+                    var right = 1;
+
+                    if (this.isHit(member.card[0])) {
+                        row1 ++;
+                        column1 ++;
+                        left ++;
+                    }
+                    if (this.isHit(member.card[1])) {
+                        row1 ++;
+                        column2 ++;
+                    }
+                    if (this.isHit(member.card[2])) {
+                        row1 ++;
+                        column3 ++;
+                    }
+                    if (this.isHit(member.card[3])) {
+                        row1 ++;
+                        column4 ++;
+                    }
+                    if (this.isHit(member.card[4])) {
+                        row1 ++;
+                        column5 ++;
+                        right ++;
+                    }
+                    if (this.isHit(member.card[5])) {
+                        row2 ++;
+                        column1 ++;
+                    }
+                    if (this.isHit(member.card[6])) {
+                        row2 ++;
+                        column2 ++;
+                        left ++;
+                    }
+                    if (this.isHit(member.card[7])) {
+                        row2 ++;
+                        column3 ++;
+                    }
+                    if (this.isHit(member.card[8])) {
+                        row2 ++;
+                        column4 ++;
+                        right ++;
+                    }
+                    if (this.isHit(member.card[9])) {
+                        row2 ++;
+                        column5 ++;
+                    }
+                    if (this.isHit(member.card[10])) {
+                        row3 ++;
+                        column1 ++;
+                    }
+                    if (this.isHit(member.card[11])) {
+                        row3 ++;
+                        column2 ++;
+                    }
+                    if (this.isHit(member.card[13])) {
+                        row3 ++;
+                        column4 ++;
+                    }
+                    if (this.isHit(member.card[14])) {
+                        row3 ++;
+                        column5 ++;
+                    }
+                    if (this.isHit(member.card[15])) {
+                        row4 ++;
+                        column1 ++;
+                    }
+                    if (this.isHit(member.card[16])) {
+                        row4 ++;
+                        column2 ++;
+                        right ++;
+                    }
+                    if (this.isHit(member.card[17])) {
+                        row4 ++;
+                        column3 ++;
+                    }
+                    if (this.isHit(member.card[18])) {
+                        row4 ++;
+                        column4 ++;
+                        left ++;
+                    }
+                    if (this.isHit(member.card[19])) {
+                        row4 ++;
+                        column5 ++;
+                    }
+                    if (this.isHit(member.card[20])) {
+                        row5 ++;
+                        column1 ++;
+                        right ++;
+                    }
+                    if (this.isHit(member.card[21])) {
+                        row5 ++;
+                        column2 ++;
+                    }
+                    if (this.isHit(member.card[22])) {
+                        row5 ++;
+                        column3 ++;
+                    }
+                    if (this.isHit(member.card[23])) {
+                        row5 ++;
+                        column4 ++;
+                    }
+                    if (this.isHit(member.card[24])) {
+                        row5 ++;
+                        column5 ++;
+                        left ++;
+                    }
+
+                    return {
+                        row1: row1,
+                        row2: row2,
+                        row3: row3,
+                        row4: row4,
+                        row5: row5,
+                        column1: column1,
+                        column2: column2,
+                        column3: column3,
+                        column4: column4,
+                        column5: column5,
+                        left: left,
+                        right: right
+                    };
                 }
             }
         });
@@ -319,6 +547,10 @@ Bingo.prototype = {
         this.socket.on('joinDone', function(msg) {
             var data = JSON.parse(msg);
             self.vm.common.refreshRoom(data.room);
+        });
+        this.socket.on('drawDone', function(msg) {
+            var data = JSON.parse(msg);
+            self.vm.common.refreshDrewPool(data.room);
         });
         this.socket.on('refreshRooms', function(msg) {
             var data = JSON.parse(msg);
