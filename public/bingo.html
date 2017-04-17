@@ -44,7 +44,25 @@
                     <ul class="nav navbar-nav">
                         <li v-if="bingo.vm.common.isOwner" data-toggle="tooltip" title="番号を引く">
                             <a href="javascript:bingo.vm.controller.draw();">
-                                <i class="fa fa-hand-lizard-o"></i>
+                                <i class="fa fa-gavel"></i>
+                            </a>
+                        </li>
+                        <li v-if="user.name != ''" class="dropdown user user-menu" data-toggle="tooltip" title="プレーヤー情報">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-user"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header">
+                                    <img src="./img/avatar.png" class="img-circle" alt="User Image">
+                                    <p>
+                                        {{user.name}}
+                                    </p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li v-if="room.name != ''" data-toggle="tooltip" title="ゲーム情報">
+                            <a href="#" data-toggle="control-sidebar">
+                                <i class="fa fa-gamepad"></i>
                             </a>
                         </li>
                     </ul>
@@ -90,7 +108,11 @@
                     <p class="login-box-msg">
                         オフライン中
                     </p>
-                    <table class="table table-hover">
+                    <table class="table table-bordered table-hover">
+                        <tr class="bg-gray">
+                            <th>ゲーム名</th>
+                            <th>プレーヤー名</th>
+                        </tr>
                         <tr v-for="user in getSelection()" class="cursor-pointer" v-on:click="select(user.name)">
                             <td style="width: 100px;">{{user.roomname}}</td>
                             <td><i class="fa fa-check-circle-o pull-right" v-if="user.name == inputName"></i>{{user.name}}</td>
@@ -121,7 +143,11 @@
                     <p class="login-box-msg">
                         準備中のゲーム
                     </p>
-                    <table class="table table-hover">
+                    <table class="table table-bordered table-hover">
+                        <tr class="bg-gray">
+                            <th>ゲーム名</th>
+                            <th>参加人数</th>
+                        </tr>
                         <tr v-for="room in getSelection()" class="cursor-pointer" v-on:click="select(room.name)">
                             <td style="width: 200px;">{{room.name}}</td>
                             <td><i class="fa fa-check-circle-o pull-right" v-if="room.name == inputName"></i>{{room.members.length}}人参加中</td>
@@ -131,10 +157,13 @@
             </div>
             <div class="row" id="bingo-panel" v-if="isDisplay">
                 <div class="col-sm-6">
+                    sss
+                </div>
+                <div class="col-sm-6">
                     <div class="box box-solid bg-purple">
                         <div class="box-header">
                             <h3 class="box-title"><i class="fa fa-th"></i> {{user.name}}のカード</h3>
-                            <img src="./img/reach.png" class="reach" v-if="reach(getMyMember()) > 0">
+                            <img src="./img/reach.png" class="reach" v-if="getMyMember().reach > 0">
                         </div>
                         <div class="box-body card-bg">
                             <div class="card-square" v-for="number in getMyMember().card">
@@ -152,32 +181,9 @@
                                     <img v-bind:src="getRightNumber(number, false)" class="square-right">
                                 </template>
                             </div>
-                            <img src="./img/light1.png" class="bingo-effect1 fa-spin" v-if="bingo(getMyMember()) > 0">
-                            <img src="./img/light2.png" class="bingo-effect2 obj-spin-reverse" v-if="bingo(getMyMember()) > 0">
-                            <img src="./img/bingo.png" class="bingo-front" v-if="bingo(getMyMember()) > 0">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="box box-solid bg-purple card-list" v-for="member in getOtherMembers()">
-                        <div class="box-header">
-                            <h3 class="box-title"><i class="fa fa-th"></i> {{member.name}}のカード</h3>
-                            <img src="./img/reach.png" class="reach" v-if="reach(member) > 0">
-                        </div>
-                        <div class="box-body card-bg">
-                            <div class="card-square-mini" v-for="number in member.card">
-                                <img src="./img/square.png" class="square-bg">
-                                <template v-if="number == '99'">
-                                    <img src="img/hole.png" class="square-hole">
-                                </template>
-                                <template v-else>
-                                    <img v-bind:src="getLeftNumber(number)" class="square-left">
-                                    <img v-bind:src="getRightNumber(number)" class="square-right">
-                                </template>
-                            </div>
-                            <img src="./img/light1.png" class="bingo-effect1 fa-spin" v-if="bingo(member) > 0">
-                            <img src="./img/light2.png" class="bingo-effect2 obj-spin-reverse" v-if="bingo(member) > 0">
-                            <img src="./img/bingo.png" class="bingo-front" v-if="bingo(member) > 0">
+                            <img src="./img/light1.png" class="bingo-effect1 fa-spin" v-if="getMyMember().bingo">
+                            <img src="./img/light2.png" class="bingo-effect2 obj-spin-reverse" v-if="getMyMember().bingo">
+                            <img src="./img/bingo.png" class="bingo-front" v-if="getMyMember().bingo">
                         </div>
                     </div>
                 </div>
@@ -186,11 +192,63 @@
     </div>
 
     <aside class="control-sidebar control-sidebar-light">
-        <div class="sidebar-header">
-            <button type="button" class="btn btn-md btn-primary" onclick="boardVM.cart.pasteAll()">Paste all photos to board</button>
-        </div>
-        <div id="photo-cart">
-            <cart-images v-for="image in carting" :image="image"></cart-images>
+        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            <li><a href="#control-sidebar-users-tab" data-toggle="tab"><i class="fa fa-users"></i></a></li>
+            <li class="active"><a href="#control-sidebar-cards-tab" data-toggle="tab"><i class="fa fa-th"></i></a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane" id="control-sidebar-users-tab">
+                <h3 class="control-sidebar-heading">ゲーム：{{room.name}}({{gameStatus}})</h3>
+                <h3 class="control-sidebar-heading">プレーヤー数：{{room.members.length}}</h3>
+                <ul class="control-sidebar-menu">
+                    <li v-for="member in room.members">
+                        <a href="javascript:void(0)" v-if="member.socketid == ''">
+                            <i class="menu-icon fa fa-user bg-red"></i>
+                            <div class="menu-info">
+                                <h4 class="control-sidebar-subheading">{{member.name}}(Offline)</h4>
+                                <p v-if="member.reach > 0" class="text-yellow">{{member.reach}} reach.</p>
+                                <p v-if="member.bingo" class="text-red">BINGO!!! ({{member.rank}}位)</p>
+                            </div>
+                        </a>
+                        <a href="javascript:void(0)" v-else>
+                            <i class="menu-icon fa fa-user bg-green"></i>
+                            <div class="menu-info">
+                                <h4 class="control-sidebar-subheading">{{member.name}}(Online)</h4>
+                                <p v-if="member.reach > 0" class="text-yellow">{{member.reach}} reach.</p>
+                                <p v-if="member.bingo" class="text-red">BINGO!!! ({{member.rank}}位)</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-pane active" id="control-sidebar-cards-tab">
+                <div class="box box-solid bg-purple card-list" v-for="member in getOtherMembers()">
+                    <div class="box-header">
+                        <h3 class="box-title"><i class="fa fa-th"></i> {{member.name}}のカード</h3>
+                        <img src="./img/reach.png" class="reach" v-if="member.reach > 0">
+                    </div>
+                    <div class="box-body card-bg">
+                        <div class="card-square-mini" v-for="number in member.card">
+                            <img src="./img/square.png" class="square-bg">
+                            <template v-if="number == '99'">
+                                <img src="img/hole.png" class="square-hole">
+                            </template>
+                            <template v-else-if="bingo.vm.bingoPanel.isHit(number)">
+                                <img src="img/hole.png" class="square-hole">
+                                <img v-bind:src="bingo.vm.bingoPanel.getLeftNumber(number, true)" class="square-left">
+                                <img v-bind:src="bingo.vm.bingoPanel.getRightNumber(number, true)" class="square-right">
+                            </template>
+                            <template v-else>
+                                <img v-bind:src="bingo.vm.bingoPanel.getLeftNumber(number, false)" class="square-left">
+                                <img v-bind:src="bingo.vm.bingoPanel.getRightNumber(number, false)" class="square-right">
+                            </template>
+                        </div>
+                        <img src="./img/light1.png" class="bingo-effect1 fa-spin" v-if="member.bingo">
+                        <img src="./img/light2.png" class="bingo-effect2 obj-spin-reverse" v-if="member.bingo">
+                        <img src="./img/bingo.png" class="bingo-front" v-if="member.bingo">
+                    </div>
+                </div>
+            </div>
         </div>
     </aside>
     <div class="control-sidebar-bg"></div>
@@ -207,20 +265,7 @@
 </script>
 <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" src="vendor/slimScroll/jquery.slimscroll.min.js"></script>
-<!--<script type="text/javascript" src="./plugins/jQueryUI/jquery.ui.touch-punch.js"></script>-->
-<!--<script type="text/javascript" src="./plugins/masonry/masonry.pkgd.min.js"></script>
-<script type="text/javascript" src="./plugins/knob/jquery.knob.js"></script>-->
-<!--<script type="text/javascript" src="./plugins/datatables/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="./plugins/datatables/dataTables.bootstrap.min.js"></script>-->
-<!--
-<script type="text/javascript" src="http://localhost:8000/socket.io/socket.io.js"></script>
--->
-<!--<script type="text/javascript" src="./plugins/html2canvas/html2canvas.js"></script>
-<script type="text/javascript" src="./plugins/masonry/masonry.pkgd.min.js"></script>
-<script type="text/javascript" src="./plugins/colorpicker/bootstrap-colorpicker.js"></script>-->
 <script type="text/javascript" src="vendor/socket.io/socket.io.min.js"></script>
-<!--<script type="text/javascript" src="./plugins/hammerjs/hammer.js"></script>
-<script type="text/javascript" src="./plugins/hammerjs/hammer-time.js"></script>-->
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/bingo.js"></script>
 </body>

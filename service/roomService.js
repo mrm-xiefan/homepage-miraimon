@@ -49,11 +49,13 @@ Room.prototype = {
         }
     },
     draw: function() {
+        this.status = '2';
         this.drewPool.push(this.drawPool.pop());
         var isRanked = false;
         for (var idx = 0; idx < this.members.length; idx ++) {
             var member = this.members[idx];
             if (!member.bingo) {
+                member.reach = 0;
                 var map = this.getMap(member);
                 for (key in map) {
                     if (map[key] == 5) {
@@ -61,12 +63,28 @@ Room.prototype = {
                             isRanked = true;
                             this.bingoRank ++;
                         }
+                        member.reach = 0;
+                        member.rank = this.bingoRank;
                         member.bingo = true;
                         this.bingoList.push({user: member, rank: this.bingoRank});
                         break;
                     }
+                    if (map[key] == 4) {
+                        member.reach ++;
+                    }
                 }
             }
+        }
+        var isEnd = true;
+        for (var idx = 0; idx < this.members.length; idx ++) {
+            var member = this.members[idx];
+            if (!member.bingo) {
+                isEnd = false;
+                break;
+            }
+        }
+        if (isEnd) {
+            this.status = '3';
         }
     },
     getMap: function(member) {
@@ -230,6 +248,9 @@ Room.prototype = {
         result.ownername = this.owner.name;
         result.status = this.status;
         result.drewPool = this.drewPool;
+        result.reach = this.reach;
+        result.bingo = this.bingo;
+        result.rank = this.rank;
         result.bingoList = [];
         for (var idx = 0; idx < this.bingoList.length; idx ++) {
             result.bingoList.push({username: this.bingoList[idx].user.name, rank: this.bingoList[idx].rank});

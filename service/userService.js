@@ -6,6 +6,8 @@ function User() {
     this.socket = null;
     this.room = null;
     this.card = null;
+    this.rank = null;
+    this.reach = null;
     this.bingo = null;
 };
 User.prototype = {
@@ -13,6 +15,8 @@ User.prototype = {
         this.name = name;
         this.socket = null;
         this.room = null;
+        this.rank = 0;
+        this.reach = 0;
         this.bingo = false;
     },
     login: function(socket) {
@@ -46,7 +50,10 @@ User.prototype = {
             name: this.name,
             socketid: (this.socket ? this.socket.id : ""),
             roomname: (this.room ? this.room.name : ""),
-            card: this.card
+            card: this.card,
+            rank: this.rank,
+            reach: this.reach,
+            bingo: this.bingo
         };
     },
     spy: function() {

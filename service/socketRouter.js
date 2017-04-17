@@ -39,7 +39,7 @@ SocketRouter.prototype = {
                     console.log("auto join:" + user.room.name);
                     room = user.room;
                     socket.join(room.name);
-                    socket.emit('joinDone', JSON.stringify({room: room.toJSON()}));
+                    socket.emit('joinDone', JSON.stringify({user: user.toJSON(), room: room.toJSON()}));
                     self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
                 }
                 roomService.detail();
@@ -52,7 +52,7 @@ SocketRouter.prototype = {
                 var data = JSON.parse(msg);
                 room = roomService.joinRoom(user, data.name);
                 socket.join(room.name);
-                socket.emit('joinDone', JSON.stringify({room: room.toJSON()}));
+                socket.emit('joinDone', JSON.stringify({user: user.toJSON(), room: room.toJSON()}));
                 self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
                 roomService.detail();
                 userService.detail();
@@ -62,6 +62,7 @@ SocketRouter.prototype = {
                 console.log("#########################################################");
                 console.log("draw:" + room.name);
                 room.draw();
+                console.log("drawDone:" + JSON.stringify({room: room.toJSON()}));
                 self.io.in(room.name).emit('drawDone', JSON.stringify({room: room.toJSON()}));
             });
 
