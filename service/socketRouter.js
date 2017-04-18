@@ -60,10 +60,14 @@ SocketRouter.prototype = {
 
             socket.on('draw', function(msg) {
                 console.log("#########################################################");
-                console.log("draw:" + room.name);
+                console.log("draw:" + room.name + " | status:" + room.status);
+                var before = room.status;
                 room.draw();
                 console.log("drawDone:" + JSON.stringify({room: room.toJSON()}));
                 self.io.in(room.name).emit('drawDone', JSON.stringify({room: room.toJSON()}));
+                if (room.status != before) {
+                    self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
+                }
             });
 
             socket.on('disconnect', function() {

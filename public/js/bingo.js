@@ -10,14 +10,16 @@ var CONST = {
         '0002': '作成',
         '0003': '参加',
         '0004': '続ける',
-        '0005': '結果確認'
+        '0005': '結果確認',
+        '9999': 'ビンゴ'
     },
     GAME_STATUS: {
         '0001': '',
         '0002': '新しいゲーム',
         '0003': 'ゲーム準備中',
         '0004': 'ゲーム進行中',
-        '0005': 'ゲーム終了'
+        '0005': 'ゲーム終了',
+        '9999': 'ゲーム名重複'
     },
     GAME_STATUS_TITLE: {
         '1': '準備中',
@@ -210,7 +212,7 @@ BingoVM.prototype = {
             parent: this.common,
             el: '#room-info-input',
             data: function() {
-                return {room: this.$parent.room, inputName: ""};
+                return {user: this.$parent.user, room: this.$parent.room, inputName: ""};
             },
             updated: function() {
                 $('#room-input-box').eq(0).focus();
@@ -236,12 +238,12 @@ BingoVM.prototype = {
                     if (room) {
                         if (room.status == "1") {
                             return "0003";
-                        } else if (room.status == "2") {
+                        } else if (room.status == "2" && this.isRoomMember(room)) {
                             return "0004";
-                        } else if (room.status == "3") {
+                        } else if (room.status == "3" && this.isRoomMember(room)) {
                             return "0005";
                         } else {
-                            return "0001";
+                            return "9999";
                         }
                     } else {
                         return "0002";
@@ -263,11 +265,19 @@ BingoVM.prototype = {
                     var list = [];
                     for (var idx = 0; idx < bingo.vm.common.rooms.length; idx ++) {
                         var room = bingo.vm.common.rooms[idx];
-                        if (room.status == "1") {
+                        if (room.status == "1" || ((room.status == "2" || room.status == "3") && this.isRoomMember(room))) {
                             list.push(room);
                         }
                     }
                     return list;
+                },
+                isRoomMember: function(room) {
+                    for (var idx = 0; idx < room.members.length; idx ++) {
+                        if (room.members[idx].name == this.user.name) {
+                            return true;
+                        }
+                    }
+                    return false;
                 },
                 select: function(name) {
                     this.inputName = name;
@@ -276,37 +286,45 @@ BingoVM.prototype = {
                     if (this.inputCheck == "0001") {
                         return;
                     }
+
                     bingo.socket.emit('join', JSON.stringify({name: this.inputName}));
+                },
+                getGameStatus: function(status) {
+                    return CONST.GAME_STATUS_TITLE[status];
                 }
             }
         });
 
-        this.controller = new Vue({
+        this.controller1 = new Vue({
             parent: this.common,
-            el: '#controller',
+            el: '#controller1',
             data: function() {
                 return {user: this.$parent.user, room: this.$parent.room};
-            },
-            mounted: function() {
-                $.AdminLTE.controlSidebar.activate();
-
-                $('li[data-toggle="tooltip"]').tooltip({
-                    animated: 'fade',
-                    placement: 'bottom'
-                });
-            },
-            updated: function() {
-                $.AdminLTE.controlSidebar.activate();
-
-                $('li[data-toggle="tooltip"]').tooltip({
-                    animated: 'fade',
-                    placement: 'bottom'
-                });
             },
             methods: {
                 draw: function() {
                     bingo.socket.emit('draw', null);
                 }
+            }
+        });
+        this.controller2 = new Vue({
+            parent: this.common,
+            el: '#controller2',
+            data: function() {
+                return {user: this.$parent.user, room: this.$parent.room};
+            }
+        });
+        this.controller3 = new Vue({
+            parent: this.common,
+            el: '#controller3',
+            data: function() {
+                return {user: this.$parent.user, room: this.$parent.room};
+            },
+            mounted: function() {
+                $.AdminLTE.controlSidebar.activate();
+            },
+            updated: function() {
+                $.AdminLTE.controlSidebar.activate();
             }
         });
 

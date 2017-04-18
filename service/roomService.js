@@ -17,11 +17,11 @@ Room.prototype = {
         this.owner = user;
         this.status = '1';
         this.members = [];
-        this.join(user);
         this.drawPool = utils.createArray(75);
         this.drewPool = [];
         this.bingoList = [];
         this.bingoRank = 0;
+        this.join(user);
     },
     equal: function(room) {
         return this.name === room.name;
@@ -46,35 +46,13 @@ Room.prototype = {
         }
         if (!isReJoin) {
             this.members.push(user);
+            this.compute();
         }
     },
     draw: function() {
         this.status = '2';
         this.drewPool.push(this.drawPool.pop());
-        var isRanked = false;
-        for (var idx = 0; idx < this.members.length; idx ++) {
-            var member = this.members[idx];
-            if (!member.bingo) {
-                member.reach = 0;
-                var map = this.getMap(member);
-                for (key in map) {
-                    if (map[key] == 5) {
-                        if (!isRanked) {
-                            isRanked = true;
-                            this.bingoRank ++;
-                        }
-                        member.reach = 0;
-                        member.rank = this.bingoRank;
-                        member.bingo = true;
-                        this.bingoList.push({user: member, rank: this.bingoRank});
-                        break;
-                    }
-                    if (map[key] == 4) {
-                        member.reach ++;
-                    }
-                }
-            }
-        }
+        this.compute();
         var isEnd = true;
         for (var idx = 0; idx < this.members.length; idx ++) {
             var member = this.members[idx];
@@ -85,6 +63,29 @@ Room.prototype = {
         }
         if (isEnd) {
             this.status = '3';
+        }
+    },
+    compute: function() {
+        var rank = this.bingoRank + 1;
+        for (var idx = 0; idx < this.members.length; idx ++) {
+            var member = this.members[idx];
+            if (!member.bingo) {
+                member.reach = 0;
+                var map = this.getMap(member);
+                for (key in map) {
+                    if (map[key] == 5) {
+                        this.bingoRank ++;
+                        member.reach = 0;
+                        member.rank = rank;
+                        member.bingo = true;
+                        this.bingoList.push({user: member, rank: rank});
+                        break;
+                    }
+                    if (map[key] == 4) {
+                        member.reach ++;
+                    }
+                }
+            }
         }
     },
     getMap: function(member) {
