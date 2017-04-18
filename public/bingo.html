@@ -158,15 +158,6 @@
                 </div>
             </div>
             <div class="row" id="bingo-panel" v-if="isDisplay">
-                <div class="col-sm-6 drew-pool">
-                    <div class="drew-square" v-for="number in room.drewPool">
-                        <img src="./img/square.png" class="square-bg">
-                        <template>
-                            <img v-bind:src="getLeftNumber(number, false)" class="square-left">
-                            <img v-bind:src="getRightNumber(number, false)" class="square-right">
-                        </template>
-                    </div>
-                </div>
                 <div class="col-sm-6">
                     <div class="box box-solid bg-purple">
                         <div class="box-header">
@@ -192,6 +183,36 @@
                             <img src="./img/light1.png" class="bingo-effect1 fa-spin" v-if="getMyMember().bingo">
                             <img src="./img/light2.png" class="bingo-effect2 obj-spin-reverse" v-if="getMyMember().bingo">
                             <img src="./img/bingo.png" class="bingo-front" v-if="getMyMember().bingo">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 drew-pool">
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="drew-square" v-for="number in room.drewPool">
+                            <img src="./img/ball.png" class="square-bg">
+                            <template>
+                                <img v-bind:src="getLeftNumber(number, true)" class="square-left">
+                                <img v-bind:src="getRightNumber(number, true)" class="square-right">
+                            </template>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-right: 20px">
+                        <div class="box" v-if="room.bingoList.length > 0">
+                            <div class="box-header">
+                                <h3 class="box-title">ビンゴリスト</h3>
+                            </div>
+                            <div class="box-body no-padding">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <th style="width: 40px">順位</th>
+                                        <th>名前</th>
+                                    </tr>
+                                    <tr v-for="bingo in room.bingoList">
+                                        <td>{{bingo.rank}}</td>
+                                        <td>{{bingo.username}}</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
