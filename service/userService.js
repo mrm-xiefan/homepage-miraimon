@@ -31,6 +31,14 @@ User.prototype = {
         this.room = room;
         this.getCard();
     },
+    leaveRoom: function() {
+        this.socket.leave(this.room.name);
+        this.room = null;
+        this.card = null;
+        this.rank = 0;
+        this.reach = 0;
+        this.bingo = false;
+    },
     getCard: function() {
         this.card = utils.createArray(75);
         this.card = this.card.splice(0, 25);

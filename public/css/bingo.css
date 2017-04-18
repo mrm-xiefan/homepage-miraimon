@@ -4,6 +4,21 @@
 .tooltip-inner {
     min-width: 100px;
 }
+.close-noticer {
+    font-size: 20px;
+}
+.close-hover-parent:hover .close-hover {
+    display : block;
+}
+.close-hover-parent {
+    position: relative;
+}
+.close-hover {
+    display: none;
+    position: absolute;
+    top: 18px;
+    right: 10px;
+}
 .card-list {
     float: left;
     width: 200px;
@@ -14,6 +29,16 @@
     padding: 5px;
     width: 100%;
     overflow: hidden;
+    position: relative;
+}
+.drew-pool {
+    overflow: hidden;
+    position: relative;
+}
+.drew-square {
+    float: left;
+    width: 8%;
+    padding: 2px;
     position: relative;
 }
 .card-square {

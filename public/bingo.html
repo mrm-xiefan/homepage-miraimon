@@ -42,7 +42,7 @@
 
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <li id="controller1" v-if="bingo.vm.common.isOwner">
+                        <li id="controller1" v-if="bingo.vm.common.isControllable">
                             <a href="javascript:bingo.vm.controller1.draw();">
                                 <i class="fa fa-gavel text-maroon"></i> <span class="text-maroon">番号を引く</span>
                             </a>
@@ -158,8 +158,14 @@
                 </div>
             </div>
             <div class="row" id="bingo-panel" v-if="isDisplay">
-                <div class="col-sm-6">
-                    sss
+                <div class="col-sm-6 drew-pool">
+                    <div class="drew-square" v-for="number in room.drewPool">
+                        <img src="./img/square.png" class="square-bg">
+                        <template>
+                            <img v-bind:src="getLeftNumber(number, false)" class="square-left">
+                            <img v-bind:src="getRightNumber(number, false)" class="square-right">
+                        </template>
+                    </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="box box-solid bg-purple">
@@ -193,6 +199,26 @@
         </section>
     </div>
 
+    <!-- modal widows -->
+    <div class="modal fade in" id="kick-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="kickConfirmModalLabel" aria-hidden="true" data-show="true" data-keyboard="false" data-backdrop="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-blue"><i class="fa fa-info-circle" style="margin-right: 3px;"></i>確認</h4>
+                </div>
+                <div class="modal-body">
+                    {{confirmMessage}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">いいえ</button>
+                    <button type="button" class="btn btn-primary" v-on:click="kick();">はい</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <aside class="control-sidebar control-sidebar-light">
         <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
             <li><a href="#control-sidebar-users-tab" data-toggle="tab"><i class="fa fa-users"></i></a></li>
@@ -203,21 +229,29 @@
                 <h3 class="control-sidebar-heading">ゲーム：{{room.name}}({{gameStatus}})</h3>
                 <h3 class="control-sidebar-heading">プレーヤー数：{{room.members.length}}</h3>
                 <ul class="control-sidebar-menu">
-                    <li v-for="member in room.members">
-                        <a href="javascript:void(0)" v-if="member.socketid == ''">
+                    <li class="close-hover-parent" v-for="member in room.members">
+                        <a v-bind:href="getHref(member)" v-if="member.socketid == ''">
                             <i class="menu-icon fa fa-user bg-red"></i>
                             <div class="menu-info">
+                                <i class="fa fa-star text-light-blue pull-left" v-if="member.name == room.ownername"></i>
                                 <h4 class="control-sidebar-subheading">{{member.name}}(Offline)</h4>
                                 <p v-if="member.reach > 0" class="text-yellow">{{member.reach}} reach.</p>
                                 <p v-if="member.bingo" class="text-red">BINGO!!! ({{member.rank}}位)</p>
                             </div>
+                            <div class="close-hover" v-if="bingo.vm.common.isOwner">
+                                <i class="fa fa-close close-noticer text-red"></i>
+                            </div>
                         </a>
-                        <a href="javascript:void(0)" v-else>
+                        <a v-bind:href="getHref(member)" v-else>
                             <i class="menu-icon fa fa-user bg-green"></i>
                             <div class="menu-info">
+                                <i class="fa fa-star text-light-blue pull-left" v-if="member.name == room.ownername"></i>
                                 <h4 class="control-sidebar-subheading">{{member.name}}(Online)</h4>
                                 <p v-if="member.reach > 0" class="text-yellow">{{member.reach}} reach.</p>
                                 <p v-if="member.bingo" class="text-red">BINGO!!! ({{member.rank}}位)</p>
+                            </div>
+                            <div class="pull-right close-hover" v-if="bingo.vm.common.isOwner">
+                                <i class="fa fa-close close-noticer text-red"></i>
                             </div>
                         </a>
                     </li>

@@ -70,6 +70,17 @@ SocketRouter.prototype = {
                 }
             });
 
+            socket.on('kick', function(msg) {
+                var data = JSON.parse(msg);
+                console.log("#########################################################");
+                console.log("from:" + room.name + " | kick:" + data.name);
+                var kicked = room.kick(data.name);
+                kicked.leaveRoom();
+                self.io.emit('kicked', JSON.stringify({kicked: kicked.name, rooms: roomService.getRoomList(), users: userService.getUserList()}));
+                roomService.detail();
+                userService.detail();
+            });
+
             socket.on('disconnect', function() {
                 console.log("#########################################################");
                 console.log("disconnect:" + socket.id);

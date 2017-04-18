@@ -31,31 +31,6 @@ var CONST = {
 var BingoVM = function() {};
 BingoVM.prototype = {
     init: function(data) {
-        // data.users.push({
-        //     name: "dd",
-        //     socketid: "ttt",
-        //     roomname: "sss"
-        // });
-        // data.users.push({
-        //     name: "ddd",
-        //     socketid: "",
-        //     roomname: "sss"
-        // });
-        // data.rooms.push({
-        //     name: "r1",
-        //     status: "1",
-        //     members: ["1","2"]
-        // });
-        // data.rooms.push({
-        //     name: "r2",
-        //     status: "1",
-        //     members: ["1"]
-        // });
-        // data.rooms.push({
-        //     name: "r3",
-        //     status: "2",
-        //     members: ["1","2","3","4"]
-        // });
         var commonData = {
             user: {
                 name: "",
@@ -81,6 +56,10 @@ BingoVM.prototype = {
                     if (this.room.ownername != "" && this.room.ownername == this.user.name) {
                         check = true;
                     }
+                    return check;
+                },
+                isControllable: function() {
+                    var check = this.isOwner;
                     if (this.room.status != "1" && this.room.status != "2") {
                         check = false;
                     }
@@ -336,7 +315,7 @@ BingoVM.prototype = {
             },
             computed: {
                 isDisplay: function() {
-                    if (this.user.name != "" && this.room.name != "") {
+                    if (this.user.name != "" && this.room.name != "" && this.getMyMember()) {
                         return true;
                     }
                     return false;
@@ -404,6 +383,26 @@ BingoVM.prototype = {
                 gameStatus: function() {
                     return CONST.GAME_STATUS_TITLE[this.room.status];
                 }
+            },
+            methods: {
+                getHref: function(member) {
+                    return "javascript:bingo.vm.sideUsers.kick(" + member.name + ");";
+                },
+                kick: function(membername) {
+                    if (!bingo.vm.common.isOwner) {
+                        return;
+                    }
+                    if (this.user.name == membername) {
+                        return;
+                    }
+                    if (this.room.bingoList.length > 0) {
+                        return;
+                    }
+                    bingo.vm.kickConfirmModal.setKickMember(membername);
+                    bingo.vm.kickConfirmModal.$nextTick(function() {
+                        $('#kick-confirm-modal').modal();
+                    });
+                }
             }
         });
 
@@ -423,6 +422,28 @@ BingoVM.prototype = {
                         }
                     }
                     return members;
+                }
+            }
+        });
+
+        this.kickConfirmModal = new Vue({
+            parent: this.box,
+            el: '#kick-confirm-modal',
+            data: function() {
+                return {name: ""};
+            },
+            computed: {
+                confirmMessage: function() {
+                    return "[" + this.name + "]をキックします。よろしいですか？";
+                }
+            },
+            methods: {
+                setKickMember: function(name) {
+                    this.name = name;
+                },
+                kick: function() {
+                    $('#kick-confirm-modal').modal('hide');
+                    bingo.socket.emit('kick', JSON.stringify({name: this.name}));
                 }
             }
         });
@@ -457,6 +478,19 @@ Bingo.prototype = {
         this.socket.on('drawDone', function(msg) {
             var data = JSON.parse(msg);
             self.vm.common.refreshDrewPool(data.room);
+        });
+        this.socket.on('kicked', function(msg) {
+            var data = JSON.parse(msg);
+            if (data.kicked == bingo.vm.common.user.name) {
+                bingo.vm.common.room.name = "";
+                bingo.vm.common.room.ownername = "";
+                bingo.vm.common.room.status = "";
+                bingo.vm.common.room.drewPool.splice(0, bingo.vm.common.room.drewPool.length);
+                bingo.vm.common.room.bingoList.splice(0, bingo.vm.common.room.bingoList.length);
+                bingo.vm.common.room.members.splice(0, bingo.vm.common.room.members.length);
+            }
+            self.vm.common.refreshUsers(data.users);
+            self.vm.common.refreshRooms(data.rooms);
         });
         this.socket.on('refreshRooms', function(msg) {
             var data = JSON.parse(msg);

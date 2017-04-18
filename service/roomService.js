@@ -49,6 +49,21 @@ Room.prototype = {
             this.compute();
         }
     },
+    kick: function(username) {
+        if (username == this.owner.name) {
+            return;
+        }
+        if (this.bingoList.length > 0) {
+            return;
+        }
+        for (var idx = 0; idx < this.members.length; idx ++) {
+            if (this.members[idx].name == username) {
+                var user = this.members[idx];
+                this.members.splice(idx, 1);
+                return user;
+            }
+        }
+    },
     draw: function() {
         this.status = '2';
         this.drewPool.push(this.drawPool.pop());
