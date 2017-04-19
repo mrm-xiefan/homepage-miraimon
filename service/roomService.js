@@ -85,6 +85,7 @@ Room.prototype = {
         for (var idx = 0; idx < this.members.length; idx ++) {
             var member = this.members[idx];
             if (!member.bingo) {
+                member.draw(this.drewPool[this.drewPool.length - 1]);
                 member.reach = 0;
                 var map = this.getMap(member);
                 for (key in map) {

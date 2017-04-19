@@ -19,7 +19,7 @@ var CONST = {
         '0003': 'ゲーム準備中',
         '0004': 'ゲーム進行中',
         '0005': 'ゲーム終了',
-        '9999': 'ゲーム名重複'
+        '9999': '進行中のゲーム'
     },
     GAME_STATUS_TITLE: {
         '1': '準備中',
@@ -82,45 +82,92 @@ BingoVM.prototype = {
                     }
                 },
                 refreshRoom: function(data) {
-                    this.room.name = data.name;
-                    this.room.ownername = data.ownername;
-                    this.room.status = data.status;
-                    this.room.members.splice(0, this.room.members.length);
-                    for (var idx = 0; idx < data.members.length; idx ++) {
-                        this.room.members.push(data.members[idx]);
-                    }
+                    this.refreshOneRoom(this.room, data);
                 },
                 refreshRooms: function(data) {
-                    this.rooms.splice(0, this.rooms.length);
-                    for (var idx = 0; idx < data.length; idx ++) {
-                        this.rooms.push(data[idx]);
-                        if (this.user && this.user.roomname == data[idx].name) {
-                            this.refreshRoom(data[idx]);
-                            this.refreshDrewPool(data[idx]);
+                    // delete rooms which are destroied.
+                    for (var i = this.rooms.length - 1; i >= 0; i --) {
+                        var isGone = true;
+                        for (var j = 0; j < data.length; j ++) {
+                            if (data[j].name == this.rooms[i].name) {
+                                isGone = false;
+                                break;
+                            }
+                        }
+                        if (isGone) {
+                            this.rooms.splice(i, 1);
+                        }
+                    }
+
+                    // update or add rooms.
+                    for (var i = 0; i < data.length; i ++) {
+                        var isNew = true;
+                        for (var j = 0; j < this.rooms.length; j ++) {
+                            if (data[i].name == this.room.name) {
+                                this.refreshRoom(data[i]);
+                            }
+                            if (data[i].name == this.rooms[j].name) {
+                                isNew = false;
+                                this.refreshOneRoom(this.rooms[j], data[i]);
+                                break;
+                            }
+                        }
+                        if (isNew) {
+                            this.rooms.push(data[i]);
                         }
                     }
                 },
-                refreshDrewPool: function(room) {
-                    this.room.status = room.status;
+                refreshOneRoom: function(target, data) {
+                    target.name = data.name;
+                    target.ownername = data.ownername;
+                    target.status = data.status;
 
-                    this.room.drewPool.splice(0, this.room.drewPool.length);
-                    for (var idx = 0; idx < room.drewPool.length; idx ++) {
-                        var drew = ("00" + room.drewPool[idx]).slice(-2);
-                        this.room.drewPool.push(drew);
+                    target.drewPool.splice(0, target.drewPool.length);
+                    for (var idx = 0; idx < data.drewPool.length; idx ++) {
+                        var drew = ("00" + data.drewPool[idx]).slice(-2);
+                        target.drewPool.push(drew);
                     }
 
-                    this.room.bingoList.splice(0, this.room.bingoList.length);
-                    for (var idx = 0; idx < room.bingoList.length; idx ++) {
-                        this.room.bingoList.push(room.bingoList[idx]);
+                    target.bingoList.splice(0, target.bingoList.length);
+                    for (var idx = 0; idx < data.bingoList.length; idx ++) {
+                        target.bingoList.push(data.bingoList[idx]);
                     }
 
-                    for (var i = 0; i < room.members.length; i ++) {
-                        for (var j = 0; j < this.room.members.length; j ++) {
-                            if (room.members[i].name == this.room.members[j].name) {
-                                this.room.members[j].reach = room.members[j].reach;
-                                this.room.members[j].bingo = room.members[j].bingo;
-                                this.room.members[j].rank = room.members[j].rank;
+                    // delete members who has gone.
+                    for (var i = target.members.length - 1; i >= 0; i --) {
+                        var isGone = true;
+                        for (var j = 0; j < data.members.length; j ++) {
+                            if (data.members[j].name == target.members[i].name) {
+                                isGone = false;
+                                break;
                             }
+                        }
+                        if (isGone) {
+                            target.members.splice(i, 1);
+                        }
+                    }
+
+                    // update or add members.
+                    for (var i = 0; i < data.members.length; i ++) {
+                        var isNew = true;
+                        for (var j = 0; j < target.members.length; j ++) {
+                            if (data.members[i].name == target.members[j].name) {
+                                isNew = false;
+                                target.members[j].name = data.members[i].name;
+                                target.members[j].socketid = data.members[i].socketid;
+                                target.members[j].roomname = data.members[i].roomname;
+                                target.members[j].reach = data.members[i].reach;
+                                target.members[j].bingo = data.members[i].bingo;
+                                target.members[j].rank = data.members[i].rank;
+                                target.members[j].drewPool.splice(0, target.members[j].drewPool.length);
+                                for (var idx = 0; idx < data.members[i].drewPool.length; idx ++) {
+                                    target.members[j].drewPool.push(data.members[i].drewPool[idx]);
+                                }
+                                break;
+                            }
+                        }
+                        if (isNew) {
+                            target.members.push(data.members[i]);
                         }
                     }
                 }
@@ -147,7 +194,7 @@ BingoVM.prototype = {
                             if (user.socketid != "") {
                                 return "0001";
                             } else {
-                                return "0002"
+                                return "0002";
                             }
                         }
                     }
@@ -345,12 +392,12 @@ BingoVM.prototype = {
                         }
                     }
                 },
-                isHit: function(number) {
+                isHit: function(number, drewPool) {
                     if (number == "99") {
                         return true;
                     }
-                    for (var idx = 0; idx < this.room.drewPool.length; idx ++) {
-                        if (this.room.drewPool[idx] == number) {
+                    for (var idx = 0; idx < drewPool.length; idx ++) {
+                        if (drewPool[idx] == number) {
                             return true;
                         }
                     }
@@ -462,7 +509,7 @@ Bingo.prototype = {
             var data = JSON.parse(msg);
             self.vm.init(data);
         });
-        this.socket.on('loginDone', function(msg) {
+        this.socket.on('refreshUser', function(msg) {
             var data = JSON.parse(msg);
             self.vm.common.refreshUser(data.user);
         });
@@ -470,14 +517,13 @@ Bingo.prototype = {
             var data = JSON.parse(msg);
             self.vm.common.refreshUsers(data.users);
         });
-        this.socket.on('joinDone', function(msg) {
+        this.socket.on('refreshRoom', function(msg) {
             var data = JSON.parse(msg);
-            self.vm.common.refreshUser(data.user);
             self.vm.common.refreshRoom(data.room);
         });
-        this.socket.on('drawDone', function(msg) {
+        this.socket.on('refreshRooms', function(msg) {
             var data = JSON.parse(msg);
-            self.vm.common.refreshDrewPool(data.room);
+            self.vm.common.refreshRooms(data.rooms);
         });
         this.socket.on('kicked', function(msg) {
             var data = JSON.parse(msg);
@@ -492,9 +538,8 @@ Bingo.prototype = {
             self.vm.common.refreshUsers(data.users);
             self.vm.common.refreshRooms(data.rooms);
         });
-        this.socket.on('refreshRooms', function(msg) {
-            var data = JSON.parse(msg);
-            self.vm.common.refreshRooms(data.rooms);
+        this.socket.on('disconnect', function() {
+            self.openBingopage();
         });
     },
     openHomepage: function() {
@@ -503,6 +548,14 @@ Bingo.prototype = {
             resurl = resurl.substr(0, resurl.length - 1);
         }
         resurl = resurl.replace(CONST.BINGO, '/');
+
+        window.location.href = resurl;
+    },
+    openBingopage: function() {
+        var resurl = location.href.replace(/\?.*$/, "");
+        if (resurl.substr(resurl.length - 1, 1) === '#') {
+            resurl = resurl.substr(0, resurl.length - 1);
+        }
 
         window.location.href = resurl;
     },

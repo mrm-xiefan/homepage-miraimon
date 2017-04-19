@@ -33,13 +33,13 @@ SocketRouter.prototype = {
                 console.log("login:" + msg);
                 var data = JSON.parse(msg);
                 user = userService.login(data.name, socket);
-                socket.emit('loginDone', JSON.stringify({user: user.toJSON()}));
+                socket.emit('refreshUser', JSON.stringify({user: user.toJSON()}));
                 self.io.emit('refreshUsers', JSON.stringify({users: userService.getUserList()}));
                 if (user.room) {
                     console.log("auto join:" + user.room.name);
                     room = user.room;
                     socket.join(room.name);
-                    socket.emit('joinDone', JSON.stringify({user: user.toJSON(), room: room.toJSON()}));
+                    socket.emit('refreshRoom', JSON.stringify({room: room.toJSON()}));
                     self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
                 }
                 roomService.detail();
@@ -52,7 +52,8 @@ SocketRouter.prototype = {
                 var data = JSON.parse(msg);
                 room = roomService.joinRoom(user, data.name);
                 socket.join(room.name);
-                socket.emit('joinDone', JSON.stringify({user: user.toJSON(), room: room.toJSON()}));
+                self.io.emit('refreshUsers', JSON.stringify({users: userService.getUserList()}));
+                socket.emit('refreshRoom', JSON.stringify({room: room.toJSON()}));
                 self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
                 roomService.detail();
                 userService.detail();
@@ -60,15 +61,17 @@ SocketRouter.prototype = {
 
             socket.on('draw', function(msg) {
                 console.log("#########################################################");
-                console.log("draw -- user:" + JSON.stringify(user.toJSON));
                 if (room) {
-                    console.log("draw -- room:" + room.name + " | status:" + room.status + " | user:" + user.socket.id);
+                    console.log("draw -- room:" + room.name + " | status:" + room.status);
                     var before = room.status;
                     room.draw();
-                    console.log("drawDone:" + JSON.stringify({room: room.toJSON()}));
-                    self.io.in(room.name).emit('drawDone', JSON.stringify({room: room.toJSON()}));
+                    console.log("refreshRoom:" + JSON.stringify({room: room.toJSON()}));
+                    self.io.in(room.name).emit('refreshRoom', JSON.stringify({room: room.toJSON()}));
                     if (room.status != before) {
                         self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
+                    }
+                    if (room.status == '3') {
+                        console.log("game end!!!");
                     }
                 }
             });

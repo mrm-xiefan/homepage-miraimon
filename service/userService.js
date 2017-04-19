@@ -9,6 +9,7 @@ function User() {
     this.rank = null;
     this.reach = null;
     this.bingo = null;
+    this.drewPool = null;
 };
 User.prototype = {
     init: function(name) {
@@ -18,6 +19,7 @@ User.prototype = {
         this.rank = 0;
         this.reach = 0;
         this.bingo = false;
+        this.drewPool = [];
     },
     login: function(socket) {
         this.socket = null;
@@ -40,11 +42,15 @@ User.prototype = {
         this.rank = 0;
         this.reach = 0;
         this.bingo = false;
+        this.drewPool = [];
     },
     getCard: function() {
         this.card = utils.createArray(75);
         this.card = this.card.splice(0, 25);
         this.card[12] = 99;
+    },
+    draw: function(number) {
+        this.drewPool.push(number);
     },
     equal: function(user) {
         return this.name === user.name;
@@ -63,7 +69,8 @@ User.prototype = {
             card: this.card,
             rank: this.rank,
             reach: this.reach,
-            bingo: this.bingo
+            bingo: this.bingo,
+            drewPool: this.drewPool
         };
     },
     spy: function() {

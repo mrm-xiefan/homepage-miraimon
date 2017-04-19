@@ -170,7 +170,7 @@
                                 <template v-if="number == '99'">
                                     <img src="img/hole.png" class="square-hole">
                                 </template>
-                                <template v-else-if="isHit(number)">
+                                <template v-else-if="isHit(number, getMyMember().drewPool)">
                                     <img src="img/hole.png" class="square-hole">
                                     <img v-bind:src="getLeftNumber(number, true)" class="square-left">
                                     <img v-bind:src="getRightNumber(number, true)" class="square-right">
@@ -290,7 +290,7 @@
                             <template v-if="number == '99'">
                                 <img src="img/hole.png" class="square-hole">
                             </template>
-                            <template v-else-if="bingo.vm.bingoPanel.isHit(number)">
+                            <template v-else-if="bingo.vm.bingoPanel.isHit(number, member.drewPool)">
                                 <img src="img/hole.png" class="square-hole">
                                 <img v-bind:src="bingo.vm.bingoPanel.getLeftNumber(number, true)" class="square-left">
                                 <img v-bind:src="bingo.vm.bingoPanel.getRightNumber(number, true)" class="square-right">
