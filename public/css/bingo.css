@@ -91,6 +91,7 @@
     position: absolute;
     left: 0px;
     top: 0px;
+    opacity: 0.5;
 }
 .bingo-effect1 {
     width: 100%;
@@ -132,4 +133,16 @@
 @keyframes spin-reverse {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(-359deg); }
+}
+.animater-draw {
+    width: 100%;
+    overflow: hidden;
+}
+.animater-draw-left {
+    float: left;
+    width: 50%;
+}
+.animater-draw-right {
+    float: left;
+    width: 50%;
 }

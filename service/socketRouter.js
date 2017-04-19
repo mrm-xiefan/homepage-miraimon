@@ -65,14 +65,16 @@ SocketRouter.prototype = {
                     console.log("draw -- room:" + room.name + " | status:" + room.status);
                     var before = room.status;
                     room.draw();
-                    console.log("refreshRoom:" + JSON.stringify({room: room.toJSON()}));
-                    self.io.in(room.name).emit('refreshRoom', JSON.stringify({room: room.toJSON()}));
-                    if (room.status != before) {
-                        self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
-                    }
-                    if (room.status == '3') {
-                        console.log("game end!!!");
-                    }
+                    self.io.in(room.name).emit('drawAnimation', room.drewPool[room.drewPool.length - 1]);
+                    setTimeout(function() {
+                        self.io.in(room.name).emit('refreshRoom', JSON.stringify({room: room.toJSON()}));
+                        if (room.status != before) {
+                            self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
+                        }
+                        if (room.status == '3') {
+                            console.log("game end!!!");
+                        }
+                    }, 3000);
                 }
             });
 
@@ -82,6 +84,9 @@ SocketRouter.prototype = {
                 console.log("from:" + room.name + " | kick:" + data.name);
                 var kicked = room.kick(data.name);
                 kicked.leaveRoom();
+                if (!kicked.isBingo() && !kicked.isOnline()) {
+                    userService.destoryUser(kicked);
+                }
                 self.io.emit('kicked', JSON.stringify({kicked: kicked.name, rooms: roomService.getRoomList(), users: userService.getUserList()}));
                 roomService.detail();
                 userService.detail();
