@@ -60,13 +60,16 @@ SocketRouter.prototype = {
 
             socket.on('draw', function(msg) {
                 console.log("#########################################################");
-                console.log("draw:" + room.name + " | status:" + room.status);
-                var before = room.status;
-                room.draw();
-                console.log("drawDone:" + JSON.stringify({room: room.toJSON()}));
-                self.io.in(room.name).emit('drawDone', JSON.stringify({room: room.toJSON()}));
-                if (room.status != before) {
-                    self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
+                console.log("draw -- user:" + JSON.stringify(user.toJSON));
+                if (room) {
+                    console.log("draw -- room:" + room.name + " | status:" + room.status + " | user:" + user.socket.id);
+                    var before = room.status;
+                    room.draw();
+                    console.log("drawDone:" + JSON.stringify({room: room.toJSON()}));
+                    self.io.in(room.name).emit('drawDone', JSON.stringify({room: room.toJSON()}));
+                    if (room.status != before) {
+                        self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
+                    }
                 }
             });
 
