@@ -146,3 +146,30 @@
     float: left;
     width: 50%;
 }
+.bingo-column {
+    display: inline-block;
+    padding: 2px;
+    background: #e4e4e4;
+    margin: 5px 10px 5px 0px;
+    width: auto;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.animater-bingo {
+    width: 100%;
+	/*height: auto;*/
+    /*overflow: hidden;*/
+    position: relative;
+}
+.animater-bingo-front {
+    width: 100%;
+    height: auto;
+}
+.animater-bingo-effect {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    opacity: 0.4;
+}

@@ -222,7 +222,7 @@
 
 
     <!-- modal widows -->
-    <div class="modal fade in" id="kick-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="kickConfirmModalLabel" aria-hidden="true" data-show="true" data-keyboard="false" data-backdrop="true">
+    <div class="modal fade in" id="kick-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="kickConfirmModalLabel" aria-hidden="true" data-show="true" data-keyboard="true" data-backdrop="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -244,10 +244,24 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body animater-draw" v-if="number">
-                    <template>
-                        <img v-bind:src="getLeftNumber()" class="animater-draw-left">
-                        <img v-bind:src="getRightNumber()" class="animater-draw-right">
-                    </template>
+                    <img v-bind:src="getLeftNumber()" class="animater-draw-left">
+                    <img v-bind:src="getRightNumber()" class="animater-draw-right">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade in" id="bingo-animation-modal" tabindex="-1" role="dialog" aria-labelledby="bingoAnimationModalLabel" aria-hidden="true" data-show="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="bingo-column text-blue" v-for="bingo in bingos">
+                        <i class="fa fa-user" style="margin-right: 5px;"></i>{{bingo}}
+                    </div>
+                </div>
+                <div class="modal-body animater-bingo">
+                    <img src="./img/light1.png" class="animater-bingo-effect fa-spin">
+                    <img src="./img/light2.png" class="animater-bingo-effect obj-spin-reverse">
+                    <img src="./img/bingo.png" class="animater-bingo-front">
                 </div>
             </div>
         </div>

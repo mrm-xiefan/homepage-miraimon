@@ -67,7 +67,7 @@ Room.prototype = {
     draw: function() {
         this.status = '2';
         this.drewPool.push(this.drawPool.pop());
-        this.compute();
+        var bingos = this.compute();
         var isEnd = true;
         for (var idx = 0; idx < this.members.length; idx ++) {
             var member = this.members[idx];
@@ -79,8 +79,10 @@ Room.prototype = {
         if (isEnd) {
             this.status = '3';
         }
+        return bingos;
     },
     compute: function() {
+        var bingos = [];
         var rank = this.bingoRank + 1;
         for (var idx = 0; idx < this.members.length; idx ++) {
             var member = this.members[idx];
@@ -95,6 +97,7 @@ Room.prototype = {
                         member.rank = rank;
                         member.bingo = true;
                         this.bingoList.push({user: member, rank: rank});
+                        bingos.push(member.name);
                         break;
                     }
                     if (map[key] == 4) {
@@ -103,6 +106,7 @@ Room.prototype = {
                 }
             }
         }
+        return bingos;
     },
     getMap: function(member) {
         var row1 = 0;

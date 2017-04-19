@@ -495,7 +495,7 @@ BingoVM.prototype = {
             }
         });
 
-        this.animater = new Vue({
+        this.drawAnimater = new Vue({
             parent: this.common,
             el: '#draw-animation-modal',
             data: function() {
@@ -520,6 +520,22 @@ BingoVM.prototype = {
                 },
                 getRightNumber: function() {
                     return "./img/" + this.number[1] + ".png";
+                }
+            }
+        });
+
+        this.bingoAnimater = new Vue({
+            parent: this.common,
+            el: '#bingo-animation-modal',
+            data: function() {
+                return {bingos: ["ss","bb","kk"]};
+            },
+            methods: {
+                begin: function(bingos) {
+                    this.bingos.splice(0, this.bingos.length);
+                    for (var idx = 0; idx < bingos.length; idx ++) {
+                        this.bingos.push(bingos[idx]);
+                    }
                 }
             }
         });
@@ -551,6 +567,7 @@ Bingo.prototype = {
             self.vm.common.refreshRoom(data.room);
 
             $('#draw-animation-modal').modal('hide');
+            $('#bingo-animation-modal').modal('hide');
         });
         this.socket.on('refreshRooms', function(msg) {
             var data = JSON.parse(msg);
@@ -570,8 +587,13 @@ Bingo.prototype = {
             self.vm.common.refreshRooms(data.rooms);
         });
         this.socket.on('drawAnimation', function(msg) {
-            bingo.vm.animater.begin(msg);
+            bingo.vm.drawAnimater.begin(msg);
             $('#draw-animation-modal').modal();
+        });
+        this.socket.on('bingoAnimation', function(msg) {
+            var data = JSON.parse(msg);
+            bingo.vm.bingoAnimater.begin(data);
+            $('#bingo-animation-modal').modal();
         });
         this.socket.on('disconnect', function() {
             self.openBingopage();

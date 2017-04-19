@@ -64,9 +64,32 @@ SocketRouter.prototype = {
                 if (room) {
                     console.log("draw -- room:" + room.name + " | status:" + room.status);
                     var before = room.status;
-                    room.draw();
-                    self.io.in(room.name).emit('drawAnimation', room.drewPool[room.drewPool.length - 1]);
-                    setTimeout(function() {
+                    var bingos = room.draw();
+                    if (process.env.NODE_ENV != 'development') {
+                        self.io.in(room.name).emit('drawAnimation', room.drewPool[room.drewPool.length - 1]);
+                        setTimeout(function() {
+                            if (bingos.length > 0) {
+                                self.io.in(room.name).emit('bingoAnimation', JSON.stringify(bingos));
+                                setTimeout(function() {
+                                    self.io.in(room.name).emit('refreshRoom', JSON.stringify({room: room.toJSON()}));
+                                    if (room.status != before) {
+                                        self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
+                                    }
+                                    if (room.status == '3') {
+                                        console.log("game end!!!");
+                                    }
+                                }, 2000);
+                            } else {
+                                self.io.in(room.name).emit('refreshRoom', JSON.stringify({room: room.toJSON()}));
+                                if (room.status != before) {
+                                    self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
+                                }
+                                if (room.status == '3') {
+                                    console.log("game end!!!");
+                                }
+                            }
+                        }, 3000);
+                    } else {
                         self.io.in(room.name).emit('refreshRoom', JSON.stringify({room: room.toJSON()}));
                         if (room.status != before) {
                             self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
@@ -74,7 +97,7 @@ SocketRouter.prototype = {
                         if (room.status == '3') {
                             console.log("game end!!!");
                         }
-                    }, 3000);
+                    }
                 }
             });
 
