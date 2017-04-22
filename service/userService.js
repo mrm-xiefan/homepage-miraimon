@@ -74,6 +74,9 @@ User.prototype = {
         };
     },
     spy: function() {
+        if (process.env.NODE_ENV != 'development') {
+            return;
+        }
         console.log("    name:" + this.name + " | socket:" + (this.socket ? this.socket.id : "Offline") + " | room:" + (this.room ? this.room.name : "Lobby"));
     }
 };
@@ -86,6 +89,9 @@ UserService.prototype = {
         this.users = [];
     },
     detail: function() {
+        if (process.env.NODE_ENV != 'development') {
+            return;
+        }
         console.log("users:" + this.users.length);
         if (this.users.length > 0) {
             console.log("  -------------------------------------------------------");

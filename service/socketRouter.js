@@ -18,8 +18,10 @@ SocketRouter.prototype = {
         });
 
         self.io.sockets.on('connection', function(socket) {
-            console.log("#########################################################");
-            console.log("connected:" + socket.id);
+            if (process.env.NODE_ENV == 'development') {
+                console.log("#########################################################");
+                console.log("connected:" + socket.id);
+            }
             roomService.queue(socket);
             roomService.detail();
             userService.detail();
@@ -29,14 +31,18 @@ SocketRouter.prototype = {
             var room = null;
 
             socket.on('login', function(msg) {
-                console.log("#########################################################");
-                console.log("login:" + msg);
+                if (process.env.NODE_ENV == 'development') {
+                    console.log("#########################################################");
+                    console.log("login:" + msg);
+                }
                 var data = JSON.parse(msg);
                 user = userService.login(data.name, socket);
                 socket.emit('refreshUser', JSON.stringify({user: user.toJSON()}));
                 self.io.emit('refreshUsers', JSON.stringify({users: userService.getUserList()}));
                 if (user.room) {
-                    console.log("auto join:" + user.room.name);
+                    if (process.env.NODE_ENV == 'development') {
+                        console.log("auto join:" + user.room.name);
+                    }
                     room = user.room;
                     socket.join(room.name);
                     socket.emit('refreshRoom', JSON.stringify({room: room.toJSON()}));
@@ -47,8 +53,10 @@ SocketRouter.prototype = {
             });
 
             socket.on('join', function(msg) {
-                console.log("#########################################################");
-                console.log("join:" + msg + " | user:" + user.name);
+                if (process.env.NODE_ENV == 'development') {
+                    console.log("#########################################################");
+                    console.log("join:" + msg + " | user:" + user.name);
+                }
                 var data = JSON.parse(msg);
                 room = roomService.joinRoom(user, data.name);
                 socket.join(room.name);
@@ -60,9 +68,13 @@ SocketRouter.prototype = {
             });
 
             socket.on('draw', function(msg) {
-                console.log("#########################################################");
+                if (process.env.NODE_ENV == 'development') {
+                    console.log("#########################################################");
+                }
                 if (room) {
-                    console.log("draw -- room:" + room.name + " | status:" + room.status);
+                    if (process.env.NODE_ENV == 'development') {
+                        console.log("draw -- room:" + room.name + " | status:" + room.status);
+                    }
                     var before = room.status;
                     var bingos = room.draw();
                     if (process.env.NODE_ENV != 'development') {
@@ -76,7 +88,9 @@ SocketRouter.prototype = {
                                         self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
                                     }
                                     if (room.status == '3') {
-                                        console.log("game end!!!");
+                                        if (process.env.NODE_ENV == 'development') {
+                                            console.log("game end!!!");
+                                        }
                                     }
                                 }, 2000);
                             } else {
@@ -85,7 +99,9 @@ SocketRouter.prototype = {
                                     self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
                                 }
                                 if (room.status == '3') {
-                                    console.log("game end!!!");
+                                    if (process.env.NODE_ENV == 'development') {
+                                        console.log("game end!!!");
+                                    }
                                 }
                             }
                         }, 3000);
@@ -95,7 +111,9 @@ SocketRouter.prototype = {
                             self.io.emit('refreshRooms', JSON.stringify({rooms: roomService.getRoomList()}));
                         }
                         if (room.status == '3') {
-                            console.log("game end!!!");
+                            if (process.env.NODE_ENV == 'development') {
+                                console.log("game end!!!");
+                            }
                         }
                     }
                 }
@@ -103,8 +121,10 @@ SocketRouter.prototype = {
 
             socket.on('kick', function(msg) {
                 var data = JSON.parse(msg);
-                console.log("#########################################################");
-                console.log("from:" + room.name + " | kick:" + data.name);
+                if (process.env.NODE_ENV == 'development') {
+                    console.log("#########################################################");
+                    console.log("from:" + room.name + " | kick:" + data.name);
+                }
                 var kicked = room.kick(data.name);
                 kicked.leaveRoom();
                 if (!kicked.isBingo() && !kicked.isOnline()) {
@@ -116,8 +136,10 @@ SocketRouter.prototype = {
             });
 
             socket.on('disconnect', function() {
-                console.log("#########################################################");
-                console.log("disconnect:" + socket.id);
+                if (process.env.NODE_ENV == 'development') {
+                    console.log("#########################################################");
+                    console.log("disconnect:" + socket.id);
+                }
                 roomService.dequeue(socket);
                 var isRefreshUsers = false;
                 var isRefreshRooms = false;

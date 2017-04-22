@@ -27,6 +27,9 @@ Room.prototype = {
         return this.name === room.name;
     },
     spy: function() {
+        if (process.env.NODE_ENV != 'development') {
+            return;
+        }
         console.log("  =======================================================");
         console.log("  room name:" + this.name);
         console.log("  members:" + this.members.length);
@@ -295,6 +298,9 @@ RoomService.prototype = {
         this.lobby = [];
     },
     detail: function() {
+        if (process.env.NODE_ENV != 'development') {
+            return;
+        }
         console.log("rooms:" + this.rooms.length);
         for (var idx = 0; idx < this.rooms.length; idx ++) {
             this.rooms[idx].spy();
