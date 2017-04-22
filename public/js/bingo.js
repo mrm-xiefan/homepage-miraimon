@@ -474,7 +474,7 @@ BingoVM.prototype = {
         });
 
         this.kickConfirmModal = new Vue({
-            parent: this.box,
+            parent: this.common,
             el: '#kick-confirm-modal',
             data: function() {
                 return {name: ""};
