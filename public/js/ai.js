@@ -61,6 +61,8 @@ AI.prototype = {
         });
         $('#upload-input').on('filepreajax', function(event, previewId, index) {
             ai.lockPage();
+            ai.hideUploadModal();
+            $('#upload-input').fileinput('clear');
         });
         $('#upload-input').on('fileloaded', function(){
             var cnt = $(this).closest('.file-input').find('.file-preview-frame').size();
@@ -75,8 +77,6 @@ AI.prototype = {
                 response = data.response, reader = data.reader;
             if (!response.error) {
                 console.log("response:"+JSON.stringify(response));
-                ai.hideUploadModal();
-                $('#upload-input').fileinput('clear');
                 ai.vm.imagePanel.setImage(response.data[0]);
                 ai.unlockPage();
             }
