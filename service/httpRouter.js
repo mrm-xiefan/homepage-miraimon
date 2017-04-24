@@ -19,6 +19,7 @@ var mimeTypes = {
 '.woff2': 'application/font-woff2',
 '.eot': 'application/vnd.ms-fontobject'
 };
+var uploadService = require('./uploadService.js').uploadService;
 
 router.get('/', function(req, res, next) {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
@@ -26,6 +27,10 @@ router.get('/', function(req, res, next) {
 
 router.get('/bingo', function(req, res, next) {
     res.sendFile(path.join(__dirname, '../', 'public', 'bingo.html'));
+});
+
+router.get('/ai', function(req, res, next) {
+    res.sendFile(path.join(__dirname, '../', 'public', 'ai.html'));
 });
 
 router.get('/vendor/*', function(req, res, next) {
@@ -62,23 +67,54 @@ router.get('/bingo/js/*', function(req, res, next) {
     returnResourceFile(req, res);
 });
 
+router.get('/ai/vendor/*', function(req, res, next) {
+    req.url = req.url.replace('/ai/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/ai/img/*', function(req, res, next) {
+    req.url = req.url.replace('/ai/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/ai/css/*', function(req, res, next) {
+    req.url = req.url.replace('/ai/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/ai/js/*', function(req, res, next) {
+    req.url = req.url.replace('/ai/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/ai/upload/*', function(req, res, next) {
+    req.url = req.url.replace('/ai/', '/');
+    returnResourceFile(req, res);
+});
+
+router.post('/ai/api/uploadImages', function(req, res, next) {
+    console.log('uploadImages');
+    uploadService.execute(req, function(result) {
+        console.log('uploadImages end:'+JSON.stringify(result));
+        res.json(result);
+    });
+});
 router.get('/api/test', function(req, res, next) {
-    var spawn = require('child_process').spawn;
-    var py = spawn('python', ['vggtest/vggtest.py']);
-    var data = ["vggtest/dog.2969.jpg"];
-    var dataString = '';
+    // var spawn = require('child_process').spawn;
+    // var py = spawn('python', ['vggtest/vggtest.py']);
+    // var data = ["vggtest/dog.2969.jpg"];
+    // var dataString = '';
 
-    py.stdout.on('data', function(data) {
-        dataString += data.toString();
-    });
+    // py.stdout.on('data', function(data) {
+    //     dataString += data.toString();
+    // });
 
-    py.stdout.on('end', function() {
-        console.log('res:', dataString);
-    });
-    py.stdin.write(JSON.stringify(data));
-    py.stdin.end();
+    // py.stdout.on('end', function() {
+    //     console.log('res:', dataString);
+    // });
+    // py.stdin.write(JSON.stringify(data));
+    // py.stdin.end();
 
-    res.json({data: "ok"});
+    res.json({data: [
+        {name: "test1", percentage: 88.2},
+        {name: "test2", percentage: 11.0}
+    ]});
 });
 
 function returnResourceFile(req, res) {

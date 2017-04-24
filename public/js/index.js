@@ -81,6 +81,16 @@ var openBingo = function() {
     window.location.href = resurl;
 };
 
+var openAI = function() {
+    var resurl = location.href.replace(/\?.*$/, "");
+    if (resurl.substr(resurl.length - 1, 1) === '#') {
+        resurl = resurl.substr(0, resurl.length - 1);
+    }
+    resurl += 'ai/';
+
+    window.location.href = resurl;
+};
+
 var test = function() {
     $.ajax({
         url: 'api/test',
