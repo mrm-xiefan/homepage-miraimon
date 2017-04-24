@@ -62,19 +62,9 @@ router.get('/bingo/js/*', function(req, res, next) {
     returnResourceFile(req, res);
 });
 
-// router.get('/api/getBoxInitData', function(req, res, next) {
-//     dataService.getBoxInitData(function(result) {
-//         result.data.initData.boards = JSON.stringify(roomService.getRoomList());
-//         var user = userService.getUserInfo(req);
-//         result.data.initData.user = JSON.stringify(user);
-//         dataService.getCart(user, function(info) {
-//             if (!info.err) {
-//                 result.data.initData.carting = info.data.userCart;
-//                 res.json(result);
-//             }
-//         });
-//     });
-// });
+router.get('/api/test', function(req, res, next) {
+    res.json({data: "ok"});
+});
 
 function returnResourceFile(req, res) {
     var publicDirectory = fs.realpathSync('public');

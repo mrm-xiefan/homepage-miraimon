@@ -80,3 +80,16 @@ var openBingo = function() {
 
     window.location.href = resurl;
 };
+
+var test = function() {
+    $.ajax({
+        url: 'api/test',
+        type: 'GET',
+        data: {data: "something"},
+        dataType: 'json',
+        timeout: 120000,
+        success: function(result) {
+            console.log("result:" + JSON.stringify(data));
+        }
+    });
+};
