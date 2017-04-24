@@ -104,34 +104,13 @@ router.post('/ai/api/uploadImages', function(req, res, next) {
         });
 
         py.stdout.on('end', function() {
-            console.log('res:', dataString);
+            console.log('res:', JSON.stringify(pyresult));
             result.recog = pyresult;
             res.json(result);
         });
         py.stdin.write(JSON.stringify(data));
         py.stdin.end();
     });
-});
-router.get('/api/test', function(req, res, next) {
-    // var spawn = require('child_process').spawn;
-    // var py = spawn('python', ['vggtest/vggtest.py']);
-    // var data = ["vggtest/dog.2969.jpg"];
-    // var dataString = '';
-
-    // py.stdout.on('data', function(data) {
-    //     dataString += data.toString();
-    // });
-
-    // py.stdout.on('end', function() {
-    //     console.log('res:', dataString);
-    // });
-    // py.stdin.write(JSON.stringify(data));
-    // py.stdin.end();
-
-    res.json({data: [
-        {name: "test1", percentage: 88.2},
-        {name: "test2", percentage: 11.0}
-    ]});
 });
 
 function returnResourceFile(req, res) {
