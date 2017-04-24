@@ -99,12 +99,14 @@ router.post('/ai/api/uploadImages', function(req, res, next) {
         var pyresult = [];
 
         py.stdout.on('data', function(data) {
-            console.log("one result:"+data.toString());
-            pyresult.push(JSON.parse(data.toString()));
+            console.log("one result:"+data);
+            console.log("one result name:"+data.name);
+            console.log("one result percentage:"+data.percentage);
+            pyresult.push(data);
         });
 
         py.stdout.on('end', function() {
-            console.log('res:', JSON.stringify(pyresult));
+            console.log('res:', pyresult);
             result.recog = pyresult;
             res.json(result);
         });
