@@ -65,7 +65,7 @@ router.get('/bingo/js/*', function(req, res, next) {
 router.get('/api/test', function(req, res, next) {
     var spawn = require('child_process').spawn;
     var py = spawn('python', ['vggtest/vggtest.py']);
-    var data = ["dog.2969.jpg"];
+    var data = ["vggtest/dog.2969.jpg"];
     var dataString = '';
 
     py.stdout.on('data', function(data) {
