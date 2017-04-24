@@ -89,7 +89,7 @@ var test = function() {
         dataType: 'json',
         timeout: 120000,
         success: function(result) {
-            console.log("result:" + JSON.stringify(data));
+            console.log("result:" + JSON.stringify(result));
         }
     });
 };

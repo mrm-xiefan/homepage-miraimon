@@ -63,6 +63,21 @@ router.get('/bingo/js/*', function(req, res, next) {
 });
 
 router.get('/api/test', function(req, res, next) {
+    var spawn = require('child_process').spawn;
+    var py = spawn('python', ['vggtest/vggtest.py']);
+    var data = ["dog.2969.jpg"];
+    var dataString = '';
+
+    py.stdout.on('data', function(data) {
+        dataString += data.toString();
+    });
+
+    py.stdout.on('end', function() {
+        console.log('res:', dataString);
+    });
+    py.stdin.write(JSON.stringify(data));
+    py.stdin.end();
+
     res.json({data: "ok"});
 });
 
