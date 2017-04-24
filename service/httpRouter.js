@@ -96,17 +96,16 @@ router.post('/ai/api/uploadImages', function(req, res, next) {
         var spawn = require('child_process').spawn;
         var py = spawn('python', ['vggtest/vggtest.py']);
         var data = ['public/' + result.data[0]];
-        var pyresult = [];
+        var pyresult = null;
 
         py.stdout.on('data', function(data) {
-            console.log("one result:"+data);
-            console.log("one result name:"+data.name);
-            console.log("one result percentage:"+data.percentage);
-            pyresult.push(data);
+            var a = data.toString().replace(/'/g, '"');
+            a = "[" + a.replace(/}\r?\n{/g, "},{") + "]";
+            pyresult = JSON.parse(a);
         });
 
         py.stdout.on('end', function() {
-            console.log('res:', pyresult);
+            console.log('res:', JSON.stringify(pyresult));
             result.recog = pyresult;
             res.json(result);
         });

@@ -38,5 +38,4 @@ x = np.expand_dims(x, axis=0)
 preds = model.predict(preprocess_input(x))
 results = decode_predictions(preds, top=5)[0]
 for result in results:
-    print({"name": result[1], "percentage": result[2]})
-
+    print({"name": result[1], "percentage": '%.10f' % result[2]})
