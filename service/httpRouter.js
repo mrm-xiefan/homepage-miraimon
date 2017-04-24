@@ -92,7 +92,23 @@ router.post('/ai/api/uploadImages', function(req, res, next) {
     console.log('uploadImages');
     uploadService.execute(req, function(result) {
         console.log('uploadImages end:'+JSON.stringify(result));
-        res.json(result);
+
+        var spawn = require('child_process').spawn;
+        var py = spawn('python', ['vggtest/vggtest.py']);
+        var data = ['public/' + result.data[0]];
+        var dataString = '';
+
+        py.stdout.on('data', function(data) {
+            dataString += data.toString();
+        });
+
+        py.stdout.on('end', function() {
+            console.log('res:', dataString);
+            result.recog = dataString;
+            res.json(result);
+        });
+        py.stdin.write(JSON.stringify(data));
+        py.stdin.end();
     });
 });
 router.get('/api/test', function(req, res, next) {
