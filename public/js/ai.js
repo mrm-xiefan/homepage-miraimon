@@ -8,11 +8,15 @@ AIVM.prototype = {
         this.imagePanel = new Vue({
             el: '#image-panel',
             data: function() {
-                return {url: '', classes: []};
+                return {url: '', recog: []};
             },
             methods: {
-                setImage: function(url) {
+                setImage: function(url, recog) {
                     this.url = url;
+                    this.recog.splice(0, this.recog.length);
+                    for (var idx = 0; idx < recog.length; idx ++) {
+                        this.recog.push(recog[idx]);
+                    }
                 }
             }
         });
@@ -77,7 +81,7 @@ AI.prototype = {
                 response = data.response, reader = data.reader;
             if (!response.error) {
                 console.log("response:"+JSON.stringify(response));
-                ai.vm.imagePanel.setImage(response.data[0]);
+                ai.vm.imagePanel.setImage(response.data[0], response.recog);
                 ai.unlockPage();
             }
         });
