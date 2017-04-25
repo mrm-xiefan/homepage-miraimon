@@ -35,10 +35,10 @@ try:
     for result in results:
         print({"name": result[1], "percentage": '%.10f' % result[2]})
 except (KeyboardInterrupt, SystemExit):
-    msg={"name": "this stupid server is working hard, please wait a moment.", "percentage": "E101"}
+    msg={"name": "[error]this stupid server is working hard, please try again after a moment. maybe more than a moment...", "percentage": "[error number]E101"}
     print(msg)
     util.unlock()
 except Exception as e:
-    msg={"name": "error", "percentage": "E100"}
+    msg={"name": "[error]Oops! i don't know what happened. please try again.", "percentage": "[error number]E100"}
     print(msg)
 util.unlock()
