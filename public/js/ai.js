@@ -13,6 +13,9 @@ AIVM.prototype = {
             methods: {
                 setImage: function(url, recog) {
                     this.url = url;
+                    if (!recog) {
+                        recog = [];
+                    }
                     this.recog.splice(0, this.recog.length);
                     for (var idx = 0; idx < recog.length; idx ++) {
                         this.recog.push(recog[idx]);
@@ -79,10 +82,10 @@ AI.prototype = {
         $('#upload-input').on('filebatchuploadsuccess', function(event, data, previewId, index) {
             var form = data.form, files = data.files, extra = data.extra,
                 response = data.response, reader = data.reader;
+            ai.unlockPage();
             if (!response.error) {
                 console.log("response:"+JSON.stringify(response));
                 ai.vm.imagePanel.setImage(response.data[0], response.recog);
-                ai.unlockPage();
             }
         });
         ai.unlockPage();
