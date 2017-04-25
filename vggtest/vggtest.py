@@ -35,7 +35,7 @@ try:
     for result in results:
         print({"name": result[1], "percentage": '%.10f' % result[2]})
 except (KeyboardInterrupt, SystemExit):
-    msg={"name": "error", "percentage": "E101"}
+    msg={"name": "this stupid server is working hard, please wait a moment.", "percentage": "E101"}
     print(msg)
     util.unlock()
 except Exception as e:
