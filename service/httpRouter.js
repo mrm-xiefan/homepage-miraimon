@@ -91,26 +91,27 @@ router.get('/ai/upload/*', function(req, res, next) {
 router.post('/ai/api/uploadImages', function(req, res, next) {
     console.log('uploadImages');
     uploadService.execute(req, function(result) {
-        console.log('uploadImages end:'+JSON.stringify(result));
+	if (result.data && result.data[0]) {
+            console.log('begin recog:'+JSON.stringify(result));
+            var spawn = require('child_process').spawn;
+            var py = spawn('python', ['vggtest/vggtest.py']);
+            var data = ['public/' + result.data[0]];
+            var pyresult = null;
 
-        var spawn = require('child_process').spawn;
-        var py = spawn('python', ['vggtest/vggtest.py']);
-        var data = ['public/' + result.data[0]];
-        var pyresult = null;
+            py.stdout.on('data', function(data) {
+                var a = data.toString().replace(/'/g, '"');
+                a = "[" + a.replace(/}\r?\n{/g, "},{") + "]";
+                pyresult = JSON.parse(a);
+            });
 
-        py.stdout.on('data', function(data) {
-            var a = data.toString().replace(/'/g, '"');
-            a = "[" + a.replace(/}\r?\n{/g, "},{") + "]";
-            pyresult = JSON.parse(a);
-        });
-
-        py.stdout.on('end', function() {
-            console.log('res:', JSON.stringify(pyresult));
-            result.recog = pyresult;
-            res.json(result);
-        });
-        py.stdin.write(JSON.stringify(data));
-        py.stdin.end();
+            py.stdout.on('end', function() {
+                console.log('res:', JSON.stringify(pyresult));
+                result.recog = pyresult;
+                res.json(result);
+            });
+            py.stdin.write(JSON.stringify(data));
+            py.stdin.end();
+        }
     });
 });
 
