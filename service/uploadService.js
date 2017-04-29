@@ -9,7 +9,7 @@ var UploadService = function() {
 UploadService.prototype = {
     execute: function(req, next) {
         var fileList = [];
-        let form = new formidable.IncomingForm();
+        var form = new formidable.IncomingForm();
         form.multiples = true;
 
         form.on('file', function (field, file) {

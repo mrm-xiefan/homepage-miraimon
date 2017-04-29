@@ -24,13 +24,22 @@ var uploadService = require('./uploadService.js').uploadService;
 router.get('/', function(req, res, next) {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
+router.get('/cn/', function(req, res, next) {
+    res.sendFile(path.join(__dirname, '..', 'public', 'indexcn.html'));
+});
 
 router.get('/bingo', function(req, res, next) {
     res.sendFile(path.join(__dirname, '../', 'public', 'bingo.html'));
 });
+router.get('/bingocn', function(req, res, next) {
+    res.sendFile(path.join(__dirname, '../', 'public', 'bingocn.html'));
+});
 
 router.get('/ai', function(req, res, next) {
     res.sendFile(path.join(__dirname, '../', 'public', 'ai.html'));
+});
+router.get('/aicn', function(req, res, next) {
+    res.sendFile(path.join(__dirname, '../', 'public', 'aicn.html'));
 });
 
 router.get('/vendor/*', function(req, res, next) {
@@ -67,6 +76,23 @@ router.get('/bingo/js/*', function(req, res, next) {
     returnResourceFile(req, res);
 });
 
+router.get('/bingocn/vendor/*', function(req, res, next) {
+    req.url = req.url.replace('/bingocn/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/bingocn/img/*', function(req, res, next) {
+    req.url = req.url.replace('/bingocn/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/bingocn/css/*', function(req, res, next) {
+    req.url = req.url.replace('/bingocn/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/bingocn/js/*', function(req, res, next) {
+    req.url = req.url.replace('/bingocn/', '/');
+    returnResourceFile(req, res);
+});
+
 router.get('/ai/vendor/*', function(req, res, next) {
     req.url = req.url.replace('/ai/', '/');
     returnResourceFile(req, res);
@@ -86,6 +112,71 @@ router.get('/ai/js/*', function(req, res, next) {
 router.get('/ai/upload/*', function(req, res, next) {
     req.url = req.url.replace('/ai/', '/');
     returnResourceFile(req, res);
+});
+
+router.get('/aicn/vendor/*', function(req, res, next) {
+    req.url = req.url.replace('/aicn/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/aicn/img/*', function(req, res, next) {
+    req.url = req.url.replace('/aicn/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/aicn/css/*', function(req, res, next) {
+    req.url = req.url.replace('/aicn/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/aicn/js/*', function(req, res, next) {
+    req.url = req.url.replace('/aicn/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/aicn/upload/*', function(req, res, next) {
+    req.url = req.url.replace('/aicn/', '/');
+    returnResourceFile(req, res);
+});
+
+router.get('/cn/vendor/*', function(req, res, next) {
+    req.url = req.url.replace('/cn/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/cn/img/*', function(req, res, next) {
+    req.url = req.url.replace('/cn/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/cn/css/*', function(req, res, next) {
+    req.url = req.url.replace('/cn/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/cn/js/*', function(req, res, next) {
+    req.url = req.url.replace('/cn/', '/');
+    returnResourceFile(req, res);
+});
+
+router.post('/aicn/api/uploadImages', function(req, res, next) {
+    console.log('uploadImages');
+    uploadService.execute(req, function(result) {
+	if (result.data && result.data[0]) {
+            console.log('begin recog:'+JSON.stringify(result));
+            var spawn = require('child_process').spawn;
+            var py = spawn('python', ['vggtest/vggtest.py']);
+            var data = ['public/' + result.data[0]];
+            var pyresult = null;
+
+            py.stdout.on('data', function(data) {
+                var a = data.toString().replace(/'/g, '"');
+                a = "[" + a.replace(/}\r?\n{/g, "},{") + "]";
+                pyresult = JSON.parse(a);
+            });
+
+            py.stdout.on('end', function() {
+                console.log('res:', JSON.stringify(pyresult));
+                result.recog = pyresult;
+                res.json(result);
+            });
+            py.stdin.write(JSON.stringify(data));
+            py.stdin.end();
+        }
+    });
 });
 
 router.post('/ai/api/uploadImages', function(req, res, next) {

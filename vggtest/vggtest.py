@@ -39,6 +39,6 @@ except (KeyboardInterrupt, SystemExit):
     print(msg)
     util.unlock()
 except Exception as e:
-    msg={"name": "[error]Oops! i don't know what happened. please try again.", "percentage": "[error number]E100"}
+    msg={"name": "[error]Oops! i don not know what happened. please try again.", "percentage": "[error number]E100"}
     print(msg)
 util.unlock()

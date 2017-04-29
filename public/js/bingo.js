@@ -1,3 +1,4 @@
+if (!CONST) {
 var CONST = {
     BINGO: '/bingo/',
     MESSAGE: {
@@ -27,6 +28,7 @@ var CONST = {
         '3': '終了'
     }
 };
+}
 
 var BingoVM = function() {};
 BingoVM.prototype = {
@@ -481,7 +483,7 @@ BingoVM.prototype = {
             },
             computed: {
                 confirmMessage: function() {
-                    return "[" + this.name + "]をキックします。よろしいですか？";
+                    return "Are you sure to kick [" + this.name + "].";
                 }
             },
             methods: {
