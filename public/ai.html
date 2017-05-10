@@ -42,15 +42,20 @@
                     </ul>
                 </div>
 
-                <div class="navbar-custom-menu">
+                <!--<div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
                         <li id="controller1">
                             <a href="javascript:ai.showUploadModal();">
-                                <i class="fa fa-upload text-maroon"></i> <span class="text-maroon">画像をアップロードして識別する</span>
+                                <i class="fa fa-upload"></i> 画像アップロード
+                            </a>
+                        </li>
+                        <li id="controller2">
+                            <a href="#" data-toggle="control-sidebar">
+                                <i class="fa fa-file-image-o"></i> 識別履歴
                             </a>
                         </li>
                     </ul>
-                </div>
+                </div>-->
 
             </div>
         </nav>
@@ -58,7 +63,156 @@
 
     <div class="content-wrapper" onclick="ai.closeSidePanel();">
         <section class="content">
-            <div id="image-panel" v-if="url != ''">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="box box-success direct-chat direct-chat-success" id="luna1-container">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">ルナ初号機</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle">
+                                    <h3 class="box-title"><i class="fa fa-question-circle"></i></h3>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="direct-chat-messages" id="luna1">
+                                <div v-bind:class="getClass(msg.name)" v-for="msg in msgs">
+                                    <div class="direct-chat-info clearfix">
+                                        <span v-bind:class="getNameClass(msg.name)">{{msg.name}}</span>
+                                        <span v-bind:class="getTimeClass(msg.name)">{{msg.timestamp}}</span>
+                                    </div>
+                                    <img class="direct-chat-img" v-bind:src="getAvatar(msg.name)" alt="Message User Image">
+                                    <div class="direct-chat-text" v-if="msg.type=='message'">
+                                        {{msg.msg}}
+                                    </div>
+                                    <div class="direct-chat-text" v-else>
+                                        <img class="img-thumbnail" v-bind:src="msg.msg">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="direct-chat-contacts">
+                                <img class="contacts-list-img" src="img/robot1.jpg" alt="User Image">
+                                <div class="contacts-list-info">
+                                    <span class="contacts-list-name">
+                                        ルナ初号機
+                                    </span>
+                                    <span class="contacts-list-msg">2017/04/22生まれ、♂、性格は穏やか、博学。</span>
+                                </div>
+                                <br>
+                                <div class="contacts-list-info">
+                                    <span class="contacts-list-name">
+                                        VGG16（ImageNetと呼ばれる大規模な画像データセットを使って訓練したモデル）をそのまま頭脳としています。1000種類もの一般物体の識別が可能です。識別ができない場合は素直に言ってくれますので、頼もしいです。
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-success pull-right" id="luna1-upload" title="" onclick="ai.vm.luna1.openUpload();">
+                                <i class="fa fa-upload"></i> 画像アップロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="box box-success direct-chat direct-chat-success" id="luna2-container">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">ルナ二号機</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle">
+                                    <h3 class="box-title"><i class="fa fa-question-circle"></i></h3>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="direct-chat-messages" id="luna2">
+                                <div v-bind:class="getClass(msg.name)" v-for="msg in msgs">
+                                    <div class="direct-chat-info clearfix">
+                                        <span v-bind:class="getNameClass(msg.name)">{{msg.name}}</span>
+                                        <span v-bind:class="getTimeClass(msg.name)">{{msg.timestamp}}</span>
+                                    </div>
+                                    <img class="direct-chat-img" v-bind:src="getAvatar(msg.name)" alt="Message User Image">
+                                    <div class="direct-chat-text" v-if="msg.type=='message'">
+                                        {{msg.msg}}
+                                    </div>
+                                    <div class="direct-chat-text" v-else>
+                                        <img class="img-thumbnail" v-bind:src="msg.msg">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="direct-chat-contacts">
+                                <img class="contacts-list-img" src="img/robot2.jpg" alt="User Image">
+                                <div class="contacts-list-info">
+                                    <span class="contacts-list-name">
+                                        ルナ二号機
+                                    </span>
+                                    <span class="contacts-list-msg">2017/04/29生まれ、♂、ツンデレ、犬と猫の専門家。</span>
+                                </div>
+                                <br>
+                                <div class="contacts-list-info">
+                                    <span class="contacts-list-name">
+                                        KaggleのDogs vs. Catsで提供されているデータセットをくまなく学びこんだＡＩです。なにをあげても犬か猫かの思考回路しかありません。
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-success pull-right" id="luna2-upload" title="" onclick="ai.vm.luna2.openUpload();">
+                                <i class="fa fa-upload"></i> 画像アップロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="box box-success direct-chat direct-chat-success" id="luna3-container">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">ルナ三号機</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle">
+                                    <h3 class="box-title"><i class="fa fa-question-circle"></i></h3>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="direct-chat-messages" id="luna3">
+                                <div v-bind:class="getClass(msg.name)" v-for="msg in msgs">
+                                    <div class="direct-chat-info clearfix">
+                                        <span v-bind:class="getNameClass(msg.name)">{{msg.name}}</span>
+                                        <span v-bind:class="getTimeClass(msg.name)">{{msg.timestamp}}</span>
+                                    </div>
+                                    <img class="direct-chat-img" v-bind:src="getAvatar(msg.name)" alt="Message User Image">
+                                    <div class="direct-chat-text" v-if="msg.type=='message'">
+                                        {{msg.msg}}
+                                    </div>
+                                    <div class="direct-chat-text" v-else>
+                                        <img class="img-thumbnail" v-bind:src="msg.msg">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="direct-chat-contacts">
+                                <img class="contacts-list-img" src="img/robot3.jpg" alt="User Image">
+                                <div class="contacts-list-info">
+                                    <span class="contacts-list-name">
+                                        ルナ三号機
+                                    </span>
+                                    <span class="contacts-list-msg">2017/05/10生まれ、♀、弱気、お花が大すき。近視なのに、メガネをかけない。</span>
+                                </div>
+                                <br>
+                                <div class="contacts-list-info">
+                                    <span class="contacts-list-name">
+                                        Oxford大学のグループが公開している 17 Category Flower Datasetを徹底的に勉強したＡＩです。17種類の花であれば、なんとか識別できるはずです。近視のせいで、画像にお花以外の物が混ぜていたり、お花が小さくて見えなかったりすると、彼女はよく間違います。
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-success pull-right" id="luna3-upload" title="" onclick="ai.vm.luna3.openUpload();">
+                                <i class="fa fa-upload"></i> 画像アップロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div id="image-panel" v-if="url != ''">
                 <div class="row ai-image-frame">
                     <img v-bind:src="url" class="img-thumbnail ai-image">
                 </div>
@@ -74,16 +228,16 @@
                         </tr>
                     </table>
                 </div>
-            </div>
+            </div>-->
         </section>
     </div>
 
     <!-- modal widows -->
-    <div class="modal fade in" id="upload-modal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true" data-show="true" data-keyboard="true" data-backdrop="true">
+    <div class="modal fade in" id="upload-modal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true" data-show="true" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog large" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" id="close-upload" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-blue"><i class="fa fa-info-circle" style="margin-right: 3px;"></i>Upload</h4>
                 </div>

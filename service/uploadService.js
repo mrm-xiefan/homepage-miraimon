@@ -31,7 +31,7 @@ UploadService.prototype = {
 
         form.on('error', function (err) {
             console.log(err);
-            next({error: "upload error!", data: null});
+            next({error: "S010", data: null});
         });
 
         form.parse(req);
