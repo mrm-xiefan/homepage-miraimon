@@ -6,11 +6,7 @@ var util = require('util');
 var http = require('http');
 
 var port = null;
-if (process.env.NODE_ENV != 'development') {
-    port = 80;
-} else {
-    port = 8000;
-}
+port = 8090;
 
 var httpRouter = require('./service/httpRouter.js');
 var socketRouter = require('./service/socketRouter.js').socketRouter;
