@@ -152,7 +152,7 @@ AIVM.prototype = {
                 return {msgs: []};
             },
             mounted: function() {
-                this.selfSpeak('message', '猫と犬？あたしはどっちもすきですよ。べっ、別に、深い意味はないよ。');
+                this.selfSpeak('message', '犬と猫？あたしはどっちもすきですよ。べっ、別に、深い意味はないよ。');
             },
             methods: {
                 selfSpeak: function(type, msg) {
