@@ -896,7 +896,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Annotator.prototype.export = function (isBlob) {
 	  this.layers.annotation.setAlpha(255);
 	  this.layers.annotation.render();
-	  if (isBlob)
+	  // if (isBlob)
 	    var data = isBlob
 	      ? this.layers.annotation.canvas.toBlob()
 	      : this.layers.annotation.canvas.toDataURL();

@@ -63,6 +63,16 @@
 
     <div class="content-wrapper" onclick="seg.closeSidePanel();">
         <section class="content">
+            <div class="row" id="noticer">
+                <h1 style="text-align: center;">
+                    {{project.name}}
+                </h1>
+                <h2 style="text-align: center;">
+                    {{project.detail}}
+                </h2>
+                <button class="btn btn-primary pull-right" id="save-button" onclick="seg.saveSeg();">Save</button>
+                <img id="saved-image">
+            </div>
             <div class="row">
                 <div class="annotator-container">
                 </div>

@@ -5,7 +5,7 @@ var CONST = {
 };
 var PROJCETS = [
     {name: "acreage", detail: "Predict the acreage of land's usage."},
-    {name: "fashion", detail: "Predict the kind of wear."}
+    {name: "fashion", detail: "Predict the wear's kind."}
 ];
 var LABELS = {
     "acreage": [
@@ -130,12 +130,21 @@ SegVM.prototype = {
                     var jpg = this.picture.name + '.jpg';
                     var png = this.picture.name + '.png';
 
-                    seg.editor.render("segup/" + this.project.name + "/jpg/" + jpg, "segup/" + this.project.name + "/png/" + png);
+                    // seg.editor.render("segup/" + this.project.name + "/jpg/" + jpg, "segup/" + this.project.name + "/png/" + png);
+                    seg.editor.render("segup/" + this.project.name + "/jpg/" + jpg);
                 }
             }
         });
 
         this.projects.initProject();
+
+        this.noticer = new Vue({
+            parent: this.common,
+            el: '#noticer',
+            data: function() {
+                return {project: this.$parent.project};
+            }
+        });
     },
     createColormap: function(projectname) {
         return Jse.colormap.create("hsv", {
@@ -266,6 +275,11 @@ Seg.prototype = {
     hideUploadModal: function() {
         $('#close-upload').show();
         $('#upload-modal').modal('hide');
+    },
+    saveSeg: function() {
+        console.log("save!");
+        var image = document.getElementById('saved-image');
+        image.src = this.editor.annotator.export(false);
     }
 };
 var seg = new Seg();
