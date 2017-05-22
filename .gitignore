@@ -1,5 +1,7 @@
 node_modules/*
 public/upload/*
+public/segup/**/*.jpg
+public/segup/**/*.png
 vggtest/__*__
 *.log
 

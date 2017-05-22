@@ -530,7 +530,7 @@ BingoVM.prototype = {
             parent: this.common,
             el: '#bingo-animation-modal',
             data: function() {
-                return {bingos: ["ss","bb","kk"]};
+                return {bingos: []};
             },
             methods: {
                 begin: function(bingos) {
@@ -598,7 +598,7 @@ Bingo.prototype = {
             $('#bingo-animation-modal').modal();
         });
         this.socket.on('disconnect', function() {
-            self.openBingopage();
+            self.openBingo();
         });
     },
     openHomepage: function() {
@@ -610,7 +610,7 @@ Bingo.prototype = {
 
         window.location.href = resurl;
     },
-    openBingopage: function() {
+    openBingo: function() {
         var resurl = location.href.replace(/\?.*$/, "");
         if (resurl.substr(resurl.length - 1, 1) === '#') {
             resurl = resurl.substr(0, resurl.length - 1);

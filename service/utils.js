@@ -1,3 +1,7 @@
+var fs = require('fs');
+var path = require('path');
+var getDirName = require("path").dirname;
+
 function Utils() {
 };
 Utils.prototype = {
@@ -22,6 +26,47 @@ Utils.prototype = {
         }
 
         return result;
+    },
+    getFileList: function(filepath, ext, cb) {
+        var self = this;
+        fs.readdir(filepath, function(err, files) {
+            if (!err) {
+                var fileList = [];
+                var idx = 0;
+                self.filterFile(filepath, files, idx, ext, fileList, function() {
+                    fileList.sort(function(a, b) {
+                        if (a.date > b.date) return -1;
+                        if (a.date < b.date) return 1;
+                        return 0;
+                    });
+                    cb(null, fileList);
+                });
+            } else {
+                cb("GETFILELISTERR", null);
+            }
+        });
+    },
+    filterFile: function(filepath, files, idx, ext, fileList, cb) {
+        var self = this;
+        if (idx >= files.length) {
+            cb();
+            return;
+        } else {
+            if (!ext || (ext && path.extname(files[idx]) == ('.' + ext))) {
+                var filename = path.join(filepath, path.basename(files[idx]));
+                var filestat = fs.statSync(filename);
+                var name = path.basename(files[idx], path.extname(files[idx]));
+                var udate = filestat.mtime.getTime();
+                fileList.push({
+                    file: filename,
+                    name: name,
+                    date: udate
+                });
+                self.filterFile(filepath, files, idx + 1, ext, fileList, cb);
+            } else {
+                self.filterFile(filepath, files, idx + 1, ext, fileList, cb);
+            }
+        }
     }
 };
 exports.utils = new Utils();

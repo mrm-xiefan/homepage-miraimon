@@ -20,6 +20,7 @@ var mimeTypes = {
 '.eot': 'application/vnd.ms-fontobject'
 };
 var uploadService = require('./uploadService.js').uploadService;
+var utils = require('./utils').utils;
 
 router.get('/', function(req, res, next) {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
@@ -29,17 +30,21 @@ router.get('/cn/', function(req, res, next) {
 });
 
 router.get('/bingo', function(req, res, next) {
-    res.sendFile(path.join(__dirname, '../', 'public', 'bingo.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'bingo.html'));
 });
 router.get('/bingocn', function(req, res, next) {
-    res.sendFile(path.join(__dirname, '../', 'public', 'bingocn.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'bingocn.html'));
 });
 
 router.get('/ai', function(req, res, next) {
-    res.sendFile(path.join(__dirname, '../', 'public', 'ai.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'ai.html'));
 });
 router.get('/aicn', function(req, res, next) {
-    res.sendFile(path.join(__dirname, '../', 'public', 'aicn.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'aicn.html'));
+});
+
+router.get('/seg', function(req, res, next) {
+    res.sendFile(path.join(__dirname, '..', 'public', 'seg.html'));
 });
 
 router.get('/vendor/*', function(req, res, next) {
@@ -152,9 +157,60 @@ router.get('/cn/js/*', function(req, res, next) {
     returnResourceFile(req, res);
 });
 
+router.get('/seg/vendor/*', function(req, res, next) {
+    req.url = req.url.replace('/seg/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/seg/img/*', function(req, res, next) {
+    req.url = req.url.replace('/seg/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/seg/css/*', function(req, res, next) {
+    req.url = req.url.replace('/seg/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/seg/js/*', function(req, res, next) {
+    req.url = req.url.replace('/seg/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/seg/segjs/*', function(req, res, next) {
+    req.url = req.url.replace('/seg/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/seg/segup/*', function(req, res, next) {
+    req.url = req.url.replace('/seg/', '/');
+    returnResourceFile(req, res);
+});
+
+router.get('/seg/api/getProject', function(req, res, next) {
+    var url_parts = url.parse(req.url, true);
+    var name = url_parts.query.name;
+    console.log('getProject:' + name);
+
+    utils.getFileList('public/segup/' + name + '/jpg/', 'jpg', function(err, list) {
+        res.json({error: err, data: {pictures: list}});
+    });
+});
+
+router.post('/seg/api/uploadToSeg', function(req, res, next) {
+    console.log('uploadToSeg');
+    uploadService.uploadToSeg(req, function(result) {
+        if (!result.error) {
+            console.log("upload and move end:" + JSON.stringify(result));
+
+            utils.getFileList('public/segup/' + result.project + '/jpg/', 'jpg', function(err, list) {
+                console.log(JSON.stringify(list));
+                res.json({error: err, data: {pictures: list}});
+            });
+        } else {
+            res.json({error: "S010", data: null});
+        }
+    });
+});
+
 router.post('/ai/api/uploadImages', function(req, res, next) {
     console.log('uploadImages');
-    uploadService.execute(req, function(result) {
+    uploadService.upload(req, function(result) {
         if (!result.error && result.data && result.data[0]) {
             res.json(result);
         } else {
@@ -165,7 +221,7 @@ router.post('/ai/api/uploadImages', function(req, res, next) {
 
 router.post('/aicn/api/uploadImages', function(req, res, next) {
     console.log('uploadImages');
-    uploadService.execute(req, function(result) {
+    uploadService.upload(req, function(result) {
         if (!result.error && result.data && result.data[0]) {
             res.json(result);
         } else {
@@ -182,9 +238,6 @@ router.get('/ai/api/vggPredict', function(req, res, next) {
     var exec = require('child_process').exec;
     var cmd = "cd /opt/lunania-ai/vggtest/;python vggtest.py --image /opt/homepage-miraimon/public/" + image + ";";
     exec(cmd, function(error, stdout, stderr) {
-        //console.log("error:"+JSON.stringify(error));
-        //console.log("stdout:"+stdout);
-        //console.log("stderr:"+stderr);
         if (!error) {
             var pyresult = stdout.replace(/'/g, '"');
             var rp = JSON.parse(pyresult);
@@ -203,9 +256,6 @@ router.get('/ai/api/cvdPredict', function(req, res, next) {
     var exec = require('child_process').exec;
     var cmd = "cd /opt/lunania-ai/catvsdog/01_job/;python predict.py --mode 3 --image /opt/homepage-miraimon/public/" + image + ";";
     exec(cmd, function(error, stdout, stderr) {
-        //console.log("error:"+JSON.stringify(error));
-        //console.log("stdout:"+stdout);
-        //console.log("stderr:"+stderr);
         if (!error) {
             var pyresult = stdout.replace(/'/g, '"');
             var rp = JSON.parse(pyresult);
@@ -224,9 +274,6 @@ router.get('/ai/api/flowerPredict', function(req, res, next) {
     var exec = require('child_process').exec;
     var cmd = "cd /opt/lunania-ai/flowers/01_job/;python predict.py --image /opt/homepage-miraimon/public/" + image + ";";
     exec(cmd, function(error, stdout, stderr) {
-        //console.log("error:"+JSON.stringify(error));
-        //console.log("stdout:"+stdout);
-        //console.log("stderr:"+stderr);
         if (!error) {
             var pyresult = stdout.replace(/'/g, '"');
             var rp = JSON.parse(pyresult);
@@ -245,9 +292,6 @@ router.get('/aicn/api/vggPredict', function(req, res, next) {
     var exec = require('child_process').exec;
     var cmd = "cd /opt/lunania-ai/vggtest/;python vggtest.py --image /opt/homepage-miraimon/public/" + image + ";";
     exec(cmd, function(error, stdout, stderr) {
-        //console.log("error:"+JSON.stringify(error));
-        //console.log("stdout:"+stdout);
-        //console.log("stderr:"+stderr);
         if (!error) {
             var pyresult = stdout.replace(/'/g, '"');
             var rp = JSON.parse(pyresult);
@@ -266,9 +310,6 @@ router.get('/aicn/api/cvdPredict', function(req, res, next) {
     var exec = require('child_process').exec;
     var cmd = "cd /opt/lunania-ai/catvsdog/01_job/;python predict.py --mode 3 --image /opt/homepage-miraimon/public/" + image + ";";
     exec(cmd, function(error, stdout, stderr) {
-        //console.log("error:"+JSON.stringify(error));
-        //console.log("stdout:"+stdout);
-        //console.log("stderr:"+stderr);
         if (!error) {
             var pyresult = stdout.replace(/'/g, '"');
             var rp = JSON.parse(pyresult);
@@ -287,9 +328,6 @@ router.get('/aicn/api/flowerPredict', function(req, res, next) {
     var exec = require('child_process').exec;
     var cmd = "cd /opt/lunania-ai/flowers/01_job/;python predict.py --image /opt/homepage-miraimon/public/" + image + ";";
     exec(cmd, function(error, stdout, stderr) {
-        //console.log("error:"+JSON.stringify(error));
-        //console.log("stdout:"+stdout);
-        //console.log("stderr:"+stderr);
         if (!error) {
             var pyresult = stdout.replace(/'/g, '"');
             var rp = JSON.parse(pyresult);
