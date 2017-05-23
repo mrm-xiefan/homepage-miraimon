@@ -3,8 +3,6 @@ var path = require('path');
 var moment = require("moment");
 var uuid = require('uuid');
 var formidable = require('formidable');
-var slash = require('slash');
-// var sharp = require('sharp');
 
 var UploadService = function() {
 };
