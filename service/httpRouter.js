@@ -47,6 +47,10 @@ router.get('/seg', function(req, res, next) {
     res.sendFile(path.join(__dirname, '..', 'public', 'seg.html'));
 });
 
+router.get('/seghelp', function(req, res, next) {
+    res.sendFile(path.join(__dirname, '..', 'public', 'seghelp.html'));
+});
+
 router.get('/vendor/*', function(req, res, next) {
     req.url = req.url.replace('/', '/');
     returnResourceFile(req, res);
@@ -179,6 +183,23 @@ router.get('/seg/segjs/*', function(req, res, next) {
 });
 router.get('/seg/segup/*', function(req, res, next) {
     req.url = req.url.replace('/seg/', '/');
+    returnResourceFile(req, res);
+});
+
+router.get('/seghelp/vendor/*', function(req, res, next) {
+    req.url = req.url.replace('/seghelp/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/seghelp/img/*', function(req, res, next) {
+    req.url = req.url.replace('/seghelp/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/seghelp/css/*', function(req, res, next) {
+    req.url = req.url.replace('/seghelp/', '/');
+    returnResourceFile(req, res);
+});
+router.get('/seghelp/js/*', function(req, res, next) {
+    req.url = req.url.replace('/seghelp/', '/');
     returnResourceFile(req, res);
 });
 

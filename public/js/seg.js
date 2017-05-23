@@ -1,6 +1,7 @@
 var CONST = {
     AI: '/ai/',
     SEG: '/seg/',
+    SEGHELP: '/seghelp/',
     TIMEOUT: 120000
 };
 var PROJCETS = [
@@ -272,6 +273,15 @@ Seg.prototype = {
             resurl = resurl.substr(0, resurl.length - 1);
         }
         resurl = resurl.replace(CONST.SEG, CONST.AI);
+
+        window.location.href = resurl;
+    },
+    openSegHelp: function() {
+        var resurl = location.href.replace(/\?.*$/, "");
+        if (resurl.substr(resurl.length - 1, 1) === '#') {
+            resurl = resurl.substr(0, resurl.length - 1);
+        }
+        resurl = resurl.replace(CONST.SEG, CONST.SEGHELP);
 
         window.location.href = resurl;
     },
