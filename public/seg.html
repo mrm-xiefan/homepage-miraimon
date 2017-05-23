@@ -65,22 +65,39 @@
         <section class="content">
             <div class="row" id="noticer">
                 <h1 style="text-align: center;">
-                    {{project.name}}
+                    {{project.name}} ({{project.detail}})
                 </h1>
-                <h2 style="text-align: center;">
-                    {{project.detail}}
-                </h2>
-                <button class="btn btn-primary pull-right" id="save-button" onclick="seg.saveSeg();">Save</button>
-                <img id="saved-image">
+                <div class="col-sm-12" style="text-align: center; margin-bottom: 10px;">
+                    <button class="btn btn-primary" id="save-button" onclick="seg.saveSeg();">Save Result</button>
+                </div>
             </div>
             <div class="row">
-                <div class="annotator-container">
+                <div class="col-sm-12">
+                    <div class="annotator-container">
+                    </div>
                 </div>
             </div>
         </section>
     </div>
 
     <!-- modal widows -->
+    <div class="modal fade in" id="info-modal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true" data-show="true" data-keyboard="true" data-backdrop="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-blue"><i class="fa fa-info-circle" style="margin-right: 3px;"></i>Information</h4>
+                </div>
+                <div class="modal-body">
+                    {{information}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull-right" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade in" id="error-modal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true" data-show="true" data-keyboard="true" data-backdrop="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

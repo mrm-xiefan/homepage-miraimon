@@ -57,12 +57,34 @@ Utils.prototype = {
                 var filestat = fs.statSync(filename);
                 var name = path.basename(files[idx], path.extname(files[idx]));
                 var udate = filestat.mtime.getTime();
-                fileList.push({
-                    file: filename,
-                    name: name,
-                    date: udate
+
+                // TODO:not common process
+                var list = filepath.split('/');
+                if (list[list.length - 1] == "") {
+                    list.splice(list.length - 1, 1);
+                }
+                list[list.length - 1] = 'png';
+                var pngPath = list.join('/');
+                var pngFullPath = path.join(pngPath, name + '.png');
+                fs.exists(pngFullPath, function(exists) {
+                    if (exists) {
+                        fileList.push({
+                            file: filename,
+                            name: name,
+                            date: udate,
+                            png: true
+                        });
+                        self.filterFile(filepath, files, idx + 1, ext, fileList, cb);
+                    } else {
+                        fileList.push({
+                            file: filename,
+                            name: name,
+                            date: udate,
+                            png: false
+                        });
+                        self.filterFile(filepath, files, idx + 1, ext, fileList, cb);
+                    }
                 });
-                self.filterFile(filepath, files, idx + 1, ext, fileList, cb);
             } else {
                 self.filterFile(filepath, files, idx + 1, ext, fileList, cb);
             }

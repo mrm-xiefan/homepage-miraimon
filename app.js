@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
+var bodyParser = require('body-parser');
 var fs = require('fs');
 var util = require('util');
 var http = require('http');
@@ -20,6 +21,8 @@ var app = express();
 
 // uncomment after placing your favicon in /public
 app.set('views', path.join(__dirname, 'public'));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(httpRouter);

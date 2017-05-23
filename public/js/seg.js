@@ -33,8 +33,20 @@ SegVM.prototype = {
                 return {errorMessage: ""};
             },
             methods: {
-                setErrormessage: function(message) {
+                setErrorMessage: function(message) {
                     this.errorMessage = message;
+                }
+            }
+        });
+        this.infoModal = new Vue({
+            parent: this.common,
+            el: '#info-modal',
+            data: function() {
+                return {information: ""};
+            },
+            methods: {
+                setInformation: function(information) {
+                    this.information = information;
                 }
             }
         });
@@ -99,13 +111,13 @@ SegVM.prototype = {
                                 seg.vm.pictures.picture = null;
                                 self.initProject();
                             } else {
-                                self.vm.errorModal.setErrormessage('Error when get project information!');
-                                $('#error-modal').show();
+                                self.vm.errorModal.setErrorMessage('Error when get project information!');
+                                $('#error-modal').modal();
                             }
                         },
                         error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            self.vm.errorModal.setErrormessage('Error when get project information!');
-                            $('#error-modal').show();
+                            self.vm.errorModal.setErrorMessage('Error when get project information!');
+                            $('#error-modal').modal();
                         }
                     });
                 }
@@ -130,8 +142,11 @@ SegVM.prototype = {
                     var jpg = this.picture.name + '.jpg';
                     var png = this.picture.name + '.png';
 
-                    // seg.editor.render("segup/" + this.project.name + "/jpg/" + jpg, "segup/" + this.project.name + "/png/" + png);
-                    seg.editor.render("segup/" + this.project.name + "/jpg/" + jpg);
+                    if (this.picture.png) {
+                        seg.editor.render("segup/" + this.project.name + "/jpg/" + jpg, "segup/" + this.project.name + "/png/" + png);
+                    } else {
+                        seg.editor.render("segup/" + this.project.name + "/jpg/" + jpg);
+                    }
                 }
             }
         });
@@ -172,13 +187,13 @@ Seg.prototype = {
                 if (result.error === null) {
                     self.vm.set(PROJCETS[0], result.data.pictures);
                 } else {
-                    self.vm.errorModal.setErrormessage('Initialize page error!');
-                    $('#error-modal').show();
+                    self.vm.errorModal.setErrorMessage('Initialize page error!');
+                    $('#error-modal').modal();
                 }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                self.vm.errorModal.setErrormessage('Initialize page error!');
-                $('#error-modal').show();
+                self.vm.errorModal.setErrorMessage('Initialize page error!');
+                $('#error-modal').modal();
             }
         });
 
@@ -231,15 +246,15 @@ Seg.prototype = {
             if (!response.error) {
                 seg.vm.common.setPictures(response.data.pictures);
             } else {
-                seg.vm.errorModal.setErrormessage('Upload error!');
-                $('#error-modal').show();
+                seg.vm.errorModal.setErrorMessage('Upload error!');
+                $('#error-modal').modal();
             }
         });
         $('#upload-input').on('filebatchuploaderror', function(event, numFiles, label) {
             $('#upload-input').fileinput('clear');
             seg.hideUploadModal();
-            seg.vm.errorModal.setErrormessage('Upload error!');
-            $('#error-modal').show();
+            seg.vm.errorModal.setErrorMessage('Upload error!');
+            $('#error-modal').modal();
         });
     },
     openHomepage: function() {
@@ -277,9 +292,30 @@ Seg.prototype = {
         $('#upload-modal').modal('hide');
     },
     saveSeg: function() {
-        console.log("save!");
-        var image = document.getElementById('saved-image');
-        image.src = this.editor.annotator.export(false);
+        var self = this;
+        var imgBase64 = self.editor.annotator.export(false);
+        imgBase64 = imgBase64.replace(/^data:image\/(png|jpg);base64,/, "");
+        $.ajax({
+            url: 'api/saveSeg',
+            type: 'POST',
+            data: JSON.stringify({projectname: seg.vm.common.project.name, picturename: seg.vm.pictures.picture.name, imgBase64: imgBase64}),
+            contentType: 'application/json',
+            processData: false,
+            timeout: CONST.TIMEOUT,
+            success: function(result) {
+                if (result.error) {
+                    self.vm.errorModal.setErrorMessage('Fialed to save result!');
+                    $('#error-modal').modal();
+                } else {
+                    self.vm.infoModal.setInformation('Save successed.');
+                    $('#info-modal').modal();
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                self.vm.errorModal.setErrorMessage('Fialed to save result!');
+                $('#error-modal').modal();
+            }
+        });
     }
 };
 var seg = new Seg();

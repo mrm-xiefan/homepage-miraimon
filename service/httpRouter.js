@@ -208,6 +208,14 @@ router.post('/seg/api/uploadToSeg', function(req, res, next) {
     });
 });
 
+router.post('/seg/api/saveSeg', function(req, res, next) {
+    console.log('saveSeg:' + req.body.projectname + " | " + req.body.picturename);
+    uploadService.saveSeg(req, function(result) {
+        console.log('result:' + JSON.stringify(result));
+        res.json(result);
+    });
+});
+
 router.post('/ai/api/uploadImages', function(req, res, next) {
     console.log('uploadImages');
     uploadService.upload(req, function(result) {

@@ -81,6 +81,21 @@ UploadService.prototype = {
         });
 
         form.parse(req);
+    },
+
+    saveSeg: function(req, next) {
+        var imgBase64 = req.body.imgBase64;
+        var projectname = req.body.projectname;
+        var picturename = req.body.picturename;
+        var bitmap = new Buffer(imgBase64, 'base64');
+        let localFileName = path.join(__dirname, '..', 'public', 'segup', projectname, 'png', picturename + '.png');
+        fs.writeFile(localFileName, bitmap, function(err) {
+            if (err) {
+                next({error: "S011"});
+            } else {
+                next({error: null});
+            }
+        });
     }
 };
 
