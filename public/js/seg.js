@@ -106,7 +106,7 @@ SegVM.prototype = {
                         dataType: 'json',
                         timeout: CONST.TIMEOUT,
                         success: function(result) {
-                            if (result.error === null) {
+                            if (!result.error) {
                                 seg.vm.common.setProject(project, result.data.pictures);
                                 seg.vm.pictures.picture = null;
                                 self.initProject();
@@ -184,7 +184,7 @@ Seg.prototype = {
             dataType: 'json',
             timeout: CONST.TIMEOUT,
             success: function(result) {
-                if (result.error === null) {
+                if (!result.error) {
                     self.vm.set(PROJCETS[0], result.data.pictures);
                 } else {
                     self.vm.errorModal.setErrorMessage('Initialize page error!');
@@ -192,7 +192,7 @@ Seg.prototype = {
                 }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                self.vm.errorModal.setErrorMessage('Initialize page error!');
+                self.vm.errorModal.setErrorMessage('Initialize page error! Notice: maybe your url is http://xxx.xxx.xxx/seg . try this: http://xxx.xxx.xxx/seg/ . just add a "/" at the end of url.');
                 $('#error-modal').modal();
             }
         });
