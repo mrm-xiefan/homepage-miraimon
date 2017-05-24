@@ -67,7 +67,7 @@
                     Segmentation Annotator是虾米？
                 </h1>
                 <h3>
-                    机器学习需要教师数据给AI学习，例如我们做猫狗的图片识别的应用，就需要告诉AI什么是猫什么是狗。除了给AI提供学习的素材图片以外，还需要给AI下图一样的猫和狗的位置信息。否则AI是不知道哪部分是猫狗的，一不小心就会把背景里的什么东西当作猫狗理解了。
+                    所谓机器学习，也就是有老师（数据）和学生（AI），我们研究的领域是图像识别，所以AI是看图来学习的。例如我们要做猫狗识别的应用，就需要告诉AI什么是猫什么是狗。除了给AI提供学习的素材图片以外，还需要给AI下图一样的猫和狗的位置信息。否则AI是不知道哪部分是猫狗的，一不小心就会把背景里的什么东西当作猫狗理解了。
                 </h3>
                 <div style="float: left;">
                     <img src="img/help/h1.jpg">
@@ -84,36 +84,46 @@
                     Segmentation Annotator怎么用啊？
                 </h1>
                 <h3>
-                    首先点击右上角的Project按钮，出现这样的菜单：
+                    人的大脑可以装很多知识，但是电脑是远远比不上人的。首先请牢牢记住：一个AI只能学习一种知识，只能干一件事情。例如猫狗识别是一种知识，由一个AI来掌握，男女识别又是另一种知识了，需要另一个AI掌握。虽然理论上我们也可以把世界万物都教给一个AI，但实际上真这样干的话老师是会累死的。
+                </h3>
+                <h3>
+                    使用Segmentation Annotator之前，请明确一件事，你要训练什么样的AI？一个AI我们称为一个Project。下边用一个例子Project来进行说明：就训练一个猫狗识别的AI吧。
+                </h3>
+                <h3>
+                    点击右上角的Project按钮，出现这样的菜单：
                 </h3>
                 <img src="img/help/h3.png">
                 <h3>
-                    默认是显示的Pictures标签，右上角有Upload按钮，下方是已经上传的图片一览。Projects标签是选择不同的应用APP的，例如猫狗识别是一个Project，花朵识别又是另一个Project，每个应用的学习数据是分开的。一般情况下，管理员（谢帆同学）会把Project指定到当时需要做的应用去，大家不用特别在意。
+                    菜单里有Projects标签和Pictures标签。Projects标签是选择AI的地方，一般情况下，管理员（谢帆同学）会把Project指定到当时需要做的AI去，不用特别在意，当然你也可以切换。本例子我们假定管理员已经把AI选择到了猫狗识别上。Pictures标签里是显示已经有的素材图片一览。这个标签的右上角有个Upload按钮，可以给该Project上传学习素材的原图。
                 </h3>
                 <h3>
-                    下面我们来具体操作一下吧。首先我们从网上找一张猫的图片，例如下面这张，把这张图保存在自己电脑桌面上，上传到服务器去。
+                    下面具体地说明一下从上传到标识到最后保存结果的一个完整流程。首先我们从网上找一张猫的图片，例如下面这张，把这张图保存在自己电脑里，上传到服务器去。
                 </h3>
                 <img src="img/help/h4.jpg">
                 <h3>
-                    点击。Project -> Pictures -> Upload按钮，选择这张图片上传（可以批量上传哦）。上传结束后，图片列表里就会显示刚才上传的图片的名字了。名字是随机的，不用在意重复。
+                    点击Project -> Pictures -> Upload按钮，选择这张图片上传（小贴士：其实素材图片也可以批量上传的哦）。
                 </h3>
-                <div style="clear: both;float: left;">
-                    <img src="img/help/h5.png">
-                    <img src="img/help/h6.png">
-                </div>
-                <h3 style="clear: both;">
-                    选择刚刚上传的图片，在主页面会像下边这样显示。
+                <img src="img/help/h5.png">
+                <h3>
+                    上传结束后，图片列表里就会显示刚才上传的图片的名字了。名字是系统随机取的，不用在意会不会重复。点击一下刚刚上传的那张图片（图片一览里的最上方一张）。
+                </h3>
+                <img src="img/help/h6.png">
+                <h3>
+                    在主页面就会像下边这样显示。
                 </h3>
                 <img src="img/help/h7.png">
                 <h3>
-                    左边是作为参照物放了一张原图在那里，中间是我们的工作区间，右边是一些工具选项。注意红色框里，作为例子，我们要标识3种东西：猫，狗，背景。我们选择猫，然后向下边这样涂吧。
+                    刚刚上传的图片显示在了主页面上。在这里，我们需要进行标识。接下来介绍一下主页面：左边是作为参照物放了一张原图在那里，虽然没有任何功能，但在标识过程中你会发现它是很有用的。中间部分是我们的工作区间，用鼠标在上边涂颜色进行标识。右边是一些工具选项，限于篇幅，就不全部介绍了，只介绍最重要的一个功能：请看上图红色框区域，有3个项目，红色背景，绿色猫，蓝色狗。正是本例子里，我们需要标识的3种东西：猫，狗，背景。（每个Project需要标识什么，分别使用什么颜色，这些配置是系统管理员的任务。）
+                </h3>
+                <h3>
+                    这张图片初始状态是被涂成全红的，也就是全是背景，我们需要做的是：把不是背景的部分涂出来。例子图里只有猫，那么我们在工具栏里选中绿色（猫），然后向下边这样涂吧。
                 </h3>
                 <img src="img/help/h8.png">
                 <h3>
-                    使用周围的工具（限于文章篇幅，就不一一介绍了，自己体验吧），请尽量保证精确度。要知道，学习数据越正确，AI越聪明。学生的知识取决于老师，就是这个道理。
+                    请灵活使用各种工具，尽量保证精确度。要知道，学习数据越正确，AI越聪明。学生的知识取决于老师，就是这个道理。
                 </h3>
                 <h3>
-                    使用"Save Result"按钮保存标识结果，记住经常保存哦，一不小心断电了劳力就白费了哦。
+                    标识工作告一段落后，使用"Save Result"按钮保存标识结果，记住经常保存哦，一不小心断电了劳力就白费了哦。
                 </h3>
                 <img src="img/help/h9.png">
                 <h2 class="text-red">
@@ -123,16 +133,26 @@
                     说正事儿，你们准备干什么？
                 </h1>
                 <h3>
-                    我们准备做一个技术展示的Demo。我们想定的情景是这样的：某国想通过卫星地图来统计土地的使用率，城市10%，耕地20%，林地30%，其他40%。我们的AI，就准备通过识别google地图的卫星图，来标识土地类型。
+                    例子到此结束，下面说一下我们在2017年6月末为止想要做的一个Project：acreage。
                 </h3>
                 <h3>
-                    图片请自己从google取。参考下边。
+                    我们想定的情景是这样的：某国想通过卫星地图来统计土地的使用率，例如城市10%，耕地20%，林地30%，其他40%。我们的AI，就准备通过识别google地图的卫星图，来标识土地类型。这样，某国政府只需要把全国的卫星图片交给我们的AI，就能迅速得到土地使用情况的统计结果。
+                </h3>
+                <h3>
+                    你能给我们的AI贡献点学习素材吗？
+                </h3>
+                <div style="text-align: center;">
+                    <button class="btn btn-primary" style="margin-right: 20px;" onclick="$('#info-modal1').modal();">YES!</button>
+                    <button class="btn btn-primary" onclick="$('#info-modal2').modal();">NO!</button>
+                </div>
+                <h3>
+                    你要做的事就是给我们做学习数据。素材图片请自己从google或百度取。参考下边。注意几点：素材图片里不要地名文字，不要有异物（鼠标，按钮等）；图片大小大约500*500，大约就行，上传后系统会自动整形成500*500；图片的视点（距离地面的位置）要保证在一个范围内，如果素材图片的视点差距太远，学习的效果会受到影响。
                 </h3>
                 <img src="img/help/h10.png">
                 <img src="img/help/h11.png">
                 <img src="img/help/h12.png">
                 <h3>
-                    大概取这个距离，抓一张大约500*500大小的图片，大约就行。
+                    大概取这个距离。
                 </h3>
                 <img src="img/help/h13.png">
                 <h3>
@@ -143,6 +163,42 @@
                 </h2>
             </div>
         </section>
+    </div>
+
+    <!-- modal widows -->
+    <div class="modal fade in" id="info-modal1" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true" data-show="true" data-keyboard="true" data-backdrop="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-blue"><i class="fa fa-info-circle" style="margin-right: 3px;"></i>Information</h4>
+                </div>
+                <div class="modal-body">
+                    有前途，继续往下看吧。
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull-right" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade in" id="info-modal2" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true" data-show="true" data-keyboard="true" data-backdrop="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-blue"><i class="fa fa-info-circle" style="margin-right: 3px;"></i>Information</h4>
+                </div>
+                <div class="modal-body">
+                    切！你可以离开了。
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull-right" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
