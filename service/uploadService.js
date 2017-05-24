@@ -3,7 +3,10 @@ var path = require('path');
 var moment = require("moment");
 var uuid = require('uuid');
 var formidable = require('formidable');
-var sharp = require('sharp');
+var os = require('os');
+if (os.arch() == 'x64') {
+    var sharp = require('sharp');
+}
 
 var UploadService = function() {
 };
@@ -61,7 +64,6 @@ UploadService.prototype = {
         form.on('end', function() {
             console.log("project:" + project);
             console.log("upload end:"+JSON.stringify(localFileList));
-            //var all = localFileList.length;
             self.trimPicture(localFileList, 0, project, function(error) {
                 if (error) {
                     next({error: "S012"});
@@ -69,17 +71,6 @@ UploadService.prototype = {
                     next({error: null, project: project, count: localFileList.length});
                 }
             });
-            //for (var idx = 0; idx < localFileList.length; idx ++) {
-            //    var imageId = uuid.v4();
-            //    var movedFile = path.join(__dirname, '..', 'public', 'segup', project, 'jpg', imageId + '.jpg');
-            //    fs.rename(localFileList[idx], movedFile, function() {
-            //        all --;
-            //        if (all == 0) {
-            //            console.log("move end.");
-            //            next({error: null, project: project, count: localFileList.length});
-            //        }
-            //    });
-            //}
         });
 
         form.on('error', function(err) {
@@ -99,16 +90,19 @@ UploadService.prototype = {
         console.log("trim:" + pictures[idx]);
         var imageId = uuid.v4();
         var movedFile = path.join(__dirname, '..', 'public', 'segup', project, 'jpg', imageId + '.jpg');
-        sharp(pictures[idx])
-            .resize(500, 500)
-            .background('black')
-            .toFile(movedFile)
-            .then(function() {
-                self.trimPicture(pictures, idx + 1, project, next);
+        if (os.arch() == 'x64') {
+            sharp(pictures[idx])
+                .resize(500, 500)
+                .background('black')
+                .toFile(movedFile)
+                .then(function() {
+                    self.trimPicture(pictures, idx + 1, project, next);
+                });
+        } else {
+            fs.rename(pictures[idx], movedFile, function() {
+               self.trimPicture(pictures, idx + 1, project, next);
             });
-        //fs.rename(pictures[idx], movedFile, function() {
-        //    self.trimPicture(pictures, idx + 1, project, next);
-        //});
+        }
     },
 
     saveSeg: function(req, next) {
