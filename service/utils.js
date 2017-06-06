@@ -27,6 +27,22 @@ Utils.prototype = {
 
         return result;
     },
+    checkLock: function(cb) {
+        var lockfile = '/home/ai/lock';
+        fs.exists(lockfile, function(exists) {
+            if (exists) {
+                fs.readFile(lockfile, 'utf8', function(err, text) {
+                    if (!err) {
+                        cb(null, text);
+                    } else {
+                        cb("S001", null);
+                    }
+                });
+            } else {
+                cb(null, null);
+            }
+        });
+    },
     getFileList: function(filepath, ext, cb) {
         var self = this;
         fs.readdir(filepath, function(err, files) {

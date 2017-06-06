@@ -92,8 +92,12 @@ AIVM.prototype = {
                             } else {
                                 if (result.error === 'B002') {
                                     self.selfSpeak('message', 'ただ今、ワタシのところに複数の識別リクエストが届いています。てんてこ舞いですから、少し時間を空けてからもう一度試してくださいね。');
-                                } else if (result.error === 'B999') {
-                                    self.selfSpeak('message', 'サーバ機器調整のため、ワタシは一旦サボりますね。再開するのは5/13だと思います。');
+                                } else if (result.error === 'B080') {
+                                    if (result.data) {
+                                        self.selfSpeak('message', 'サーバが次のAIの学習のために、忙しいそうです。' + result.data + 'に学習が終える予定です。');
+                                    } else {
+                                        self.selfSpeak('message', 'サーバが取り込み中です。もう一度お試しください。');
+                                    }
                                 } else {
                                     self.selfSpeak('message', '識別が失敗しました。ごめんなさい。');
                                 }
@@ -204,8 +208,12 @@ AIVM.prototype = {
                             } else {
                                 if (result.error === 'B002') {
                                     self.selfSpeak('message', 'ほら、この私が忙しいから、後で見てあげるわ。');
-                                } else if (result.error === 'B999') {
-                                    self.selfSpeak('message', 'サーバ機器調整だから、5/13にまた来てね。別にアンタ嫌いじゃないよ。');
+                                } else if (result.error === 'B080') {
+                                    if (result.data) {
+                                        self.selfSpeak('message', 'サーバが次のAIの学習のために、忙しいそうです。' + result.data + 'に学習が終える予定です。');
+                                    } else {
+                                        self.selfSpeak('message', 'サーバが取り込み中です。もう一度お試しください。');
+                                    }
                                 } else {
                                     self.selfSpeak('message', 'な、生意気言うなよ！サーバがわるいからっ！');
                                 }
@@ -327,8 +335,12 @@ AIVM.prototype = {
                             } else {
                                 if (result.error === 'B002') {
                                     self.selfSpeak('message', 'えっ！？今、取り込み中ですから、あそこで待ってください。');
-                                } else if (result.error === 'B999') {
-                                    self.selfSpeak('message', 'サーバ機器調整のお知らせが来ました。アタシ、シャットダウンしますぅ。あっ、5/13に再起動しますぅ。');
+                                } else if (result.error === 'B080') {
+                                    if (result.data) {
+                                        self.selfSpeak('message', 'サーバが次のAIの学習のために、忙しいそうです。' + result.data + 'に学習が終える予定です。');
+                                    } else {
+                                        self.selfSpeak('message', 'サーバが取り込み中です。もう一度お試しください。');
+                                    }
                                 } else {
                                     self.selfSpeak('message', '申しわけありません。アタシ、なんか変ですぅ。');
                                 }

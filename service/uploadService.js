@@ -110,7 +110,8 @@ UploadService.prototype = {
         var projectname = req.body.projectname;
         var picturename = req.body.picturename;
         var bitmap = new Buffer(imgBase64, 'base64');
-        let localFileName = path.join(__dirname, '..', 'public', 'segup', projectname, 'png', picturename + '.png');
+        var localFileName = path.join(__dirname, '..', 'public', 'segup', projectname, 'png', picturename + '.png');
+        console.log("save to:" + localFileName);
         fs.writeFile(localFileName, bitmap, function(err) {
             if (err) {
                 next({error: "S011"});

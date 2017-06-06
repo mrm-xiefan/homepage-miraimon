@@ -92,8 +92,12 @@ AIVM.prototype = {
                             } else {
                                 if (result.error === 'B002') {
                                     self.selfSpeak('message', '服务器似乎出了什么问题，抱歉，请再试一次。');
-                                } else if (result.error === 'B999') {
-                                    self.selfSpeak('message', '服务器硬件调整，请过一段时间再试。');
+                                } else if (result.error === 'B080') {
+                                    if (result.data) {
+                                        self.selfSpeak('message', '服务器正在训练下一个AI，请' + result.data + '以后再来。');
+                                    } else {
+                                        self.selfSpeak('message', '很不巧，服务器刚才正忙，请再试一次。');
+                                    }
                                 } else {
                                     self.selfSpeak('message', '抱歉，出了点问题，识别失败了。');
                                 }
@@ -204,8 +208,12 @@ AIVM.prototype = {
                             } else {
                                 if (result.error === 'B002') {
                                     self.selfSpeak('message', '我很忙，有空再帮你看。');
-                                } else if (result.error === 'B999') {
-                                    self.selfSpeak('message', '服务器硬件调整，过一段时间再来吧。这，这可不是说我讨厌你哦。');
+                                } else if (result.error === 'B080') {
+                                    if (result.data) {
+                                        self.selfSpeak('message', '服务器正在训练下一个AI，请' + result.data + '以后再来。');
+                                    } else {
+                                        self.selfSpeak('message', '很不巧，服务器刚才正忙，请再试一次。');
+                                    }
                                 } else {
                                     self.selfSpeak('message', '我都说了，是服务器出问题了，不关我的事儿。');
                                 }
@@ -327,8 +335,12 @@ AIVM.prototype = {
                             } else {
                                 if (result.error === 'B002') {
                                     self.selfSpeak('message', '啊？我，我正忙这呢，等我一下好吗？');
-                                } else if (result.error === 'B999') {
-                                    self.selfSpeak('message', '听说服务器硬件正在做调整，我自动关机咯。');
+                                } else if (result.error === 'B080') {
+                                    if (result.data) {
+                                        self.selfSpeak('message', '服务器正在训练下一个AI，请' + result.data + '以后再来。');
+                                    } else {
+                                        self.selfSpeak('message', '很不巧，服务器刚才正忙，请再试一次。');
+                                    }
                                 } else {
                                     self.selfSpeak('message', '对不起，我好像有点不对劲。');
                                 }

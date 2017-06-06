@@ -264,15 +264,23 @@ router.get('/ai/api/vggPredict', function(req, res, next) {
     var image = url_parts.query.image;
     console.log('vggPredict:' + image);
 
-    var exec = require('child_process').exec;
-    var cmd = "cd /opt/lunania-ai/vggtest/;python vggtest.py --image /opt/homepage-miraimon/public/" + image + ";";
-    exec(cmd, function(error, stdout, stderr) {
-        if (!error) {
-            var pyresult = stdout.replace(/'/g, '"');
-            var rp = JSON.parse(pyresult);
-            res.json(rp);
-        } else {
+    utils.checkLock(function(err, data) {
+        if (err) {
             res.json({"error": "S001", "data": null});
+        } else if (data) {
+            res.json({"error": "B080", "data": data});
+        } else {
+            var exec = require('child_process').exec;
+            var cmd = "cd /opt/lunania-ai/vggtest/;python vggtest.py --image /opt/homepage-miraimon/public/" + image + ";";
+            exec(cmd, function(error, stdout, stderr) {
+                if (!error) {
+                    var pyresult = stdout.replace(/'/g, '"');
+                    var rp = JSON.parse(pyresult);
+                    res.json(rp);
+                } else {
+                    res.json({"error": "S001", "data": null});
+                }
+            });
         }
     });
 });
@@ -282,15 +290,23 @@ router.get('/ai/api/cvdPredict', function(req, res, next) {
     var image = url_parts.query.image;
     console.log('cvdPredict:' + image);
 
-    var exec = require('child_process').exec;
-    var cmd = "cd /opt/lunania-ai/catvsdog/01_job/;python predict.py --mode 3 --image /opt/homepage-miraimon/public/" + image + ";";
-    exec(cmd, function(error, stdout, stderr) {
-        if (!error) {
-            var pyresult = stdout.replace(/'/g, '"');
-            var rp = JSON.parse(pyresult);
-            res.json(rp);
-        } else {
+    utils.checkLock(function(err, data) {
+        if (err) {
             res.json({"error": "S001", "data": null});
+        } else if (data) {
+            res.json({"error": "B080", "data": data});
+        } else {
+            var exec = require('child_process').exec;
+            var cmd = "cd /opt/lunania-ai/catvsdog/01_job/;python predict.py --mode 3 --image /opt/homepage-miraimon/public/" + image + ";";
+            exec(cmd, function(error, stdout, stderr) {
+                if (!error) {
+                    var pyresult = stdout.replace(/'/g, '"');
+                    var rp = JSON.parse(pyresult);
+                    res.json(rp);
+                } else {
+                    res.json({"error": "S001", "data": null});
+                }
+            });
         }
     });
 });
@@ -301,14 +317,22 @@ router.get('/ai/api/flowerPredict', function(req, res, next) {
     console.log('flowerPredict:' + image);
 
     var exec = require('child_process').exec;
-    var cmd = "cd /opt/lunania-ai/flowers/01_job/;python predict.py --image /opt/homepage-miraimon/public/" + image + ";";
-    exec(cmd, function(error, stdout, stderr) {
-        if (!error) {
-            var pyresult = stdout.replace(/'/g, '"');
-            var rp = JSON.parse(pyresult);
-            res.json(rp);
-        } else {
+    utils.checkLock(function(err, data) {
+        if (err) {
             res.json({"error": "S001", "data": null});
+        } else if (data) {
+            res.json({"error": "B080", "data": data});
+        } else {
+            var cmd = "cd /opt/lunania-ai/flowers/01_job/;python predict.py --image /opt/homepage-miraimon/public/" + image + ";";
+            exec(cmd, function(error, stdout, stderr) {
+                if (!error) {
+                    var pyresult = stdout.replace(/'/g, '"');
+                    var rp = JSON.parse(pyresult);
+                    res.json(rp);
+                } else {
+                    res.json({"error": "S001", "data": null});
+                }
+            });
         }
     });
 });
@@ -318,15 +342,23 @@ router.get('/aicn/api/vggPredict', function(req, res, next) {
     var image = url_parts.query.image;
     console.log('vggPredict:' + image);
 
-    var exec = require('child_process').exec;
-    var cmd = "cd /opt/lunania-ai/vggtest/;python vggtest.py --image /opt/homepage-miraimon/public/" + image + ";";
-    exec(cmd, function(error, stdout, stderr) {
-        if (!error) {
-            var pyresult = stdout.replace(/'/g, '"');
-            var rp = JSON.parse(pyresult);
-            res.json(rp);
-        } else {
+    utils.checkLock(function(err, data) {
+        if (err) {
             res.json({"error": "S001", "data": null});
+        } else if (data) {
+            res.json({"error": "B080", "data": data});
+        } else {
+            var exec = require('child_process').exec;
+            var cmd = "cd /opt/lunania-ai/vggtest/;python vggtest.py --image /opt/homepage-miraimon/public/" + image + ";";
+            exec(cmd, function(error, stdout, stderr) {
+                if (!error) {
+                    var pyresult = stdout.replace(/'/g, '"');
+                    var rp = JSON.parse(pyresult);
+                    res.json(rp);
+                } else {
+                    res.json({"error": "S001", "data": null});
+                }
+            });
         }
     });
 });
@@ -336,15 +368,23 @@ router.get('/aicn/api/cvdPredict', function(req, res, next) {
     var image = url_parts.query.image;
     console.log('cvdPredict:' + image);
 
-    var exec = require('child_process').exec;
-    var cmd = "cd /opt/lunania-ai/catvsdog/01_job/;python predict.py --mode 3 --image /opt/homepage-miraimon/public/" + image + ";";
-    exec(cmd, function(error, stdout, stderr) {
-        if (!error) {
-            var pyresult = stdout.replace(/'/g, '"');
-            var rp = JSON.parse(pyresult);
-            res.json(rp);
-        } else {
+    utils.checkLock(function(err, data) {
+        if (err) {
             res.json({"error": "S001", "data": null});
+        } else if (data) {
+            res.json({"error": "B080", "data": data});
+        } else {
+            var exec = require('child_process').exec;
+            var cmd = "cd /opt/lunania-ai/catvsdog/01_job/;python predict.py --mode 3 --image /opt/homepage-miraimon/public/" + image + ";";
+            exec(cmd, function(error, stdout, stderr) {
+                if (!error) {
+                    var pyresult = stdout.replace(/'/g, '"');
+                    var rp = JSON.parse(pyresult);
+                    res.json(rp);
+                } else {
+                    res.json({"error": "S001", "data": null});
+                }
+            });
         }
     });
 });
@@ -354,15 +394,23 @@ router.get('/aicn/api/flowerPredict', function(req, res, next) {
     var image = url_parts.query.image;
     console.log('flowerPredict:' + image);
 
-    var exec = require('child_process').exec;
-    var cmd = "cd /opt/lunania-ai/flowers/01_job/;python predict.py --image /opt/homepage-miraimon/public/" + image + ";";
-    exec(cmd, function(error, stdout, stderr) {
-        if (!error) {
-            var pyresult = stdout.replace(/'/g, '"');
-            var rp = JSON.parse(pyresult);
-            res.json(rp);
-        } else {
+    utils.checkLock(function(err, data) {
+        if (err) {
             res.json({"error": "S001", "data": null});
+        } else if (data) {
+            res.json({"error": "B080", "data": data});
+        } else {
+            var exec = require('child_process').exec;
+            var cmd = "cd /opt/lunania-ai/flowers/01_job/;python predict.py --image /opt/homepage-miraimon/public/" + image + ";";
+            exec(cmd, function(error, stdout, stderr) {
+                if (!error) {
+                    var pyresult = stdout.replace(/'/g, '"');
+                    var rp = JSON.parse(pyresult);
+                    res.json(rp);
+                } else {
+                    res.json({"error": "S001", "data": null});
+                }
+            });
         }
     });
 });
