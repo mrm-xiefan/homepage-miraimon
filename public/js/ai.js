@@ -464,6 +464,31 @@ AIVM.prototype = {
                                 if (result.data.labels.length <= 0) {
                                     self.selfSpeak('message', 'あれ、おれの知っている物は一つもないぞ。');
                                 } else {
+                                    var lg = {
+                                        "aeroplane": "飛行機",
+                                        "bicycle": "自転車",
+                                        "bird": "鳥",
+                                        "boat": "船",
+                                        "bottle": "ボトル",
+                                        "bus": "バス",
+                                        "car": "車",
+                                        "cat": "猫",
+                                        "chair": "いす",
+                                        "cow": "牛",
+                                        "diningtable": "テーブル",
+                                        "dog": "犬",
+                                        "horse": "馬",
+                                        "motorbike": "自動車",
+                                        "person": "人",
+                                        "pottedplant": "盆栽",
+                                        "sheep": "羊",
+                                        "sofa": "ソファ",
+                                        "train": "電車",
+                                        "tvmonitor": "テレビ"
+                                    };
+                                    for (var idx = 0; idx < result.data.labels.length; idx ++) {
+                                        result.data.labels[idx] = lg[result.data.labels[idx]];
+                                    }
                                     var msg = 'これらの物があるよ：' + result.data.labels.join('、') + '。ちなみに、下記の図はおれの理解だよ。';
                                     self.selfSpeak('message', msg);
                                     self.selfSpeak('image', 'upload/' + result.data.img);

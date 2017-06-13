@@ -45,7 +45,7 @@ User.prototype = {
         this.drewPool = [];
     },
     getCard: function() {
-        this.card = utils.createArray(75);
+        this.card = utils.createArray(70);
         this.card = this.card.splice(0, 25);
         this.card[12] = 99;
     },

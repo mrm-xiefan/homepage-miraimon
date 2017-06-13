@@ -464,6 +464,31 @@ AIVM.prototype = {
                                 if (result.data.labels.length <= 0) {
                                     self.selfSpeak('message', '这张图里没有我认识的东西。拜托，你是不是还活在旧时代啊？');
                                 } else {
+                                    var lg = {
+                                        "aeroplane": "飞机",
+                                        "bicycle": "自行车",
+                                        "bird": "鸟",
+                                        "boat": "船",
+                                        "bottle": "瓶子",
+                                        "bus": "巴士",
+                                        "car": "轿车",
+                                        "cat": "猫",
+                                        "chair": "椅子",
+                                        "cow": "牛",
+                                        "diningtable": "餐桌",
+                                        "dog": "狗",
+                                        "horse": "马",
+                                        "motorbike": "摩托",
+                                        "person": "人",
+                                        "pottedplant": "盆栽",
+                                        "sheep": "羊",
+                                        "sofa": "沙发",
+                                        "train": "火车",
+                                        "tvmonitor": "电视机"
+                                    };
+                                    for (var idx = 0; idx < result.data.labels.length; idx ++) {
+                                        result.data.labels[idx] = lg[result.data.labels[idx]];
+                                    }
                                     var msg = '这张图里有这些东西：' + result.data.labels.join('，') + '。下面这张图是我认知这张图片的结果。';
                                     self.selfSpeak('message', msg);
                                     self.selfSpeak('image', 'upload/' + result.data.img);

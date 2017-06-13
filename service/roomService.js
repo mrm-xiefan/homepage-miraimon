@@ -17,7 +17,7 @@ Room.prototype = {
         this.owner = user;
         this.status = '1';
         this.members = [];
-        this.drawPool = utils.createArray(75);
+        this.drawPool = utils.createArray(70);
         this.drewPool = [];
         this.bingoList = [];
         this.bingoRank = 0;
@@ -49,7 +49,7 @@ Room.prototype = {
         }
         if (!isReJoin) {
             this.members.push(user);
-            this.compute();
+            this.compute(false);
         }
     },
     kick: function(username) {
@@ -70,7 +70,7 @@ Room.prototype = {
     draw: function() {
         this.status = '2';
         this.drewPool.push(this.drawPool.pop());
-        var bingos = this.compute();
+        var bingos = this.compute(true);
         var isEnd = true;
         for (var idx = 0; idx < this.members.length; idx ++) {
             var member = this.members[idx];
@@ -84,13 +84,15 @@ Room.prototype = {
         }
         return bingos;
     },
-    compute: function() {
+    compute: function(needDraw) {
         var bingos = [];
         var rank = this.bingoRank + 1;
         for (var idx = 0; idx < this.members.length; idx ++) {
             var member = this.members[idx];
             if (!member.bingo) {
-                member.draw(this.drewPool[this.drewPool.length - 1]);
+                if (needDraw) {
+                    member.draw(this.drewPool[this.drewPool.length - 1]);
+                }
                 member.reach = 0;
                 var map = this.getMap(member);
                 for (key in map) {
@@ -277,7 +279,7 @@ Room.prototype = {
         result.rank = this.rank;
         result.bingoList = [];
         for (var idx = 0; idx < this.bingoList.length; idx ++) {
-            result.bingoList.push({username: this.bingoList[idx].user.name, rank: this.bingoList[idx].rank});
+            result.bingoList.push({username: this.bingoList[idx].user.name, rank: this.bingoList[idx].rank, drawCount: this.bingoList[idx].user.drewPool.length});
         }
         result.members = [];
         for (var idx = 0; idx < this.members.length; idx ++) {

@@ -208,10 +208,12 @@
                                     <tr>
                                         <th style="width: 40px">順位</th>
                                         <th>名前</th>
+                                        <th>抽選回数</th>
                                     </tr>
                                     <tr v-for="bingo in room.bingoList">
                                         <td>{{bingo.rank}}</td>
                                         <td>{{bingo.username}}</td>
+                                        <td>{{bingo.drawCount}}</td>
                                     </tr>
                                 </table>
                             </div>
