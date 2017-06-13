@@ -12,33 +12,60 @@ var UploadService = function() {
 };
 UploadService.prototype = {
     upload: function(req, next) {
-        var fileList = [];
+        var self = this;
+        var localFileList = [];
+        var movedFileList = [];
         var form = new formidable.IncomingForm();
         form.multiples = true;
 
         form.on('file', function(field, file) {
-            const ext = path.extname(file.name);
-            const localFileName = file.path;
-
-            const imageId = uuid.v4();
-            const fileName = path.join(__dirname, '..', 'public', 'upload', imageId + ext);
-            console.log("one file:" + fileName);
-            fileList.push('upload/' + imageId + ext);
-
-            fs.rename(localFileName, fileName, function() {});
+            console.log("received one file:" + file.path);
+            localFileList.push(file.path);
         });
 
         form.on('end', function() {
-            console.log("upload end:"+JSON.stringify(fileList));
-            next({error: null, data: fileList});
+            console.log("upload end:"+JSON.stringify(localFileList));
+            self.resizePicture(localFileList, 0, function(error, fileList) {
+                if (error) {
+                    next({error: "S012"});
+                } else {
+                    next({error: null, data: fileList});
+                }
+            });
         });
 
         form.on('error', function(err) {
             console.log(err);
-            next({error: "S010", data: null});
+            next({error: "S010"});
         });
 
         form.parse(req);
+    },
+
+    resizePicture: function(pictures, idx, next) {
+        var self = this;
+        var fileList = [];
+        if (idx > pictures.length - 1) {
+            next(null, fileList);
+            return;
+        }
+        console.log("resize:" + pictures[idx]);
+        var imageId = uuid.v4();
+        var movedFile = path.join(__dirname, '..', 'public', 'upload', imageId + '.jpg');
+        fileList.push('upload/' + imageId + '.jpg');
+        if (os.arch() == 'x64') {
+            sharp(pictures[idx])
+                .resize(500, 500)
+                .background('black')
+                .toFile(movedFile)
+                .then(function() {
+                    self.trimPicture(pictures, idx + 1, next);
+                });
+        } else {
+            fs.rename(pictures[idx], movedFile, function() {
+               self.trimPicture(pictures, idx + 1, next);
+            });
+        }
     },
 
     uploadToSeg: function(req, next) {
