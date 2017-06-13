@@ -430,8 +430,10 @@ router.get('/aicn/api/segPredict', function(req, res, next) {
             var cmd = "cd /opt/lunania-ai/seg/01_job/;python predict.py --image /opt/homepage-miraimon/public/" + image + ";";
             exec(cmd, function(error, stdout, stderr) {
                 if (!error) {
+                    console.log('predict end:' + stdout.replace(/'/g, '"'));
                     var pyresult = stdout.replace(/'/g, '"');
                     var rp = JSON.parse(pyresult);
+                    console.log('predict:' + JSON.stringify(rp));
                     res.json(rp);
                 } else {
                     res.json({"error": "S001", "data": null});
