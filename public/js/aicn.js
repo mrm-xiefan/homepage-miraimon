@@ -92,9 +92,7 @@ AIVM.prototype = {
                                 }
                                 self.selfSpeak('message', msg);
                             } else {
-                                if (result.error === 'B002') {
-                                    self.selfSpeak('message', '服务器似乎出了什么问题，抱歉，请再试一次。');
-                                } else if (result.error === 'B080') {
+                                if (result.error === 'B002' || result.error === 'B080') {
                                     if (result.data) {
                                         self.selfSpeak('message', '服务器正在训练下一个AI，请' + result.data + '以后再来。');
                                     } else {
@@ -211,9 +209,7 @@ AIVM.prototype = {
                                 }
                                 self.selfSpeak('message', msg);
                             } else {
-                                if (result.error === 'B002') {
-                                    self.selfSpeak('message', '我很忙，有空再帮你看。');
-                                } else if (result.error === 'B080') {
+                                if (result.error === 'B002' || result.error === 'B080') {
                                     if (result.data) {
                                         self.selfSpeak('message', '服务器正在训练下一个AI，' + result.data + '以后才有空。');
                                     } else {
@@ -341,9 +337,7 @@ AIVM.prototype = {
                                 }
                                 self.selfSpeak('message', msg);
                             } else {
-                                if (result.error === 'B002') {
-                                    self.selfSpeak('message', '啊？我，我正忙着呢，等我一下好吗？');
-                                } else if (result.error === 'B080') {
+                                if (result.error === 'B002' || result.error === 'B080') {
                                     if (result.data) {
                                         self.selfSpeak('message', '非常抱歉，服务器正在训练下一个AI，请' + result.data + '以后再来。');
                                     } else {
@@ -470,14 +464,12 @@ AIVM.prototype = {
                                 if (result.data.labels.length <= 0) {
                                     self.selfSpeak('message', '这张图里没有我认识的东西。拜托，你是不是还活在旧时代啊？');
                                 } else {
-                                    var msg = '这张图里有这些东西：' + result.data.labels.join(',') + '。下面这张图是我认知这张图片的结果。';
+                                    var msg = '这张图里有这些东西：' + result.data.labels.join('，') + '。下面这张图是我认知这张图片的结果。';
                                     self.selfSpeak('message', msg);
                                     self.selfSpeak('image', 'upload/' + result.data.img);
                                 }
                             } else {
-                                if (result.error === 'B002') {
-                                    self.selfSpeak('message', '新机型也会出问题？不可能！你再试试。');
-                                } else if (result.error === 'B080') {
+                                if (result.error === 'B002' || result.error === 'B080') {
                                     if (result.data) {
                                         self.selfSpeak('message', '服务器正在训练下一个AI，' + result.data + '以后再来看新机型的表演吧。');
                                     } else {

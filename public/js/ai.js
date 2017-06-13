@@ -52,6 +52,7 @@ AIVM.prototype = {
                     $('#luna1-upload').prop('disabled', true);
                     $('#luna2-upload').prop('disabled', true);
                     $('#luna3-upload').prop('disabled', true);
+                    $('#luna4-upload').prop('disabled', true);
                     ai.lockPage('luna1-container');
                     $.ajax({
                         url: 'api/vggPredict',
@@ -63,6 +64,7 @@ AIVM.prototype = {
                             $('#luna1-upload').prop('disabled', false);
                             $('#luna2-upload').prop('disabled', false);
                             $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
                             ai.unlockPage();
                             if (!result.error) {
                                 var msg = '';
@@ -90,13 +92,11 @@ AIVM.prototype = {
                                 }
                                 self.selfSpeak('message', msg);
                             } else {
-                                if (result.error === 'B002') {
-                                    self.selfSpeak('message', 'ただ今、ワタシのところに複数の識別リクエストが届いています。てんてこ舞いですから、少し時間を空けてからもう一度試してくださいね。');
-                                } else if (result.error === 'B080') {
+                                if (result.error === 'B002' || result.error === 'B080') {
                                     if (result.data) {
-                                        self.selfSpeak('message', 'サーバが次のAIの学習のために、忙しいそうです。' + result.data + 'に学習が終える予定です。');
+                                        self.selfSpeak('message', 'サーバが次世代ロボットの訓練に忙しいです。' + result.data + 'に学習が完了の予定です。');
                                     } else {
-                                        self.selfSpeak('message', 'サーバが取り込み中です。もう一度お試しください。');
+                                        self.selfSpeak('message', 'いま、ワタシのところに複数の識別リクエストが届いています。少し時間を空けて、もう一度試してくださいね。');
                                     }
                                 } else {
                                     self.selfSpeak('message', '識別が失敗しました。ごめんなさい。');
@@ -107,6 +107,7 @@ AIVM.prototype = {
                             $('#luna1-upload').prop('disabled', false);
                             $('#luna2-upload').prop('disabled', false);
                             $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
                             ai.unlockPage();
                             self.selfSpeak('message', 'ネットの具合が悪いかもしれません。もう一度試してくださいね。');
                         }
@@ -178,6 +179,7 @@ AIVM.prototype = {
                     $('#luna1-upload').prop('disabled', true);
                     $('#luna2-upload').prop('disabled', true);
                     $('#luna3-upload').prop('disabled', true);
+                    $('#luna4-upload').prop('disabled', true);
                     ai.lockPage('luna2-container');
                     $.ajax({
                         url: 'api/cvdPredict',
@@ -189,6 +191,7 @@ AIVM.prototype = {
                             $('#luna1-upload').prop('disabled', false);
                             $('#luna2-upload').prop('disabled', false);
                             $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
                             ai.unlockPage();
                             if (!result.error) {
                                 var msg = '';
@@ -202,17 +205,15 @@ AIVM.prototype = {
                                 } else if (value < 0.3) {
                                     msg = '猫！？…てっ、照れてないもんっ。';
                                 } else {
-                                    msg = 'なにこれ！？かわいい！！…えっ、顔が赤くなってるのは、今日は暑いからよ。';
+                                    msg = 'なにこれ！？かわいい！！…えっ？顔が赤くなってるのは、今日は暑いからよ。';
                                 }
                                 self.selfSpeak('message', msg);
                             } else {
-                                if (result.error === 'B002') {
-                                    self.selfSpeak('message', 'ほら、この私が忙しいから、後で見てあげるわ。');
-                                } else if (result.error === 'B080') {
+                                if (result.error === 'B002' || result.error === 'B080') {
                                     if (result.data) {
-                                        self.selfSpeak('message', 'サーバが次のAIの学習のために、忙しいそうです。' + result.data + 'に学習が終える予定です。');
+                                        self.selfSpeak('message', 'サーバが次世代ロボットの訓練に忙しいから、' + result.data + 'の後また来てね。');
                                     } else {
-                                        self.selfSpeak('message', 'サーバが取り込み中です。もう一度お試しください。');
+                                        self.selfSpeak('message', 'ほら、この私がちょうど忙しかったから、先何言ってたっけ？');
                                     }
                                 } else {
                                     self.selfSpeak('message', 'な、生意気言うなよ！サーバがわるいからっ！');
@@ -223,6 +224,7 @@ AIVM.prototype = {
                             $('#luna1-upload').prop('disabled', false);
                             $('#luna2-upload').prop('disabled', false);
                             $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
                             ai.unlockPage();
                             self.selfSpeak('message', 'バカッ！ネットに繋がってんの！？');
                         }
@@ -294,6 +296,7 @@ AIVM.prototype = {
                     $('#luna1-upload').prop('disabled', true);
                     $('#luna2-upload').prop('disabled', true);
                     $('#luna3-upload').prop('disabled', true);
+                    $('#luna4-upload').prop('disabled', true);
                     ai.lockPage('luna3-container');
                     $.ajax({
                         url: 'api/flowerPredict',
@@ -305,6 +308,7 @@ AIVM.prototype = {
                             $('#luna1-upload').prop('disabled', false);
                             $('#luna2-upload').prop('disabled', false);
                             $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
                             ai.unlockPage();
                             if (!result.error) {
                                 var msg = '';
@@ -333,13 +337,11 @@ AIVM.prototype = {
                                 }
                                 self.selfSpeak('message', msg);
                             } else {
-                                if (result.error === 'B002') {
-                                    self.selfSpeak('message', 'えっ！？今、取り込み中ですから、あそこで待ってください。');
-                                } else if (result.error === 'B080') {
+                                if (result.error === 'B002' || result.error === 'B080') {
                                     if (result.data) {
-                                        self.selfSpeak('message', 'サーバが次のAIの学習のために、忙しいそうです。' + result.data + 'に学習が終える予定です。');
+                                        self.selfSpeak('message', 'サーバが次世代ロボットの訓練に忙しいです。' + result.data + 'に学習が完了の予定です。');
                                     } else {
-                                        self.selfSpeak('message', 'サーバが取り込み中です。もう一度お試しください。');
+                                        self.selfSpeak('message', 'ちょうどサーバが取り込み中でした。もう一度お試しください。');
                                     }
                                 } else {
                                     self.selfSpeak('message', '申しわけありません。アタシ、なんか変ですぅ。');
@@ -350,6 +352,7 @@ AIVM.prototype = {
                             $('#luna1-upload').prop('disabled', false);
                             $('#luna2-upload').prop('disabled', false);
                             $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
                             ai.unlockPage();
                             self.selfSpeak('message', 'ネットワークが変ですぅ。');
                         }
@@ -411,6 +414,116 @@ AIVM.prototype = {
                 },
                 openUpload: function() {
                     ai.vm.uploader = ai.vm.luna3;
+                    ai.showUploadModal();
+                }
+            }
+        });
+        this.luna4 = new Vue({
+            el: '#luna4',
+            data: function() {
+                return {msgs: []};
+            },
+            mounted: function() {
+                this.selfSpeak('message', 'おれは次世代のロボットだから、20種類の物も識別できるぞ、ほら、とにかく画像ください！');
+            },
+            methods: {
+                selfSpeak: function(type, msg) {
+                    this.speak('ルナ四号機', type, msg);
+                },
+                speak: function(name, type, msg) {
+                    this.msgs.push({
+                        name: name,
+                        timestamp: formatDate(new Date(), 'YYYY/MM/DD hh:mm:ss'),
+                        type: type,
+                        msg: msg
+                    });
+                    this.$nextTick(function () {
+                        $('#luna4').animate({scrollTop: $('#luna4')[0].scrollHeight}, 'fast');
+                    });
+                },
+                predict: function(image) {
+                    var self = this;
+                    $('#luna1-upload').prop('disabled', true);
+                    $('#luna2-upload').prop('disabled', true);
+                    $('#luna3-upload').prop('disabled', true);
+                    $('#luna4-upload').prop('disabled', true);
+                    ai.lockPage('luna4-container');
+                    $.ajax({
+                        url: 'api/segPredict',
+                        type: 'GET',
+                        data: {image: image},
+                        dataType: 'json',
+                        timeout: CONST.TIMEOUT,
+                        success: function(result) {
+                            $('#luna1-upload').prop('disabled', false);
+                            $('#luna2-upload').prop('disabled', false);
+                            $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
+                            ai.unlockPage();
+                            if (!result.error) {
+                                if (result.data.labels.length <= 0) {
+                                    self.selfSpeak('message', 'あれ、おれの知っている物は一つもないぞ。');
+                                } else {
+                                    var msg = 'これらの物があるよ：' + result.data.labels.join('、') + '。ちなみに、下記の図はおれの理解だよ。';
+                                    self.selfSpeak('message', msg);
+                                    self.selfSpeak('image', 'upload/' + result.data.img);
+                                }
+                            } else {
+                                if (result.error === 'B002' || result.error === 'B080') {
+                                    if (result.data) {
+                                        self.selfSpeak('message', 'サーバは次次世代ロボットの訓練に忙しいだそうです。' + result.data + '以後にまた来てよ。えっ！？じじ世代！？');
+                                    } else {
+                                        self.selfSpeak('message', 'ちょっと待て、古いやつらはちょうどサーバを使ってたから、もう一度やってみ。');
+                                    }
+                                } else {
+                                    self.selfSpeak('message', 'なんですって！？サーバがエラーだと！？');
+                                }
+                            }
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            $('#luna1-upload').prop('disabled', false);
+                            $('#luna2-upload').prop('disabled', false);
+                            $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
+                            ai.unlockPage();
+                            self.selfSpeak('message', 'ちょっ、次世代でもネットワークが必要なんだよ！');
+                        }
+                    });
+                },
+                getClass: function(name) {
+                    if (name == 'ルナ四号機') {
+                        return 'direct-chat-msg';
+                    }
+                    if (name == 'あなた') {
+                        return 'direct-chat-msg right';
+                    }
+                },
+                getNameClass: function(name) {
+                    if (name == 'ルナ四号機') {
+                        return 'direct-chat-name pull-left';
+                    }
+                    if (name == 'あなた') {
+                        return 'direct-chat-name pull-right';
+                    }
+                },
+                getTimeClass: function(name) {
+                    if (name == 'ルナ四号機') {
+                        return 'direct-chat-timestamp pull-right';
+                    }
+                    if (name == 'あなた') {
+                        return 'direct-chat-timestamp pull-left';
+                    }
+                },
+                getAvatar: function(name) {
+                    if (name == 'ルナ四号機') {
+                        return 'img/robot4.jpg';
+                    }
+                    if (name == 'あなた') {
+                        return 'img/avatar.png';
+                    }
+                },
+                openUpload: function() {
+                    ai.vm.uploader = ai.vm.luna4;
                     ai.showUploadModal();
                 }
             }

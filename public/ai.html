@@ -196,23 +196,57 @@
                     </div>
                 </div>
             </div>
-            <!--<div id="image-panel" v-if="url != ''">
-                <div class="row ai-image-frame">
-                    <img v-bind:src="url" class="img-thumbnail ai-image">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="box box-success direct-chat direct-chat-success" id="luna4-container">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">ルナ四号機</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle">
+                                    <h3 class="box-title"><i class="fa fa-question-circle"></i></h3>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="direct-chat-messages" id="luna4">
+                                <div v-bind:class="getClass(msg.name)" v-for="msg in msgs">
+                                    <div class="direct-chat-info clearfix">
+                                        <span v-bind:class="getNameClass(msg.name)">{{msg.name}}</span>
+                                        <span v-bind:class="getTimeClass(msg.name)">{{msg.timestamp}}</span>
+                                    </div>
+                                    <img class="direct-chat-img" v-bind:src="getAvatar(msg.name)" alt="Message User Image">
+                                    <div class="direct-chat-text" v-if="msg.type=='message'">
+                                        {{msg.msg}}
+                                    </div>
+                                    <div class="direct-chat-text" v-else>
+                                        <img class="img-thumbnail" v-bind:src="msg.msg">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="direct-chat-contacts">
+                                <img class="contacts-list-img" src="img/robot4.jpg" alt="User Image">
+                                <div class="contacts-list-info">
+                                    <span class="contacts-list-name">
+                                        ルナ四号機
+                                    </span>
+                                    <span class="contacts-list-msg">2017/06/10生まれ、♂、革新なコアを誇りに思っている</span>
+                                </div>
+                                <br>
+                                <div class="contacts-list-info">
+                                    <span class="contacts-list-name">
+                                        FCN32sのモデルを採用し、PASCAL2012のデータセットで訓練したコア。20種類の物の識別が可能。技術は一段進化したため、識別の精度は高くなっている。
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-success pull-right" id="luna4-upload" title="" onclick="ai.vm.luna4.openUpload();">
+                                <i class="fa fa-upload"></i> 画像アップロード
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="row" v-if="recog.length > 0">
-                    <table class="table table-bordered table-hover">
-                        <tr class="bg-gray">
-                            <th>name</th>
-                            <th style="width: 150px">percentage</th>
-                        </tr>
-                        <tr v-for="one in recog">
-                            <td>{{one.name}}</td>
-                            <td>{{one.percentage}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>-->
+            </div>
         </section>
     </div>
 
