@@ -42,21 +42,6 @@
                     </ul>
                 </div>
 
-                <!--<div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-                        <li id="controller1">
-                            <a href="javascript:ai.showUploadModal();">
-                                <i class="fa fa-upload"></i> 画像アップロード
-                            </a>
-                        </li>
-                        <li id="controller2">
-                            <a href="#" data-toggle="control-sidebar">
-                                <i class="fa fa-file-image-o"></i> 識別履歴
-                            </a>
-                        </li>
-                    </ul>
-                </div>-->
-
             </div>
         </nav>
     </header>
@@ -206,6 +191,57 @@
                         </div>
                         <div class="box-footer">
                             <button type="button" class="btn btn-success pull-right" id="luna3-upload" title="" onclick="ai.vm.luna3.openUpload();">
+                                <i class="fa fa-upload"></i> 上传图片
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="box box-success direct-chat direct-chat-success" id="luna4-container">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">露娜四号机</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle">
+                                    <h3 class="box-title"><i class="fa fa-question-circle"></i></h3>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="direct-chat-messages" id="luna4">
+                                <div v-bind:class="getClass(msg.name)" v-for="msg in msgs">
+                                    <div class="direct-chat-info clearfix">
+                                        <span v-bind:class="getNameClass(msg.name)">{{msg.name}}</span>
+                                        <span v-bind:class="getTimeClass(msg.name)">{{msg.timestamp}}</span>
+                                    </div>
+                                    <img class="direct-chat-img" v-bind:src="getAvatar(msg.name)" alt="Message User Image">
+                                    <div class="direct-chat-text" v-if="msg.type=='message'">
+                                        {{msg.msg}}
+                                    </div>
+                                    <div class="direct-chat-text" v-else>
+                                        <img class="img-thumbnail" v-bind:src="msg.msg">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="direct-chat-contacts">
+                                <img class="contacts-list-img" src="img/robot4.jpg" alt="User Image">
+                                <div class="contacts-list-info">
+                                    <span class="contacts-list-name">
+                                        露娜四号机
+                                    </span>
+                                    <span class="contacts-list-msg">生于2017/06/10，♂，严重偏科，骄傲。</span>
+                                </div>
+                                <br>
+                                <div class="contacts-list-info">
+                                    <span class="contacts-list-name">
+                                        核心采用FCN32s模型，训练数据来源于PASCAL2012。能识别20种事物。由于是新型号，技术上有重大的突破，所以识别的精度远高于旧机型。
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-success pull-right" id="luna4-upload" title="" onclick="ai.vm.luna4.openUpload();">
                                 <i class="fa fa-upload"></i> 上传图片
                             </button>
                         </div>

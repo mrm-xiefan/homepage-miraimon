@@ -52,6 +52,7 @@ AIVM.prototype = {
                     $('#luna1-upload').prop('disabled', true);
                     $('#luna2-upload').prop('disabled', true);
                     $('#luna3-upload').prop('disabled', true);
+                    $('#luna4-upload').prop('disabled', true);
                     ai.lockPage('luna1-container');
                     $.ajax({
                         url: 'api/vggPredict',
@@ -63,6 +64,7 @@ AIVM.prototype = {
                             $('#luna1-upload').prop('disabled', false);
                             $('#luna2-upload').prop('disabled', false);
                             $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
                             ai.unlockPage();
                             if (!result.error) {
                                 var msg = '';
@@ -107,6 +109,7 @@ AIVM.prototype = {
                             $('#luna1-upload').prop('disabled', false);
                             $('#luna2-upload').prop('disabled', false);
                             $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
                             ai.unlockPage();
                             self.selfSpeak('message', '网络环境似乎不太对劲，请稍后再试。');
                         }
@@ -178,6 +181,7 @@ AIVM.prototype = {
                     $('#luna1-upload').prop('disabled', true);
                     $('#luna2-upload').prop('disabled', true);
                     $('#luna3-upload').prop('disabled', true);
+                    $('#luna4-upload').prop('disabled', true);
                     ai.lockPage('luna2-container');
                     $.ajax({
                         url: 'api/cvdPredict',
@@ -189,6 +193,7 @@ AIVM.prototype = {
                             $('#luna1-upload').prop('disabled', false);
                             $('#luna2-upload').prop('disabled', false);
                             $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
                             ai.unlockPage();
                             if (!result.error) {
                                 var msg = '';
@@ -210,9 +215,9 @@ AIVM.prototype = {
                                     self.selfSpeak('message', '我很忙，有空再帮你看。');
                                 } else if (result.error === 'B080') {
                                     if (result.data) {
-                                        self.selfSpeak('message', '服务器正在训练下一个AI，请' + result.data + '以后再来。');
+                                        self.selfSpeak('message', '服务器正在训练下一个AI，' + result.data + '以后才有空。');
                                     } else {
-                                        self.selfSpeak('message', '很不巧，服务器刚才正忙，请再试一次。');
+                                        self.selfSpeak('message', '服务器刚才在忙，你再试试看吧。');
                                     }
                                 } else {
                                     self.selfSpeak('message', '我都说了，是服务器出问题了，不关我的事儿。');
@@ -223,6 +228,7 @@ AIVM.prototype = {
                             $('#luna1-upload').prop('disabled', false);
                             $('#luna2-upload').prop('disabled', false);
                             $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
                             ai.unlockPage();
                             self.selfSpeak('message', '笨蛋，你真的连上网了吗？');
                         }
@@ -294,6 +300,7 @@ AIVM.prototype = {
                     $('#luna1-upload').prop('disabled', true);
                     $('#luna2-upload').prop('disabled', true);
                     $('#luna3-upload').prop('disabled', true);
+                    $('#luna4-upload').prop('disabled', true);
                     ai.lockPage('luna3-container');
                     $.ajax({
                         url: 'api/flowerPredict',
@@ -305,6 +312,7 @@ AIVM.prototype = {
                             $('#luna1-upload').prop('disabled', false);
                             $('#luna2-upload').prop('disabled', false);
                             $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
                             ai.unlockPage();
                             if (!result.error) {
                                 var msg = '';
@@ -334,10 +342,10 @@ AIVM.prototype = {
                                 self.selfSpeak('message', msg);
                             } else {
                                 if (result.error === 'B002') {
-                                    self.selfSpeak('message', '啊？我，我正忙这呢，等我一下好吗？');
+                                    self.selfSpeak('message', '啊？我，我正忙着呢，等我一下好吗？');
                                 } else if (result.error === 'B080') {
                                     if (result.data) {
-                                        self.selfSpeak('message', '服务器正在训练下一个AI，请' + result.data + '以后再来。');
+                                        self.selfSpeak('message', '非常抱歉，服务器正在训练下一个AI，请' + result.data + '以后再来。');
                                     } else {
                                         self.selfSpeak('message', '很不巧，服务器刚才正忙，请再试一次。');
                                     }
@@ -350,6 +358,7 @@ AIVM.prototype = {
                             $('#luna1-upload').prop('disabled', false);
                             $('#luna2-upload').prop('disabled', false);
                             $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
                             ai.unlockPage();
                             self.selfSpeak('message', '网络有点不对劲呢？');
                         }
@@ -411,6 +420,118 @@ AIVM.prototype = {
                 },
                 openUpload: function() {
                     ai.vm.uploader = ai.vm.luna3;
+                    ai.showUploadModal();
+                }
+            }
+        });
+        this.luna4 = new Vue({
+            el: '#luna4',
+            data: function() {
+                return {msgs: []};
+            },
+            mounted: function() {
+                this.selfSpeak('message', '哼，看看我新时代机型的实力吧，我能识别20种事物，来吧，给我图片。');
+            },
+            methods: {
+                selfSpeak: function(type, msg) {
+                    this.speak('露娜四号机', type, msg);
+                },
+                speak: function(name, type, msg) {
+                    this.msgs.push({
+                        name: name,
+                        timestamp: formatDate(new Date(), 'YYYY/MM/DD hh:mm:ss'),
+                        type: type,
+                        msg: msg
+                    });
+                    this.$nextTick(function () {
+                        $('#luna4').animate({scrollTop: $('#luna4')[0].scrollHeight}, 'fast');
+                    });
+                },
+                predict: function(image) {
+                    var self = this;
+                    $('#luna1-upload').prop('disabled', true);
+                    $('#luna2-upload').prop('disabled', true);
+                    $('#luna3-upload').prop('disabled', true);
+                    $('#luna4-upload').prop('disabled', true);
+                    ai.lockPage('luna4-container');
+                    $.ajax({
+                        url: 'api/segPredict',
+                        type: 'GET',
+                        data: {image: image},
+                        dataType: 'json',
+                        timeout: CONST.TIMEOUT,
+                        success: function(result) {
+                            $('#luna1-upload').prop('disabled', false);
+                            $('#luna2-upload').prop('disabled', false);
+                            $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
+                            ai.unlockPage();
+                            if (!result.error) {
+                                if (result.data.labels.length <= 0) {
+                                    self.selfSpeak('message', '这张图里没有我认识的东西。拜托，你是不是还活在旧时代啊？');
+                                } else {
+                                    var msg = '这张图里有这些东西：' + response.data.labels.join(',') + '下面这张图是我认知这张图片的结果。';
+                                    self.selfSpeak('message', msg);
+                                    self.selfSpeak('image', 'upload/' + response.data.img);
+                                }
+                            } else {
+                                if (result.error === 'B002') {
+                                    self.selfSpeak('message', '新机型也会出问题？不可能！你再试试。');
+                                } else if (result.error === 'B080') {
+                                    if (result.data) {
+                                        self.selfSpeak('message', '服务器正在训练下一个AI，' + result.data + '以后再来看新机型的表演吧。');
+                                    } else {
+                                        self.selfSpeak('message', '等一下，旧机型的家伙们正占用服务器呢。');
+                                    }
+                                } else {
+                                    self.selfSpeak('message', '服务器出问题了，Oh, Yeah!');
+                                }
+                            }
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            $('#luna1-upload').prop('disabled', false);
+                            $('#luna2-upload').prop('disabled', false);
+                            $('#luna3-upload').prop('disabled', false);
+                            $('#luna4-upload').prop('disabled', false);
+                            ai.unlockPage();
+                            self.selfSpeak('message', '新机型也要联网才行啊！');
+                        }
+                    });
+                },
+                getClass: function(name) {
+                    if (name == '露娜四号机') {
+                        return 'direct-chat-msg';
+                    }
+                    if (name == '用户') {
+                        return 'direct-chat-msg right';
+                    }
+                },
+                getNameClass: function(name) {
+                    if (name == '露娜四号机') {
+                        return 'direct-chat-name pull-left';
+                    }
+                    if (name == '用户') {
+                        return 'direct-chat-name pull-right';
+                    }
+                },
+                getTimeClass: function(name) {
+                    if (name == '露娜四号机') {
+                        return 'direct-chat-timestamp pull-right';
+                    }
+                    if (name == '用户') {
+                        return 'direct-chat-timestamp pull-left';
+                    }
+                },
+                getAvatar: function(name) {
+                    if (name == '露娜四号机') {
+                        return 'img/robot4.jpg';
+                    }
+                    if (name == '用户') {
+                        return 'img/avatar.png';
+                    }
+                },
+                openUpload: function() {
+                    ai.vm.uploader = ai.vm.luna4;
                     ai.showUploadModal();
                 }
             }

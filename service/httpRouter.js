@@ -415,6 +415,32 @@ router.get('/aicn/api/flowerPredict', function(req, res, next) {
     });
 });
 
+router.get('/aicn/api/segPredict', function(req, res, next) {
+    var url_parts = url.parse(req.url, true);
+    var image = url_parts.query.image;
+    console.log('segPredict:' + image);
+
+    utils.checkLock(function(err, data) {
+        if (err) {
+            res.json({"error": "S001", "data": null});
+        } else if (data) {
+            res.json({"error": "B080", "data": data});
+        } else {
+            var exec = require('child_process').exec;
+            var cmd = "cd /opt/lunania-ai/seg/01_job/;python predict.py --image /opt/homepage-miraimon/public/" + image + ";";
+            exec(cmd, function(error, stdout, stderr) {
+                if (!error) {
+                    var pyresult = stdout.replace(/'/g, '"');
+                    var rp = JSON.parse(pyresult);
+                    res.json(rp);
+                } else {
+                    res.json({"error": "S001", "data": null});
+                }
+            });
+        }
+    });
+});
+
 function returnResourceFile(req, res) {
     var publicDirectory = fs.realpathSync('public');
     var decodedUri = decodeURI(req.url);
