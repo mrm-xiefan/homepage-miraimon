@@ -25,7 +25,8 @@ UploadService.prototype = {
 
         form.on('end', function() {
             console.log("upload end:"+JSON.stringify(localFileList));
-            self.resizePicture(localFileList, 0, function(error, fileList) {
+            self.resizePicture(localFileList, 0, [], function(error, fileList) {
+                console.log('all resized:' + JSON.stringify(fileList));
                 if (error) {
                     next({error: "S012"});
                 } else {
@@ -42,10 +43,10 @@ UploadService.prototype = {
         form.parse(req);
     },
 
-    resizePicture: function(pictures, idx, next) {
+    resizePicture: function(pictures, idx, fileList, next) {
         var self = this;
-        var fileList = [];
         if (idx > pictures.length - 1) {
+            console.log('resize return:' + fileList);
             next(null, fileList);
             return;
         }
@@ -53,17 +54,24 @@ UploadService.prototype = {
         var imageId = uuid.v4();
         var movedFile = path.join(__dirname, '..', 'public', 'upload', imageId + '.jpg');
         fileList.push('upload/' + imageId + '.jpg');
+        console.log('resizing:' + fileList);
         if (os.arch() == 'x64') {
             sharp(pictures[idx])
                 .resize(500, 500)
-                .background('black')
+                .limitInputPixels(0)
+                .max()
                 .toFile(movedFile)
                 .then(function() {
-                    self.trimPicture(pictures, idx + 1, next);
+                    console.log("resized one.");
+                    self.resizePicture(pictures, idx + 1, fileList, next);
+                })
+                .catch(function(error) {
+                    console.log('shart error' + JSON.stringify(error));
+                    next({error: "S015"});
                 });
         } else {
             fs.rename(pictures[idx], movedFile, function() {
-               self.trimPicture(pictures, idx + 1, next);
+               self.resizePicture(pictures, idx + 1, fileList, next);
             });
         }
     },
@@ -124,6 +132,10 @@ UploadService.prototype = {
                 .toFile(movedFile)
                 .then(function() {
                     self.trimPicture(pictures, idx + 1, project, next);
+                })
+                .catch(function(error) {
+                    console.log('shart error' + JSON.stringify(error));
+                    next({error: "S015"});
                 });
         } else {
             fs.rename(pictures[idx], movedFile, function() {

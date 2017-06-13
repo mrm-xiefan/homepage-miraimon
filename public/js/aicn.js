@@ -75,7 +75,7 @@ AIVM.prototype = {
                                         msg = '呵呵，这肯定是[' + onePredict.name + ']吧。';
                                         break;
                                     } else if (percentage > 50) {
-                                        msg = '嗯——这很可能是[' + onePredict.name + ']。';
+                                        msg = '嗯——这很可能是[' + onePredict.name + ']';
                                     } else if (percentage > 15) {
                                         if (msg == '') {
                                             msg = '我不是很确定，这是';
@@ -470,7 +470,7 @@ AIVM.prototype = {
                                 if (result.data.labels.length <= 0) {
                                     self.selfSpeak('message', '这张图里没有我认识的东西。拜托，你是不是还活在旧时代啊？');
                                 } else {
-                                    var msg = '这张图里有这些东西：' + result.data.labels.join(',') + '下面这张图是我认知这张图片的结果。';
+                                    var msg = '这张图里有这些东西：' + result.data.labels.join(',') + '。下面这张图是我认知这张图片的结果。';
                                     self.selfSpeak('message', msg);
                                     self.selfSpeak('image', 'upload/' + result.data.img);
                                 }
