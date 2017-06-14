@@ -624,6 +624,16 @@ AI.prototype = {
             ai.vm.uploader.selfSpeak('message', '图片上传失败。');
             ai.hideUploadModal();
         });
+
+        var headerHight = 50;
+        $('a[href^="#"]').click(function(){
+            var href= $(this).attr("href");
+            var target = $(href == "#" || href == "" ? 'html' : href);
+            var position = target.offset().top - headerHight;
+            $("html, body").animate({scrollTop:position}, 550, "swing");
+            return false;
+        });
+
         ai.unlockPage();
     },
     openHomepage: function() {

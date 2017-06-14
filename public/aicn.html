@@ -42,6 +42,30 @@
                     </ul>
                 </div>
 
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#luna1-container">
+                                一号机
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#luna2-container">
+                                二号机
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#luna3-container">
+                                三号机
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#luna4-container">
+                                四号机
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </header>
@@ -49,6 +73,21 @@
     <div class="content-wrapper" onclick="ai.closeSidePanel();">
         <section class="content">
             <div class="row">
+                <div class="col-sm-8">
+                    <h2><i class="fa fa-bullhorn"></i>关于露娜一号机</h2>
+                    <p>研发一号机的目标是搭建机器学习的基础环境，严格来说和机器学习的关系不大。我们开发了展示网页，搭建了机器学习用的服务器。</p>
+                    <p>我们首先尝试了在亚马逊云服务(AWS)上搭建环境，搭建成功后发现，没有GPU的服务器在处理机器学习的程序时，性能实在不敢恭维。一次识别需要花15分钟左右，还经常宕机。</p>
+                    <p>AWS也提供GPU服务，但是租赁费用太高，对于没有经费的我们来说不是明智的选择。所以我们自己买硬件，一次性投资，组装了一台服务器。安装Linux系统，重新搭建机器学习的环境，搭建网络环境，我们足足花了一个月才完成了现在这一整套系统。</p>
+                    <p>终于我们开始了机器学习的第一步。所谓机器学习，就是让电脑学习某种知识，学习完成后，人类给电脑一些电脑没有见过的东西时，电脑能根据自己掌握的情报来猜测这是什么东西。也就是说整个流程分为两步：<strong class="text-red">训练（学习）</strong>，<strong class="text-red">识别</strong>。</p>
+                    <p>由于是刚接触机器学习，我们决定稍稍降低一点难度，跳过训练，使用网上的别人训练好的AI，先尝试一下识别。</p>
+                    <p>经过筛选后，最终我们选择了<a href="http://www.image-net.org/" target="_blank">ImageNet</a>。ImageNet是一个计算机视觉系统识别项目，是目前世界上图像识别最大的数据库。美国斯坦福的计算机科学家们使用这个庞大的数据库训练出了一个AI并免费公开。这个AI能够从图片中识别出1000种一般物体。</p>
+                    <p>有人会问了：既然都有这么强大的免费AI了，你们还研发AI干什么啊？原因有二：</p>
+                    <ol>
+                        <li>它充其量只能识别1000种物体，世界上无数的物体等着我们去识别，只要有商业需求，就有我们的存在价值。</li>
+                        <li>它的处理方式是：一张图片里只有一个物体的前提下，AI分别给出图片是1000种物体的可能性来，我们保留可能性最高的几个答案，其余答案忽略不计。一张图片里含有多个物体时，AI仍然以一个物体的观点去识别，答案的准确度就可想而知了。</li>
+                    </ol>
+                    <p>我们download了这个免费AI，几经周折，终于知道了它的用法，成功识别图片了。请尽情试用一号机，感受一下强大的AI吧。</p>
+                </div>
                 <div class="col-sm-4">
                     <div class="box box-success direct-chat direct-chat-success" id="luna1-container">
                         <div class="box-header with-border">
@@ -98,6 +137,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-4">
                     <div class="box box-success direct-chat direct-chat-success" id="luna2-container">
                         <div class="box-header with-border">
@@ -147,6 +188,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-8">
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-4">
                     <div class="box box-success direct-chat direct-chat-success" id="luna3-container">
                         <div class="box-header with-border">
@@ -196,8 +241,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-sm-4">
                     <div class="box box-success direct-chat direct-chat-success" id="luna4-container">
                         <div class="box-header with-border">
@@ -270,6 +313,7 @@
 
 <script type="text/javascript" src="vendor/vue/vue.min.js"></script>
 <script type="text/javascript" src="vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="vendor/jquery/jquery.Jcrop.js"></script>
 <script type="text/javascript" src="vendor/jqueryUI/jquery-ui.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
@@ -280,6 +324,7 @@
 <script type="text/javascript" src="vendor/bootstrap-fileinput/js/fileinput.js"></script>
 <script type="text/javascript" src="vendor/bootstrap-fileinput/js/locales/es.js"></script>
 <script type="text/javascript" src="vendor/bootstrap-fileinput/js/locales/ja.js"></script>
+<script type="text/javascript" src="vendor/JavaScript-Load-Image/load-image.all.min.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/aicn.js"></script>
 <script>
