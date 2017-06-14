@@ -57,6 +57,7 @@ UploadService.prototype = {
         console.log('resizing:' + fileList);
         if (os.arch() == 'x64') {
             sharp(pictures[idx])
+                .rotate()
                 .resize(500, 500)
                 .limitInputPixels(0)
                 .max()
@@ -127,6 +128,7 @@ UploadService.prototype = {
         var movedFile = path.join(__dirname, '..', 'public', 'segup', project, 'jpg', imageId + '.jpg');
         if (os.arch() == 'x64') {
             sharp(pictures[idx])
+                .rotate()
                 .resize(500, 500)
                 .background('black')
                 .toFile(movedFile)
