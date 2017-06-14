@@ -4168,10 +4168,10 @@ table.text-center th {
   padding: 0;
 }
 .fc-color-picker > li {
-  float: left;
-  font-size: 30px;
+  /*float: left;*/
+  font-size: 25px;
   margin-right: 5px;
-  line-height: 30px;
+  line-height: 25px;
 }
 .fc-color-picker > li .fa {
   -webkit-transition: -webkit-transform linear 0.3s;

@@ -89,7 +89,7 @@
                     <p>我们download了这个免费AI，几经周折，终于知道了它的用法，成功识别图片了。请尽情试用一号机，感受一下强大的AI吧。</p>
                 </div>
                 <div class="col-sm-4">
-                    <div class="box box-success direct-chat direct-chat-success" id="luna1-container">
+                    <div class="box box-solid box-success direct-chat direct-chat-success" id="luna1-container">
                         <div class="box-header with-border">
                             <h3 class="box-title">露娜一号机</h3>
                             <div class="box-tools pull-right">
@@ -138,9 +138,10 @@
                     </div>
                 </div>
             </div>
+            <hr class="accessory">
             <div class="row">
                 <div class="col-sm-4">
-                    <div class="box box-success direct-chat direct-chat-success" id="luna2-container">
+                    <div class="box box-solid box-success direct-chat direct-chat-success" id="luna2-container">
                         <div class="box-header with-border">
                             <h3 class="box-title">露娜二号机</h3>
                             <div class="box-tools pull-right">
@@ -189,11 +190,66 @@
                     </div>
                 </div>
                 <div class="col-sm-8">
+                    <h2><i class="fa fa-bullhorn"></i>关于露娜二号机</h2>
+                    <p>研发二号机的目的是理解AI的训练方式。我们选择了最简单的猫狗识别的应用。</p>
+                    <p>首先，我们要为学生(AI)准备教科书(数据)，在网上一番搜索后，我们发现了<a href="https://www.kaggle.com/" target="_blank">kaggle</a>，这里有丰富的猫和狗的图片。</p>
+                    <p>把下载的图片分类到两个目录里，一个目录只放狗，一个目录只放猫，然后写程序告诉AI，一切准备就绪后，训练开始！AI花了几个小时时间，把每张图片都反复观察了60遍，总结出猫的特征和狗的特征。最后告诉我们，学完了！</p>
+                    <p>下面我们开始检验AI的训练成果，从网上找了一些AI没有见过的图片，AI仔细分析后拿出了它的见解，唔，结果还行吧。有兴趣的话你也可以试试哦。</p>
+                    <p>通过二号机的研发和使用，我们又加深了对机器学习的理解。</p>
+                    <ol>
+                        <li>除了分辨猫和狗以外，二号机什么都不会。这是理所当然的了，不过有朋友问到过这个问题，所以还是列出来吧。例如我们拿个汽车的图片给它，它可不会拒绝我们的戏谑，仔细分析半天后，给我们一个分析报告说：这是狗(猫)！这认真劲儿，感人啊！
+                            <div><img src="img/car.png"></div>
+                        </li>
+                        <li>和一号机有同样的弊端，一张图片只能包含一个物体。如果一张图片既有猫又有狗，AI是拿不出像样的分析报告来的。
+                            <div><img src="img/cvd.png"></div>
+                            <div>我们期待的结果是：这张图里有2只猫和3只狗。但AI的报告只能是：这张照片是猫的照片！因为，AI把整张图片当成一个整体在辨别，从这张图里AI发现了更多的猫的特征，所以结论是猫。</div>
+                        </li>
+                        <li>有朋友问：只是识别猫和狗似乎太没劲了，识别猫和狗的品种可以吗？答案是可以。我们首先需要细分教科书(数据)，前面提到的“把所有图片分类到两个目录”这一道工序，需要改成“分类到各个品种的目录去”。这样做会有一个问题：前面提到的我们搜集了2800张图片，分到两个目录，每个目录有1400张，AI在学习了这么多数据后得到了现在二号机的精确度。那么假设我们准备识别10个种类的猫和狗，2800张图片分到10个目录里去，每个目录只有280张图片，这样的话，AI的学习资料是不充分的，精度很难保障。</li>
+                    </ol>
                 </div>
             </div>
+            <hr class="accessory">
             <div class="row">
+                <div class="col-sm-8">
+                    <h2><i class="fa fa-bullhorn"></i>关于露娜三号机</h2>
+                    <p>研发三号机的目的是尝试多种类识别。通过前两个AI，我们已经对整个机器学习的架构有了一定的理解，那么要商业化运用的话，我们会面临哪些课题呢？通过三号机的研发，希望我们能得到答案。</p>
+                    <p>目前我们深刻地理解到了：学习数据的收集和整理是机器学习应用上最大的课题。三号机的主题最终定为：识别17种花。因为牛津大学很慷慨的提供了<a href="http://www.robots.ox.ac.uk/~vgg/data/flowers/17/" target="_blank">免费数据</a>。</p>
+                    <p>获取数据后我们发现，每个种类的花只有80张图片，如此少量的数据怎么用来训练呢？让我们用技术来解决问题吧。对于每张图片，我们都制造20张左右赝品出来。有反转的，有拉升的，有变色的，有裁剪的，换着花样让AI看教科书。80张图片虽然不能活生生的变成1600张图片，但还是有一定效果的。</p>
+                    <p>长话短说，写代码，训练，验证结果。在这个过程中，我们又领悟了不少东西。</p>
+                    <ol>
+                        <li>花呢？
+                            <div>有朋友问：明明是向日葵，为什么识别不出来呢？我们打开上传的图片后看到</div>
+                            <div><img src="img/flower2.png">有这样的</div>
+                            <br>
+                            <div><img src="img/flower3.png">有这样的</div>
+                            <br>
+                            <div><img src="img/flower1.png">还有这样的</div>
+                            <br>
+                            <div>再看看老师是怎么教的。</div>
+                            <br>
+                            <div style="float: left;">
+                                <img src="img/flower4.png">
+                                <img src="img/flower5.png">
+                                <img src="img/flower6.png">
+                            </div>
+                            <h3 style="clear: both;"></h3>
+                            <div>结论出来了，学习数据都是以花朵为主体的真实花朵。而大家上传的图片，一般都是整株花，花朵不是主体，甚至是假花。用专业术语说就是：噪音太多。</div>
+                        </li>
+                        <li>蒲公英？
+                            <div>有朋友问：蒲公英不认识吗？我们查了一下，是收录对象啊。再打开上传的图片确认</div>
+                            <div><img src="img/flower7.png"></div>
+                            <br>
+                            <div>非常普通的蒲公英啊，花朵也是主体，怎么给认成向日葵了！？</div>
+                            <div>我们翻出学习数据，发现了问题所在。</div>
+                            <div><img src="img/flower8.png"></div>
+                            <br>
+                            <div>大众对于蒲公英的普遍认知其实并不是蒲公英的花，而是蒲公英的种子。学习数据没有错，大众对于蒲公英的认知也没有错。</div>
+                        </li>
+                    </ol>
+                    <p>正所谓：什么样的老师，教出什么样的学生。</p>
+                </div>
                 <div class="col-sm-4">
-                    <div class="box box-success direct-chat direct-chat-success" id="luna3-container">
+                    <div class="box box-solid box-success direct-chat direct-chat-success" id="luna3-container">
                         <div class="box-header with-border">
                             <h3 class="box-title">露娜三号机</h3>
                             <div class="box-tools pull-right">
@@ -229,7 +285,7 @@
                                 <br>
                                 <div class="contacts-list-info">
                                     <span class="contacts-list-name">
-                                        使用牛津大学公开的17 Category Flower Dataset进行了彻底的训练。只要是这17种花，她应该都能正确识别。但由于她近视，如果图片中掺杂了花以外的东西，或花朵太小，她很容易就会认错。
+                                        使用牛津大学公开的17 Category Flower Dataset进行了彻底的训练。能识别：郁金香，雪花莲，铃兰，风铃草，藏红花，菖蒲，卷丹，喇叭水仙，黑百合，向日葵，雏菊，蕗蒲公英，蒲公英，黄花九轮樱，金凤花，牡丹，三色堇。但由于她近视，如果图片中掺杂了花以外的东西，或花朵太小，她很容易就会认错。
                                     </span>
                                 </div>
                             </div>
@@ -241,8 +297,42 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <hr class="accessory">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2><i class="fa fa-bullhorn"></i>关于露娜四号机</h2>
+                    <p>让我们总结一下，前面三个AI想要商业应用还有所不足，存在以下几个致命缺陷：</p>
+                    <ol>
+                        <li>仅限于一张图片有一个物体的识别。</li>
+                        <li>由于学习的是图片全体领域，过多的背景会影响AI的识别，造成精度不足。</li>
+                        <li>不能从图片中找出物体所处的位置。</li>
+                    </ol>
+                    <p><span class="text-gray">此处省略数万字的细节描述...</span> 经过艰苦的研发，我们终于攻克了上面3个课题，露娜四号机诞生了。四号机采用了深度学习学术界最新的模型，从本质上不同于前面三个AI，达到了商业应用的要求。下面简单地介绍一下四号机。</p>
+                    <p><strong>训练方式的革命</strong>：为了让AI知道图片里的哪个部位是什么东西，忽略没有必要学习的背景部分，数据标注方式有变化，不能简单的分目录来教AI了，我们作为教师，要把每张图片上的物体涂出来才行。例如想要教AI猫和狗的话，就要提供这样的教材。</p>
+                    <div style="float: left;">
+                        <img src="img/help/h1.jpg">
+                        <img src="img/help/h1.png">
+                    </div>
+                    <div style="clear: both;float: left;">
+                        <img src="img/help/h2.jpg">
+                        <img src="img/help/h2.png">
+                    </div>
+                    <p style="clear: both;"></p>
+                    <p>这样的训练数据通过图形处理软件(PhotoShop等)来标注的话，效率实在太低，所以我们开发了专门的<a href="http://stenv.miraimon.work:8090/seg/" target="_blank">标注工具</a>。有了这个标注工具后，在真实的商业应用时，可以节省非常大的一笔开支。</p>
+                    <p>我们尝试了使用这个工具，完全自己准备一套数据，但是即使有工具，需要的投入仍然不是我们能承担的。所以，我们不得不寻找免费的资源。在<a href="https://pjreddie.com/projects/pascal-voc-dataset-mirror/" target="_blank">PASCAL</a>上，我们找到了合适的数据。</p>
+                    <p><strong>识别效果的飞跃</strong>：</p>
+                    <ol>
+                        <li>一张图片有多个物体都能全部罗列出来。</li>
+                        <li>由于学习的是局部领域，所以对物体的特征把握准确很多，识别精度大幅提升。</li>
+                        <li>可以从图片中找出物体所处的位置。</li>
+                    </ol>
+                    <p>下面，实际体验一下最尖端的图像识别技术吧。</p>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-4">
-                    <div class="box box-success direct-chat direct-chat-success" id="luna4-container">
+                    <div class="box box-solid box-success direct-chat direct-chat-success" id="luna4-container">
                         <div class="box-header with-border">
                             <h3 class="box-title">露娜四号机</h3>
                             <div class="box-tools pull-right">
@@ -289,6 +379,57 @@
                             </button>
                         </div>
                     </div>
+                </div>
+                <div class="col-sm-4">
+                    <ul class="fc-color-picker" id="color-chooser">
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(255,40,0,1);"><i class="fa fa-square color-info"></i>飞机</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(250,245,0,1);"><i class="fa fa-square color-info"></i>自行车</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(53,161,107,1);"><i class="fa fa-square color-info"></i>鸟</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(0,135,60,1);"><i class="fa fa-square color-info"></i>船</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(0,65,255,1);"><i class="fa fa-square color-info"></i>瓶子</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(102,204,255,1);"><i class="fa fa-square color-info"></i>巴士</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(255,153,160,1);"><i class="fa fa-square color-info"></i>轿车</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(255,40,255,1);"><i class="fa fa-square color-info"></i>猫</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(255,153,0,1);"><i class="fa fa-square color-info"></i>椅子</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(154,0,121,1);"><i class="fa fa-square color-info"></i>牛</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(190,0,68,1);"><i class="fa fa-square color-info"></i>餐桌</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(24,24,120,1);"><i class="fa fa-square color-info"></i>狗</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(102,51,0,1);"><i class="fa fa-square color-info"></i>马</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(100,100,100,1);"><i class="fa fa-square color-info"></i>摩托</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(239,132,92,1);"><i class="fa fa-square color-info"></i>人</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(245,176,144,1);"><i class="fa fa-square color-info"></i>盆栽</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(255,246,127,1);"><i class="fa fa-square color-info"></i>羊</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(105,189,131,1);"><i class="fa fa-square color-info"></i>沙发</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(165,154,202,1);"><i class="fa fa-square color-info"></i>火车</a></li>
+                        <li><a href="javaScript:void(0);" class="color-cursor" style="color: rgba(190,190,190,1);"><i class="fa fa-square color-info"></i>电视机</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-4">
+                    <div class="box box-solid box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">相关链接</h3>
+                        </div>
+                        <div class="box-body">
+                            <div><a href="http://stenv.miraimon.work:8090/seg/" target="_blank">教师数据标注工具</a></div>
+                            <div><a href="http://stenv.miraimon.work:8090/seghelp/" target="_blank">教师数据标注工具的使用说明</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="accessory">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2><i class="fa fa-bullhorn"></i>关于露娜五号机</h2>
+                    <p>我们发现，四号机仍然存在以下不足：</p>
+                    <ol>
+                        <li>虽然可以从图片中找出物体所处的位置，但是精度略有不足。</li>
+                        <li>一张图片里有多个相同物体时，不能数出每个物体的个数。例如下图
+                            <div><img src="img/sample.jpg"></div>
+                            <div>目前只能知道图里有人也有自行车，我们想更精确的知道有几个人和几辆自行车。
+                        </li>
+                    </ol>
+                    <p>为了攻克以上课题，我们的攻城狮部队正在废寝忘食无日无夜的工作ing。</p>
+                    <h2><strong>露娜五号机 coming soon!!</strong></h2>
                 </div>
             </div>
         </section>

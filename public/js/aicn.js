@@ -274,7 +274,7 @@ AIVM.prototype = {
                 return {msgs: []};
             },
             mounted: function() {
-                this.selfSpeak('message', '嗯，嗯，请给我一张花的图片，可能我知道那是什么花。');
+                this.selfSpeak('message', '嗯，嗯，我认识：郁金香，雪花莲，铃兰，风铃草，藏红花，菖蒲，卷丹，喇叭水仙，黑百合，向日葵，雏菊，蕗蒲公英，蒲公英，黄花九轮樱，金凤花，牡丹，三色堇。');
             },
             methods: {
                 selfSpeak: function(type, msg) {
