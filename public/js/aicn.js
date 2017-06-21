@@ -614,14 +614,14 @@ AI.prototype = {
                 ai.vm.uploader.speak('用户', 'image', response.data[0]);
                 ai.vm.uploader.predict(response.data[0]);
             } else {
-                ai.vm.uploader.selfSpeak('message', '图片上传失败。');
+                ai.vm.uploader.selfSpeak('message', '图片上传失败。推荐你使用firefox,chrome,safari等专业浏览器。');
             }
             $('#upload-input').fileinput('clear');
             ai.hideUploadModal();
         });
         $('#upload-input').on('filebatchuploaderror', function(event, numFiles, label) {
             $('#upload-input').fileinput('clear');
-            ai.vm.uploader.selfSpeak('message', '图片上传失败。');
+            ai.vm.uploader.selfSpeak('message', '图片上传失败。推荐你使用firefox,chrome,safari等专业浏览器。');
             ai.hideUploadModal();
         });
 

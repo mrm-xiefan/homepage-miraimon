@@ -614,14 +614,14 @@ AI.prototype = {
                 ai.vm.uploader.speak('あなた', 'image', response.data[0]);
                 ai.vm.uploader.predict(response.data[0]);
             } else {
-                ai.vm.uploader.selfSpeak('message', 'アップロードが失敗しました。');
+                ai.vm.uploader.selfSpeak('message', 'アップロードが失敗しました。firefox,chrome,safariなどのモダンブラウザを使ってください。');
             }
             $('#upload-input').fileinput('clear');
             ai.hideUploadModal();
         });
         $('#upload-input').on('filebatchuploaderror', function(event, numFiles, label) {
             $('#upload-input').fileinput('clear');
-            ai.vm.uploader.selfSpeak('message', 'アップロードが失敗しました。');
+            ai.vm.uploader.selfSpeak('message', 'アップロードが失敗しました。firefox,chrome,safariなどのモダンブラウザを使ってください。');
             ai.hideUploadModal();
         });
 
